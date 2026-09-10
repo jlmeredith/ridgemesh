@@ -2,6 +2,8 @@
 
 3D RF planner for **Astral Valley Art Park** (French Village, MO). Compare Totem Compass (2.4 GHz festival mesh) vs a LoRa Meshtastic deployment (ThinkNode M1 / Heltec V4) on real Koester-quad terrain.
 
+**Repo:** [github.com/jlmeredith/ridgemesh](https://github.com/jlmeredith/ridgemesh)
+
 ## What it shows
 
 - USGS NED 10 m heights, 20-ft contours, spot elevations (785 / 824 / 885 / 920 / 922 ft)
@@ -13,6 +15,8 @@
 ## Run
 
 ```bash
+git clone https://github.com/jlmeredith/ridgemesh.git
+cd ridgemesh
 npm install
 npm run dev
 ```
