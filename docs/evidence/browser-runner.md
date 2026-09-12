@@ -21,3 +21,13 @@ The first attempt encountered an unrelated service already using port 8080; the 
 A browser-side Worker observer installed before application scripts measured initial analysis at **482.5 ms reported computation** and **657.8 ms creation-to-result**. Five bounded zoom/fit interactions retained 1,155 DOM elements, 169 recorded resources and zero canvases after returning to plan. Playwright click roundtrip timings ranged 158–3,370 ms and do not establish the 100 ms input feedback budget or a GPU-resource plateau.
 
 Primary remote report: `/home/jamie/ridgemesh-build-20260912/artifacts/ridgemesh-browser-20260912-third/browser-report.json`. Raw element PNGs are alongside it and require normalization before display. Deployment smoke and final committed-revision verification remain the orchestrator's responsibility.
+
+## Integrated acceptance and resource measurements
+
+**z370 run `ridgemesh-browser-20260913-integrated`**, worktree snapshot based on `7f54183`, completed 2026-09-12 23:53:46–23:54:51 UTC with all **16 checks passing**, no browser console errors and no failed network requests. Added checks exercised direct-path/Fresnel rendering, explicit comparison cancellation, four completed matched comparisons, one-relay constrained optimization, empty presets and rapid preset supersession.
+
+Initial worker calculation reported **471.2 ms**, with **618.6 ms** from worker creation to result. Six bounded camera/height/preset cycles retained **22 geometries for M1-only**, **37 for backbone**, and **one texture** in each repeated state. Returning to plan removed canvases; five further zoom/fit interactions retained **1,205 DOM elements** and **242 recorded resources**. These measurements demonstrate a plateau for this bounded sequence, not arbitrary lifetime behavior.
+
+Actual DOM zoom click to two animation frames measured **61.4, 111.5, 85.3, 82.5, 75.4, 72.5 ms**. One sample exceeded 100 ms, so the strict input-feedback target is **not fully met** on this headless SwiftShader reference. Two animation frames are a browser scheduling proxy, not proof of physical display latency. Playwright command roundtrips are recorded separately and must not be substituted for these measurements.
+
+Primary remote report and raw screenshots: `/home/jamie/ridgemesh-build-20260912/artifacts/ridgemesh-browser-20260913-integrated/`. The restored repo normalization script is used before any local image display.

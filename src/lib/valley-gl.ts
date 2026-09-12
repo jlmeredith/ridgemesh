@@ -4,7 +4,7 @@ import { COLS, ROWS, CELL_M, HEIGHT, ELEV_MIN, elevBilinear } from './terrain';
 import { KIND_META, evaluateLink, type Heat, type Node, type SimParams } from './radio';
 import type { Overlay } from './store';
 export type ViewName = 'north'|'east'|'south'|'west'|'top';
-export type SceneState = { nodes:Node[];params:SimParams;heat:Heat|null;overlay:Overlay;imagery:string;exaggeration:number;view:ViewName };
+export type SceneState = { nodes:Node[];params:SimParams;heat:Heat|null;overlay:Overlay;imagery:string;exaggeration:number;view:ViewName;opacity:number };
 export type ValleyApi = { destroy:()=>void; update:(s:SceneState)=>void };
 
 export function mountValley(host:HTMLElement, initial:SceneState): ValleyApi {
@@ -26,7 +26,7 @@ export function mountValley(host:HTMLElement, initial:SceneState): ValleyApi {
     state=s;
     if(s.exaggeration!==lastExag){for(let k=0;k<HEIGHT.length;k++)positions[k*3+1]=(HEIGHT[k]-ELEV_MIN)/CELL_M*s.exaggeration;geometry.attributes.position.needsUpdate=true;overlayGeo.setAttribute('position',new THREE.BufferAttribute(positions.slice(),3));geometry.computeBoundingSphere();overlayGeo.computeBoundingSphere();}
     if(s.imagery!==imageKey){imageKey=s.imagery;const id=++loadId;new THREE.TextureLoader().load(s.imagery,t=>{if(!alive||id!==loadId){t.dispose();return;}t.colorSpace=THREE.SRGBColorSpace;material.map?.dispose();material.map=t;material.needsUpdate=true;},undefined,()=>host.dispatchEvent(new CustomEvent('imagery-error')));}
-    for(let j=0;j<ROWS;j++)for(let i=0;i<COLS;i++){const k=j*COLS+i;let t=0,m=0,unknown=false;if(s.heat){const h=s.heat;const c=Math.min(h.h-1,Math.floor(j/h.step))*h.w+Math.min(h.w-1,Math.floor(i/h.step));t=h.totem[c];m=h.mesh[c];unknown=!Number.isFinite(t)||!Number.isFinite(m)||t<0||m<0;}const onT=(s.overlay==='both'||s.overlay==='totem')&&t>0;const onM=(s.overlay==='both'||s.overlay==='mesh')&&m>0;const col=onT&&onM?[0.85,0.93,0.65]:onT?[1,0.66,0.2]:onM?[0.2,0.9,0.68]:[0.5,0.5,0.5];rgba.set([...col,s.overlay==='none'?0:onT||onM?0.45:unknown?0.12:0],k*4);}
+    for(let j=0;j<ROWS;j++)for(let i=0;i<COLS;i++){const k=j*COLS+i;let t=0,m=0,unknown=false;if(s.heat){const h=s.heat;const c=Math.min(h.h-1,Math.floor(j/h.step))*h.w+Math.min(h.w-1,Math.floor(i/h.step));t=h.totem[c];m=h.mesh[c];unknown=!Number.isFinite(t)||!Number.isFinite(m)||t<0||m<0;}const onT=(s.overlay==='both'||s.overlay==='totem')&&t>0;const onM=(s.overlay==='both'||s.overlay==='mesh')&&m>0;const col=onT&&onM?[0.85,0.93,0.65]:onT?[1,0.66,0.2]:onM?[0.2,0.9,0.68]:[0.5,0.5,0.5];rgba.set([...col,s.overlay==='none'?0:onT||onM?s.opacity:unknown?0.12:0],k*4);}
     overlayGeo.attributes.color.needsUpdate=true;
     const pk=JSON.stringify(s.params);
     if(lastNodes!==s.nodes||pk!==lastParams||s.exaggeration!==lastExag||lastOverlay!==s.overlay){disposeGroup();for(const n of s.nodes){const p=point(n);const ground=(elevBilinear(n.x,n.y)-ELEV_MIN)/CELL_M*s.exaggeration;const height=p.y-ground;const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.13,0.13,Math.max(height,0.05),6),new THREE.MeshBasicMaterial({color:n.kind==='totem'?'#f6b953':'#78e5b7'}));pole.position.set(p.x,ground+height/2,p.z);objects.add(pole);const marker=new THREE.Mesh(new THREE.SphereGeometry(n.kind==='v4'?0.9:0.6,10,8),new THREE.MeshBasicMaterial({color:n.kind==='totem'?'#f6b953':'#78e5b7'}));marker.position.copy(p);objects.add(marker);}

@@ -14,7 +14,7 @@ Terrain-aware communication planner for Astral Valley, Missouri. Explore registe
 
 Node 24 and npm 11 are pinned; use `npm ci`. No tests, builds, browser automation or GIS processing run on the Mac. From a worktree, `npm run check:remote` transfers a snapshot and runs installation, typecheck, lint, tests and build on z370. See `scripts/remote-check.sh` for recorded revision/run provenance. Run the application on a remote host with `npm run dev`; tunnel its port if needed.
 
-Browser verification: run `node scripts/browser-check.mjs` on z370 with `RIDGEMESH_RUN_ID`, `RIDGEMESH_REVISION`, optionally `RIDGEMESH_URL` and `RIDGEMESH_RENDERER_DIAGNOSTICS=1`. Screenshots must pass `scripts/normalize_screenshot.py` before viewing.
+Browser verification: run `node scripts/browser-check.mjs` on z370 with `RIDGEMESH_RUN_ID`, `RIDGEMESH_REVISION`, optionally `RIDGEMESH_BROWSER_URL` and `RIDGEMESH_RENDERER_DIAGNOSTICS=1`, `RIDGEMESH_EXTENDED_BROWSER=1`. Screenshots must pass `scripts/normalize_screenshot.py` before viewing.
 
 Vercel uses the TanStack Start framework, Nitro Vercel preset, Node 24 and `npm run build`; no database, map-provider secret or server GIS process is needed. Derived imagery/data are committed with provenance; raw source GIS is retained on z370.
 
