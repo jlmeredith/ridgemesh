@@ -4,6 +4,8 @@
 
 **Repo:** [github.com/jlmeredith/ridgemesh](https://github.com/jlmeredith/ridgemesh)
 
+**Recovery audit (2026-09-12):** The baseline terrain, coverage and placement claims below are unvalidated; the export also has startup/build blockers. See the [source-backed audit](docs/RECOVERY-AUDIT-2026-09-12.md) and [repair work breakdown](docs/RECOVERY-WBS.md).
+
 ## What it shows
 
 - USGS NED 10 m heights, 20-ft contours, spot elevations (785 / 824 / 885 / 920 / 922 ft)
