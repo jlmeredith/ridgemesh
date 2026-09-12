@@ -50,6 +50,8 @@ Use a local metric projected frame consistent with verified source CRS, with exp
 
 The venue publishes a [2025 illustrated map for 2026 camping reference](https://www.astralvalley.com/venuemap). This is a useful semantic source for names/layout, not a surveyed orthophoto or proof of current GPS positions. Georeference against authoritative imagery and independently identifiable landmarks; keep inferred locations editable and labeled. No private Grok conversation or survey was supplied during this audit.
 
+**Scope amendment — Jamie, 2026-09-12:** Use multiple satellite views of the property both to improve the visuals and to check topographic alignment. The WBS now explicitly requires at least two distinct georeferenced satellite acquisitions, source/date inventory, registration with independent check points, and retained overlay comparisons. Supplementary aerial orthophotos must be labeled as aerial. The interface adds image selection, synchronized swipe/side-by-side comparison, adjustable topo/coverage overlays and imagery draped over terrain with cardinal camera views. Multiple camera angles of one image do not fulfill the multiple-acquisition requirement. No additional imagery was acquired or alignment validated in this amendment; elevation accuracy remains a separate DEM/ground-evidence check.
+
 ## Radio model and comparison semantics
 
 The application should distinguish direct radio footprint, usable end-to-end communication, and ability to obtain a GNSS position. A person can be in range of an isolated node while unable to reach the intended crew. A good RF path does not establish congestion-free delivery. A radio link can work while a positioning feature has no valid fix. Report these as separate concepts.
