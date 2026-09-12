@@ -1,0 +1,11 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {optimizePlacement,type Candidate} from '../src/lib/optimizer';
+import {evaluateTarget,type Surface,type Environment,type RadioNode} from '../src/lib/model';
+const surface:Surface={version:'flat',cellM:10,cols:2000,rows:20,elevation:()=>0,cover:()=> 'field'};
+const params:Environment={crowd:0,bagLoss:false,clientsHop:true,meshHops:2,totemHops:2,communityTotems:false,fadeDb:8,rootId:'base'};
+const base:RadioNode={id:'base',kind:'m1',x:0,y:0,label:'base',txDbm:-45,rxDbm:-132,agl:10};
+const candidates:Candidate[]=[10,20,50].map(x=>({id:`c${x}`,node:{...base,id:`c${x}`,kind:'v4',role:'router',x},allowed:true,feasibility:'confirmed',reason:'fixture'}));
+const targets=[{id:'t',label:'target',x:30,y:0}];
+test('determinism, exclusion, fixed baseline and exhaustive single-site comparison',()=>{const req={nodes:[base],params,targets,candidates,budget:1,surface};const r=optimizePlacement(req);assert.deepEqual(optimizePlacement(req),r);const scores=[[],...candidates.map(c=>[c.node])].map(extra=>evaluateTarget(targets[0],[base,...extra],params,surface,'mesh')).map(v=>Number(v.status==='likely'||v.status==='marginal'));assert.equal(r.best.score,Math.max(...scores));assert.equal(r.baseline.score,0);assert.equal(r.best.score,1);assert.ok(r.best.score>=r.baseline.score);assert.equal(r.best.nodes[0].id,'base');const excluded=optimizePlacement({...req,candidates:candidates.map(c=>({...c,allowed:false}))});assert.deepEqual(excluded.best.candidateIds,[]);});
+test('cancellation returns immutable baseline',()=>{const r=optimizePlacement({nodes:[base],params,targets,candidates,budget:3,surface,cancelled:()=>true});assert.equal(r.cancelled,true);assert.equal(r.best.score,r.baseline.score);});
+test('disconnected island is never returned even with stronger target footprint',()=>{const island={...candidates[2],node:{...candidates[2].node,x:100,txDbm:22},id:'island'};const r=optimizePlacement({nodes:[base],params,targets:[{id:'far',label:'far',x:101,y:0}],candidates:[island],budget:1,surface});assert.deepEqual(r.best.candidateIds,[]);});

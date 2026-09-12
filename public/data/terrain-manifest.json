@@ -1,0 +1,96 @@
+{
+  "version": "usgs-2021-10m-v1",
+  "sourceId": "65fe634fd34e64ff1548db4e",
+  "sourceTitle": "USGS 1 Meter 15 x72y422 MO_Northern_SEMO_2021_D21",
+  "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/MO_Northern_SEMO_2021_D21/TIFF/USGS_1M_15_x72y422_MO_Northern_SEMO_2021_D21.tif",
+  "sourceSha256": "f53d01a52e5f7ea243e4a681ad62ac97abcbed3f0eb2feb698205d93fabaf3cb",
+  "sourceCrs": "EPSG:26915",
+  "sourceTransform": [
+    1.0,
+    0.0,
+    719994.0000154162,
+    0.0,
+    -1.0,
+    4220006.000336437
+  ],
+  "sourceResolution": [
+    1.0,
+    1.0
+  ],
+  "sourceBounds": [
+    719994.0000154162,
+    4209994.000336437,
+    730006.0000154162,
+    4220006.000336437
+  ],
+  "sourceNodata": -999999.0,
+  "verticalDatum": "NAVD88 metres",
+  "license": "USGS public domain",
+  "crs": "EPSG:26915",
+  "westCenter": 726300,
+  "northCenter": 4212510,
+  "cols": 205,
+  "rows": 207,
+  "cellM": 10,
+  "transform": [
+    10.0,
+    0.0,
+    726295.0,
+    0.0,
+    -10.0,
+    4212515.0
+  ],
+  "resampling": "GDAL bilinear downsampling from 1m source; no fabricated heights",
+  "minM": 184.4349822998047,
+  "maxM": 281.0504150390625,
+  "rawSourceHost": "z370:/home/jamie/ridgemesh-terrain-20260912/source.tif",
+  "accuracy": "Source accuracy not independently surveyed; 10m analysis omits subcell obstructions",
+  "landcover": "Legacy inferred masks, unverified; not remotely classified or surveyed",
+  "sourceSamples": [
+    {
+      "x": 10,
+      "y": 10,
+      "easting": 726400,
+      "northing": 4212410,
+      "sourceNearest1m": 202.67718505859375,
+      "analysis10m": 202.6312255859375,
+      "aggregationDifferenceM": -0.04595947265625
+    },
+    {
+      "x": 194,
+      "y": 10,
+      "easting": 728240,
+      "northing": 4212410,
+      "sourceNearest1m": 250.9215087890625,
+      "analysis10m": 250.71493530273438,
+      "aggregationDifferenceM": -0.206573486328125
+    },
+    {
+      "x": 102,
+      "y": 103,
+      "easting": 727320,
+      "northing": 4211480,
+      "sourceNearest1m": 193.36618041992188,
+      "analysis10m": 193.4705352783203,
+      "aggregationDifferenceM": 0.1043548583984375
+    },
+    {
+      "x": 10,
+      "y": 196,
+      "easting": 726400,
+      "northing": 4210550,
+      "sourceNearest1m": 234.37374877929688,
+      "analysis10m": 234.4393310546875,
+      "aggregationDifferenceM": 0.065582275390625
+    },
+    {
+      "x": 194,
+      "y": 196,
+      "easting": 728240,
+      "northing": 4210550,
+      "sourceNearest1m": 240.378173828125,
+      "analysis10m": 240.38758850097656,
+      "aggregationDifferenceM": 0.0094146728515625
+    }
+  ]
+}

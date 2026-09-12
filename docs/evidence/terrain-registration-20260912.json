@@ -1,0 +1,296 @@
+{
+  "host": "z370",
+  "runId": "ridgemesh-terrain-registration-20260912",
+  "method": "Nine distributed held-out 360m patches; 10m grayscale gradient magnitude normalized correlation over +/-40m. Zero fitted transformation. Descriptive texture alignment; canopy, land-use and seasonal changes confound this test.",
+  "toleranceM": 20,
+  "toleranceRationale": "Two native Sentinel-2 pixels; diagnostic display tolerance only, not survey/CE90 accuracy.",
+  "groundLandmarks": "Not independently identified. Patch correlations must not be called measured ground-control residuals.",
+  "results": [
+    {
+      "reference": "naip-20220618",
+      "view": "sentinel-20240613",
+      "patches": [
+        {
+          "centerGrid": [
+            40,
+            40
+          ],
+          "bestShiftM": [
+            10,
+            0
+          ],
+          "residualM": 10.0,
+          "correlation": 0.07915958360563517,
+          "zeroShiftCorrelation": 0.05970839094250805,
+          "peakGap": 0.0017624182728697146,
+          "reliable": false
+        },
+        {
+          "centerGrid": [
+            102,
+            40
+          ],
+          "bestShiftM": [
+            -10,
+            -40
+          ],
+          "residualM": 41.23105625617661,
+          "correlation": 0.37920604810995734,
+          "zeroShiftCorrelation": 0.30325065201655244,
+          "peakGap": 0.0067291316871602724,
+          "reliable": false
+        },
+        {
+          "centerGrid": [
+            164,
+            40
+          ],
+          "bestShiftM": [
+            -10,
+            0
+          ],
+          "residualM": 10.0,
+          "correlation": 0.48053176643002893,
+          "zeroShiftCorrelation": 0.42091583934050597,
+          "peakGap": 0.04102559040542314,
+          "reliable": true
+        },
+        {
+          "centerGrid": [
+            40,
+            103
+          ],
+          "bestShiftM": [
+            20,
+            -10
+          ],
+          "residualM": 22.360679774997898,
+          "correlation": 0.10089078135688301,
+          "zeroShiftCorrelation": 0.04200214633104964,
+          "peakGap": 0.03455369256927979,
+          "reliable": false
+        },
+        {
+          "centerGrid": [
+            102,
+            103
+          ],
+          "bestShiftM": [
+            0,
+            0
+          ],
+          "residualM": 0.0,
+          "correlation": 0.6932477615652393,
+          "zeroShiftCorrelation": 0.6932477615652393,
+          "peakGap": 0.014107192466237484,
+          "reliable": true
+        },
+        {
+          "centerGrid": [
+            164,
+            103
+          ],
+          "bestShiftM": [
+            10,
+            0
+          ],
+          "residualM": 10.0,
+          "correlation": 0.1261134201578902,
+          "zeroShiftCorrelation": 0.03385152746061527,
+          "peakGap": 0.00043170779417286975,
+          "reliable": false
+        },
+        {
+          "centerGrid": [
+            40,
+            166
+          ],
+          "bestShiftM": [
+            0,
+            0
+          ],
+          "residualM": 0.0,
+          "correlation": 0.6401026871303783,
+          "zeroShiftCorrelation": 0.6401026871303783,
+          "peakGap": 0.04647386254814723,
+          "reliable": true
+        },
+        {
+          "centerGrid": [
+            102,
+            166
+          ],
+          "bestShiftM": [
+            10,
+            0
+          ],
+          "residualM": 10.0,
+          "correlation": 0.5334215805345337,
+          "zeroShiftCorrelation": 0.522189760497566,
+          "peakGap": 0.011231820036967655,
+          "reliable": true
+        },
+        {
+          "centerGrid": [
+            164,
+            166
+          ],
+          "bestShiftM": [
+            -10,
+            20
+          ],
+          "residualM": 22.360679774997898,
+          "correlation": 0.24634718933500308,
+          "zeroShiftCorrelation": 0.20694668675012753,
+          "peakGap": 0.00013750505150339487,
+          "reliable": false
+        }
+      ],
+      "reliablePatches": 4,
+      "rmsResidualM": 7.0710678118654755
+    },
+    {
+      "reference": "naip-20220618",
+      "view": "sentinel-20241110",
+      "patches": [
+        {
+          "centerGrid": [
+            40,
+            40
+          ],
+          "bestShiftM": [
+            -10,
+            10
+          ],
+          "residualM": 14.142135623730951,
+          "correlation": 0.1580595800656489,
+          "zeroShiftCorrelation": 0.15087734005393671,
+          "peakGap": 0.007182240011712193,
+          "reliable": false
+        },
+        {
+          "centerGrid": [
+            102,
+            40
+          ],
+          "bestShiftM": [
+            10,
+            -10
+          ],
+          "residualM": 14.142135623730951,
+          "correlation": 0.40999140518640864,
+          "zeroShiftCorrelation": 0.3648109315185518,
+          "peakGap": 0.016713395750896587,
+          "reliable": true
+        },
+        {
+          "centerGrid": [
+            164,
+            40
+          ],
+          "bestShiftM": [
+            40,
+            40
+          ],
+          "residualM": 56.568542494923804,
+          "correlation": 0.3574202613083234,
+          "zeroShiftCorrelation": 0.2621520716093308,
+          "peakGap": 0.0026061232742797813,
+          "reliable": false
+        },
+        {
+          "centerGrid": [
+            40,
+            103
+          ],
+          "bestShiftM": [
+            -10,
+            0
+          ],
+          "residualM": 10.0,
+          "correlation": 0.1591151963073737,
+          "zeroShiftCorrelation": 0.15461627383334284,
+          "peakGap": 0.004498922474030859,
+          "reliable": false
+        },
+        {
+          "centerGrid": [
+            102,
+            103
+          ],
+          "bestShiftM": [
+            0,
+            10
+          ],
+          "residualM": 10.0,
+          "correlation": 0.5259376104834806,
+          "zeroShiftCorrelation": 0.386205272901291,
+          "peakGap": 0.005625525433620271,
+          "reliable": true
+        },
+        {
+          "centerGrid": [
+            164,
+            103
+          ],
+          "bestShiftM": [
+            10,
+            20
+          ],
+          "residualM": 22.360679774997898,
+          "correlation": 0.18677621274262113,
+          "zeroShiftCorrelation": 0.14058957100102015,
+          "peakGap": 0.011858271142333843,
+          "reliable": false
+        },
+        {
+          "centerGrid": [
+            40,
+            166
+          ],
+          "bestShiftM": [
+            0,
+            10
+          ],
+          "residualM": 10.0,
+          "correlation": 0.5289737796636649,
+          "zeroShiftCorrelation": 0.4747268529243901,
+          "peakGap": 0.018424919030145093,
+          "reliable": true
+        },
+        {
+          "centerGrid": [
+            102,
+            166
+          ],
+          "bestShiftM": [
+            0,
+            10
+          ],
+          "residualM": 10.0,
+          "correlation": 0.5192382838402955,
+          "zeroShiftCorrelation": 0.4427907152778198,
+          "peakGap": 0.06858325590197295,
+          "reliable": true
+        },
+        {
+          "centerGrid": [
+            164,
+            166
+          ],
+          "bestShiftM": [
+            10,
+            -10
+          ],
+          "residualM": 14.142135623730951,
+          "correlation": 0.25155065711698354,
+          "zeroShiftCorrelation": 0.20244197887160098,
+          "peakGap": 0.0043403882942845695,
+          "reliable": false
+        }
+      ],
+      "reliablePatches": 4,
+      "rmsResidualM": 11.180339887498949
+    }
+  ]
+}

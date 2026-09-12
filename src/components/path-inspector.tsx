@@ -1,0 +1,27 @@
+import { useState } from 'react';
+import { useSim } from '@/lib/store';
+import { HARDWARE, analysisSurface, directedLink, pathProfile } from '@/lib/radio';
+
+const db=(v:number)=>Number.isFinite(v)?`${v.toFixed(1)} dB`:'Unknown';
+export function PathInspector(){
+ const state=useSim(),nodes=state.nodes,params=state.params();
+ const [fromId,setFrom]=useState(''),[toId,setTo]=useState('');
+ const from=nodes.find(n=>n.id===fromId)??nodes.find(n=>n.kind!=='totem')??nodes[0];
+ const to=nodes.find(n=>n.id===toId&&n.id!==from?.id)??nodes.find(n=>n.id!==from?.id&&HARDWARE[n.kind].system===HARDWARE[from?.kind??'m1'].system)??nodes.find(n=>n.id!==from?.id);
+ const a=from?{...from,agl:from.agl??HARDWARE[from.kind].agl}:null,b=to?{...to,agl:to.agl??HARDWARE[to.kind].agl}:null;
+ const path=a&&b?pathProfile(a,b,analysisSurface,5,params.canopyM??15):null;
+ const forward=from&&to?directedLink(from,to,params,analysisSurface):null,reverse=from&&to?directedLink(to,from,params,analysisSurface):null;
+ const width=720,height=210,pad=35;
+ const lambda=299.792458/(from?.frequencyMhz??HARDWARE[from?.kind??'m1'].mhz);
+ const samples=path?.samples.map(v=>({...v,radius:Math.sqrt(Math.max(0,lambda*path.distM*v.t*(1-v.t)))}))??[];
+ const finite=samples.length>0&&samples.every(v=>Number.isFinite(v.ground+v.los+v.radius));
+ const min=finite?Math.min(...samples.map(v=>Math.min(v.ground,v.los-v.radius)))-2:0,max=finite?Math.max(...samples.map(v=>Math.max(v.ground,v.los+v.radius)))+2:1;
+ const x=(t:number)=>pad+t*(width-pad*2),y=(h:number)=>height-pad-(h-min)/(max-min)*(height-pad*2);
+ const points=(key:'ground'|'los')=>samples.map(v=>`${x(v.t)},${y(v[key])}`).join(' ');
+ const fresnel=[...samples.map(v=>`${x(v.t)},${y(v.los+v.radius)}`),...samples.slice().reverse().map(v=>`${x(v.t)},${y(v.los-v.radius)}`)].join(' ');
+ return <section className="path-inspector panel-section" aria-label="Direct radio path inspector"><div className="section-heading"><h3>Inspect a direct path</h3><span className="muted">Terrain + antenna height + first Fresnel zone</span></div><div className="field-grid"><label className="field"><span>From device</span><select value={from?.id??''} onChange={e=>setFrom(e.target.value)}><option value="" disabled>Select device</option>{nodes.map(n=><option value={n.id} key={n.id}>{n.label}</option>)}</select></label><label className="field"><span>To device</span><select value={to?.id??''} onChange={e=>setTo(e.target.value)}><option value="" disabled>Select device</option>{nodes.filter(n=>n.id!==from?.id).map(n=><option value={n.id} key={n.id}>{n.label}</option>)}</select></label></div>
+ {!path||!forward||!reverse?<p className="muted">Place at least two devices to inspect a terrain profile and both link directions.</p>:<><div className="stat-grid"><div><strong className={`status status-${forward.status}`}>{forward.status} · {db(forward.marginDb)}</strong><span>{from?.label} → {to?.label}</span></div><div><strong className={`status status-${reverse.status}`}>{reverse.status} · {db(reverse.marginDb)}</strong><span>{to?.label} → {from?.label}</span></div></div>
+ {finite?<svg className="profile-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Terrain profile over ${Math.round(path.distM)} meters, antenna line of sight and first Fresnel zone`}><title>Source terrain profile and radio clearance</title><rect x={pad} y={pad} width={width-pad*2} height={height-pad*2} fill="none" stroke="currentColor" opacity=".2"/><polygon points={fresnel} fill="#7bbbd5" opacity=".18"/><polygon points={`${pad},${height-pad} ${points('ground')} ${width-pad},${height-pad}`} fill="#748873" opacity=".45"/><polyline points={points('ground')} fill="none" stroke="#93b191" strokeWidth="2"/><polyline points={points('los')} fill="none" stroke="#f0c67a" strokeWidth="2" strokeDasharray="6 4"/><text x={pad} y={height-9} fontSize="12" fill="currentColor">0 m</text><text x={width-pad} y={height-9} textAnchor="end" fontSize="12" fill="currentColor">{Math.round(path.distM)} m</text><text x={pad+5} y={pad-10} fontSize="12" fill="currentColor">{max.toFixed(0)} m elevation</text><text x={pad+5} y={height-pad-7} fontSize="12" fill="currentColor">{min.toFixed(0)} m</text></svg>:<p className="muted">Source terrain is unavailable on this path; a profile cannot be verified.</p>}
+ <p className="muted">Green: source ground · dashed gold: antenna line of sight · blue: first Fresnel zone at the transmitting frequency. Elevations are meters in the terrain source datum.</p><p>{forward.reason} {reverse.reason}</p><p className="muted">{path.blocked?`Terrain rises up to ${path.excessM.toFixed(1)} m above the antenna line.`:'Terrain does not cross the sampled antenna line.'} Modeled foliage exposure: {Math.round(path.forestM)} m. Forward diffraction loss: {db(forward.diffractionDb)}. {Number.isFinite(forward.fresnelClearanceRatio)?`Minimum Fresnel clearance: ${Math.round(forward.fresnelClearanceRatio*100)}% of first-zone radius.`:''}</p><p className="muted">This is the direct link; successful relay routes are listed in the network panel. A single dominant-edge estimate does not establish actual packet delivery.</p></>}
+ </section>;
+}

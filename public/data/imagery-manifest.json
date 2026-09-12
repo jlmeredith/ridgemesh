@@ -1,0 +1,83 @@
+[
+  {
+    "id": "sentinel-20240613",
+    "label": "Sentinel-2 2024-06-13",
+    "date": "2024-06-13",
+    "url": "/imagery/sentinel-20240613.jpg",
+    "kind": "satellite",
+    "attribution": "Contains modified Copernicus Sentinel data 2024 / Element 84 Earth Search",
+    "resolutionM": 10.0,
+    "sourceId": "S2A_15SYC_20240613_0_L2A",
+    "sourceUrl": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/15/S/YC/2024/6/S2A_15SYC_20240613_0_L2A/TCI.tif",
+    "sourceCrs": "EPSG:32615",
+    "license": "Copernicus Sentinel free and open data",
+    "sha256": "91dab41bf95e67ea7d2810e502349b55f8e8bac898b545eed94057e678a7cd94",
+    "width": 408,
+    "height": 412,
+    "crs": "EPSG:26915",
+    "transform": [
+      5.0,
+      0.0,
+      726300.0,
+      0.0,
+      -5.0,
+      4212510.0
+    ],
+    "registration": "Source CRS/geotransform registration; held-out image patch diagnostics in terrain-registration-20260912.json; absolute ground-control accuracy unverified",
+    "accuracy": "Not independently verified; native resolution is not horizontal accuracy"
+  },
+  {
+    "id": "sentinel-20241110",
+    "label": "Sentinel-2 2024-11-10",
+    "date": "2024-11-10",
+    "url": "/imagery/sentinel-20241110.jpg",
+    "kind": "satellite",
+    "attribution": "Contains modified Copernicus Sentinel data 2024 / Element 84 Earth Search",
+    "resolutionM": 10.0,
+    "sourceId": "S2A_15SYC_20241110_0_L2A",
+    "sourceUrl": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/15/S/YC/2024/11/S2A_15SYC_20241110_0_L2A/TCI.tif",
+    "sourceCrs": "EPSG:32615",
+    "license": "Copernicus Sentinel free and open data",
+    "sha256": "9256a3f819fffdbf0fb6770480738bc28a8792ce015cd6e9cd66b93abe36a136",
+    "width": 408,
+    "height": 412,
+    "crs": "EPSG:26915",
+    "transform": [
+      5.0,
+      0.0,
+      726300.0,
+      0.0,
+      -5.0,
+      4212510.0
+    ],
+    "registration": "Source CRS/geotransform registration; held-out image patch diagnostics in terrain-registration-20260912.json; absolute ground-control accuracy unverified",
+    "accuracy": "Not independently verified; native resolution is not horizontal accuracy"
+  },
+  {
+    "id": "naip-20220618",
+    "label": "NAIP aerial 2022",
+    "date": "2022-06-18",
+    "url": "/imagery/naip-20220618.jpg",
+    "kind": "aerial",
+    "attribution": "USDA NAIP / Microsoft Planetary Computer",
+    "resolutionM": 0.6,
+    "sourceId": "mo_m_3809061_se_15_060_20220618",
+    "sourceUrl": "https://naipeuwest.blob.core.windows.net/naip/v002/mo/2022/mo_060cm_2022/38090/m_3809061_se_15_060_20220618.tif",
+    "sourceCrs": "EPSG:26915",
+    "license": "Public domain USDA NAIP",
+    "sha256": "4d4c36b70d5da227c63e464720a2f0804882edfc6b4b92951c386d692d07f3b3",
+    "width": 2040,
+    "height": 2060,
+    "crs": "EPSG:26915",
+    "transform": [
+      1.0,
+      0.0,
+      726300.0,
+      0.0,
+      -1.0,
+      4212510.0
+    ],
+    "registration": "Source CRS/geotransform registration; held-out image patch diagnostics in terrain-registration-20260912.json; absolute ground-control accuracy unverified",
+    "accuracy": "Not independently verified; native resolution is not horizontal accuracy"
+  }
+]

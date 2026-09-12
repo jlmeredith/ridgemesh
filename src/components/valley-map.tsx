@@ -1,192 +1,63 @@
-import { useEffect, useRef, useState } from "react";
-import { KIND_META, computeHeat, evaluateLink, profile } from "@/lib/radio";
-import { useSim } from "@/lib/store";
-import { mountValley, type ValleyApi, type ViewName } from "@/lib/valley-gl";
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Crosshair, Layers, Mountain, Minus, Plus } from 'lucide-react';
+import { useSim } from '../lib/store';
+import { CAMPS, COLS, ROWS, CELL_M, contourSegs, POIS, gridToLl, elevBilinear } from '../lib/terrain';
+import { IMAGERY_VIEWS } from '../lib/imagery';
+import { evaluateLink, evaluateTarget, analysisSurface, KIND_META, type SimParams } from '../lib/radio';
+import type { ValleyApi, ViewName, SceneState } from '../lib/valley-gl';
 
-const VIEWS: { id: ViewName; label: string }[] = [
-  { id: "overview", label: "From south" },
-  { id: "top", label: "North up" },
-  { id: "west", label: "Stargazer" },
-  { id: "field", label: "Field" },
-];
-
-export function ValleyMap() {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const apiRef = useRef<ValleyApi | null>(null);
-  const nodes = useSim((s) => s.nodes);
-  const overlay = useSim((s) => s.overlay);
-  const crowd = useSim((s) => s.crowd);
-  const bagLoss = useSim((s) => s.bagLoss);
-  const clientsHop = useSim((s) => s.clientsHop);
-  const meshHops = useSim((s) => s.meshHops);
-  const totemHops = useSim((s) => s.totemHops);
-  const communityTotems = useSim((s) => s.communityTotems);
-
-  useEffect(() => {
-    const host = wrapRef.current;
-    if (!host) return;
-    const api = mountValley(host);
-    apiRef.current = api;
-    return () => {
-      api.destroy();
-      apiRef.current = null;
-    };
-  }, []);
-
-  useEffect(() => {
-    const handle = window.setTimeout(() => {
-      const s = useSim.getState();
-      const heat = computeHeat(
-        s.nodes,
-        {
-          crowd: s.crowd,
-          bagLoss: s.bagLoss,
-          clientsHop: s.clientsHop,
-          meshHops: s.meshHops,
-          totemHops: s.totemHops,
-          communityTotems: s.communityTotems,
-        },
-        5,
-      );
-      s.setHeat(heat);
-      apiRef.current?.setHeat(heat, s.overlay);
-    }, 40);
-    return () => window.clearTimeout(handle);
-  }, [nodes, overlay, crowd, bagLoss, clientsHop, meshHops, totemHops, communityTotems]);
-
-  return (
-    <div
-      ref={wrapRef}
-      className="relative h-full min-h-[320px] w-full overflow-hidden bg-bg"
-    >
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex flex-wrap items-start justify-between gap-2 p-3">
-        <div className="pointer-events-auto flex flex-wrap gap-1 rounded-lg border border-border bg-bg/85 p-1">
-          {VIEWS.map((v) => (
-            <button
-              key={v.id}
-              onClick={() => apiRef.current?.setView(v.id)}
-              className="h-8 rounded-md px-2.5 text-[11px] font-medium text-fg hover:bg-elev"
-            >
-              {v.label}
-            </button>
-          ))}
-        </div>
-        <div className="hidden rounded-md border border-border bg-bg/85 px-2 py-1 text-[11px] text-muted sm:block">
-          Drag orbit · Scroll zoom · Right-drag pan · Click to place
-        </div>
-      </div>
-      <Compass apiRef={apiRef} />
-      <div className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-md border border-border bg-bg/80 px-2 py-1 text-[11px] text-muted">
-        CI 20 ft · rings: solid LOS · dashed = through a hill
-      </div>
-      <Legend />
-      <ProbeCard />
-    </div>
-  );
+import type { OptimizeResult } from '../lib/optimizer';
+const SYSTEM_COLORS={totem:'#f4b35e',mesh:'#7de3b4'};
+export function ValleyMap({optimization}:{optimization:OptimizeResult|null}){
+ const s=useSim();const svg=useRef<SVGSVGElement>(null);const host=useRef<HTMLDivElement>(null);const api=useRef<ValleyApi|null>(null);
+ const [mode,setMode]=useState<'plan'|'3d'>('plan');const [imagery,setImagery]=useState(IMAGERY_VIEWS.at(-1)!.id);const [second,setSecond]=useState(IMAGERY_VIEWS[1].id);
+ const [imageOpacity,setImageOpacity]=useState(1);
+ const [compare,setCompare]=useState(false);const [swipe,setSwipe]=useState(50);const [contours,setContours]=useState(true);const [labels,setLabels]=useState(true);const [opacity,setOpacity]=useState(.35);
+ const [view,setView]=useState<ViewName>('south');const [exag,setExag]=useState(1.5);const [zoom,setZoom]=useState(1);const [imageError,setImageError]=useState('');
+ const [cursor,setCursor]=useState<{x:number;y:number}|null>(null);const [inspection,setInspection]=useState<{x:number;y:number}|null>(null);const [drag,setDrag]=useState<{id:string;x:number;y:number}|null>(null);
+ const image=IMAGERY_VIEWS.find(i=>i.id===imagery)!;const other=IMAGERY_VIEWS.find(i=>i.id===second)!;
+ const extent={x:(COLS-1)*(1-1/zoom)/2,y:(ROWS-1)*(1-1/zoom)/2,w:(COLS-1)/zoom,h:(ROWS-1)/zoom};
+ const contourPath=useMemo(()=>{const c=contourSegs();return {major:segments(c.major),minor:segments(c.minor)};},[]);
+ const paramKey=JSON.stringify(s.params());const params=useMemo<SimParams>(()=>JSON.parse(paramKey),[paramKey]);
+ const inspected=useMemo(()=>inspection?evaluateTarget({id:'inspection',label:'Selected location',...inspection},s.nodes,params,analysisSurface,s.overlay==='totem'?'totem':'mesh'):null,[inspection,s.nodes,params,s.overlay]);
+ const sceneState=useRef<SceneState>(null!);sceneState.current={nodes:s.nodes,params,heat:s.heat,overlay:s.overlay,imagery:image.url,exaggeration:exag,view};
+ const links=useMemo(()=>{const out=[];for(let i=0;i<s.nodes.length;i++)for(let j=i+1;j<s.nodes.length;j++){const a=s.nodes[i],b=s.nodes[j];if(KIND_META[a.kind].system!==KIND_META[b.kind].system)continue;const ab=evaluateLink(a,b,params),ba=evaluateLink(b,a,params);if(ab.ok&&ba.ok)out.push({a,b,margin:Math.min(ab.marginDb,ba.marginDb)});}return out;},[s.nodes,params]);
+ useEffect(()=>{if(mode!=='3d'||!host.current)return;const el=host.current;let disposed=false;const fail=()=>{setMode('plan');setImageError('3D unavailable. The 2D planner remains fully usable.');};const imageFail=()=>setImageError('Imagery could not load. Terrain and planning controls remain available.');el.addEventListener('webgl-failed',fail);el.addEventListener('imagery-error',imageFail);import('../lib/valley-gl').then(({mountValley})=>{if(!disposed)api.current=mountValley(el,sceneState.current);}).catch(fail);return()=>{disposed=true;el.removeEventListener('webgl-failed',fail);el.removeEventListener('imagery-error',imageFail);api.current?.destroy();api.current=null;};},[mode]);
+ useEffect(()=>{api.current?.update({nodes:s.nodes,params,heat:s.heat,overlay:s.overlay,imagery:image.url,exaggeration:exag,view});},[s.nodes,params,s.heat,s.overlay,image.url,exag,view]);
+ const locate=(e:React.PointerEvent)=>{const el=svg.current;if(!el)return null;const pt=el.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const matrix=el.getScreenCTM();if(!matrix)return null;const p=pt.matrixTransform(matrix.inverse());return {x:Math.max(0,Math.min(COLS-1,p.x)),y:Math.max(0,Math.min(ROWS-1,p.y))};};
+ const inspect=(x:number,y:number)=>setInspection({x,y});
+ const onUp=(e:React.PointerEvent<SVGSVGElement>)=>{const p=locate(e);if(!p)return;if(drag){s.moveNode(drag.id,p.x,p.y);setDrag(null);}else if(s.tool!=='select'&&s.tool!=='erase')s.addNode(s.tool,p.x,p.y);else inspect(p.x,p.y);};
+ const ll=cursor?gridToLl(cursor.x,cursor.y):null;
+ return <section className="map-frame" aria-label="Property coverage map">
+  <div className="map-toolbar">
+   <div className="segmented"><button className={mode==='plan'?'active':''} onClick={()=>setMode('plan')}><Layers size={14}/>Plan</button><button className={mode==='3d'?'active':''} onClick={()=>setMode('3d')}><Mountain size={14}/>3D terrain</button></div>
+   <label className="image-select"><span className="sr-only">Imagery source</span><select aria-label="Imagery source" value={imagery} onChange={e=>{setImagery(e.target.value);if(second===e.target.value)setSecond(IMAGERY_VIEWS.find(i=>i.id!==e.target.value)!.id);setImageError('');}}>{IMAGERY_VIEWS.map(i=><option key={i.id} value={i.id}>{i.label} · {i.resolutionM} m</option>)}</select></label>
+   {mode==='plan'&&<button className={compare?'active':''} onClick={()=>setCompare(!compare)}>Compare imagery</button>}
+  </div>
+  {compare&&mode==='plan'&&<div className="compare-bar"><span>Swipe to inspect alignment</span><select aria-label="Comparison imagery" value={second} onChange={e=>setSecond(e.target.value)}>{IMAGERY_VIEWS.filter(i=>i.id!==imagery).map(i=><option key={i.id} value={i.id}>{i.label}</option>)}</select><input aria-label="Imagery comparison position" type="range" min="0" max="100" value={swipe} onChange={e=>setSwipe(+e.target.value)}/></div>}
+  {mode==='3d'?<><div ref={host} className="three-host"/><div className="angle-bar">{(['north','east','south','west','top'] as ViewName[]).map(v=><button key={v} className={view===v?'active':''} onClick={()=>setView(v)}>{v}</button>)}<label>Relief <select aria-label="Vertical exaggeration" value={exag} onChange={e=>setExag(+e.target.value)}>{[1,1.5,2,3].map(x=><option key={x} value={x}>{x}×</option>)}</select></label></div><p className="three-hint">Drag to orbit · scroll to zoom · place and edit nodes in Plan</p></>:<svg ref={svg} className="plan-svg" viewBox={`${extent.x} ${extent.y} ${extent.w} ${extent.h}`} aria-label="Registered satellite terrain and network" onPointerMove={e=>{const p=locate(e);setCursor(p);if(drag&&p)setDrag({...drag,...p});}} onPointerUp={onUp} onPointerCancel={()=>setDrag(null)}>
+   <defs><pattern id="unknown" width="3" height="3" patternUnits="userSpaceOnUse"><path d="M0 3L3 0" stroke="#dad8c5" strokeWidth=".25"/></pattern><clipPath id="image-swipe"><rect x="0" y="0" width={(COLS-1)*swipe/100} height={ROWS-1}/></clipPath></defs>
+   <rect width={COLS-1} height={ROWS-1} fill="#29382b"/>
+   <image href={image.url} width={COLS-1} height={ROWS-1} preserveAspectRatio="none" opacity={imageOpacity} onError={()=>setImageError('Imagery could not load. Terrain and planning controls remain available.')}/>
+   {compare&&<image href={other.url} width={COLS-1} height={ROWS-1} preserveAspectRatio="none" opacity={imageOpacity} clipPath="url(#image-swipe)"/>}
+   <rect width={COLS-1} height={ROWS-1} fill="#04190f" opacity=".07"/>
+   {s.heat&&s.overlay!=='none'&&Array.from({length:s.heat.w*s.heat.h},(_,k)=>{const h=s.heat!;const t=h.totem[k],m=h.mesh[k];const tv=(s.overlay==='both'||s.overlay==='totem')&&t>0;const mv=(s.overlay==='both'||s.overlay==='mesh')&&m>0;const u=s.overlay==='totem'?t<0:s.overlay==='mesh'?m<0:t<0||m<0;const c=tv&&mv?'#e8e59d':tv?SYSTEM_COLORS.totem:mv?SYSTEM_COLORS.mesh:u?'url(#unknown)':'#ae5b55';return <rect key={k} x={(k%h.w)*h.step} y={Math.floor(k/h.w)*h.step} width={Math.min(h.step,COLS-1-(k%h.w)*h.step)} height={Math.min(h.step,ROWS-1-Math.floor(k/h.w)*h.step)} fill={c} opacity={tv||mv?opacity:u?.22:.06} pointerEvents="none"/>;})}
+   {contours&&<g fill="none" stroke="#f3ebd2" pointerEvents="none"><path d={contourPath.minor} strokeWidth=".12" opacity=".24"/><path d={contourPath.major} strokeWidth=".24" opacity=".55"/></g>}
+   <g pointerEvents="none">{links.filter(l=>s.overlay==='both'||s.overlay===KIND_META[l.a.kind].system).map(({a,b,margin})=><line key={`${a.id}:${b.id}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={SYSTEM_COLORS[KIND_META[a.kind].system]} strokeWidth=".45" opacity=".85" strokeDasharray={margin<6?'1 1':undefined}/>)}</g>
+   {params.targetPolygon&&<polygon points={params.targetPolygon.map(p=>p.join(',')).join(' ')} fill="none" stroke="#fff9c5" strokeWidth=".5" strokeDasharray="2 1" pointerEvents="none"/>}
+   {optimization&&<g pointerEvents="none">{optimization.best.nodes.filter(n=>!s.nodes.some(old=>old.id===n.id)).map(n=><g key={n.id}><circle cx={n.x} cy={n.y} r="3" fill="#f5d36b" fillOpacity=".3" stroke="#fff5a1" strokeWidth=".6" strokeDasharray="1 .5"/><text x={n.x+3} y={n.y} className="poi-text">Proposed relay</text></g>)}{CAMPS.filter(c=>optimization.best.targetsGained.includes(c.id)||optimization.best.gaps.includes(c.id)||optimization.best.unknown.includes(c.id)).map(c=><circle key={c.id} cx={c.x} cy={c.y} r="3.8" fill="none" stroke={optimization.best.targetsGained.includes(c.id)?'#befe77':optimization.best.unknown.includes(c.id)?'#d5d4c5':'#f09b89'} strokeWidth=".75"/>)}</g>}
+   {labels&&POIS.filter(p=>p.kind==='camp'||p.kind==='gate'||p.kind==='stage').map(p=><g key={p.id} pointerEvents="none"><circle cx={p.x} cy={p.y} r=".65" fill="#fff7dd"/><text x={p.x+1.5} y={p.y-1.5} className="poi-text">{p.label}</text></g>)}
+   {s.nodes.map(n=>{const p=drag?.id===n.id?drag:n;return <g key={n.id} role="button" aria-label={`Select ${n.label}`} tabIndex={0} className="map-node" onPointerDown={e=>{e.stopPropagation();if(s.tool==='erase'){s.removeNode(n.id);return;}s.select(n.id);setDrag({id:n.id,x:n.x,y:n.y});e.currentTarget.setPointerCapture(e.pointerId);}} onPointerUp={e=>{e.stopPropagation();if(drag){const p=locate(e);if(p&&Math.hypot(p.x-n.x,p.y-n.y)>.1)s.moveNode(n.id,p.x,p.y);setDrag(null);}s.select(n.id);}} onKeyDown={e=>{if(e.key==='Enter')s.select(n.id);if(e.key==='Delete')s.removeNode(n.id);const dirs:Record<string,[number,number]>={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};if(dirs[e.key]){e.preventDefault();s.moveNode(n.id,n.x+dirs[e.key][0],n.y+dirs[e.key][1]);}}}>
+    <circle cx={p.x} cy={p.y} r={s.selected===n.id?2.5:1.9} fill="#11291d" stroke={SYSTEM_COLORS[KIND_META[n.kind].system]} strokeWidth={s.selected===n.id?.6:.3}/>{n.kind==='v4'?<path d={`M${p.x-1} ${p.y+.9}L${p.x} ${p.y-1.1}L${p.x+1} ${p.y+.9}Z`} fill="#b8f2cf"/>:<circle cx={p.x} cy={p.y} r=".7" fill={SYSTEM_COLORS[KIND_META[n.kind].system]}/>}
+   </g>;})}
+   {compare&&<line x1={(COLS-1)*swipe/100} x2={(COLS-1)*swipe/100} y1="0" y2={ROWS-1} stroke="#fff7d8" strokeWidth=".5"/>}
+  </svg>}
+  <div className="map-floating-left"><div className="north-mark">↑<small>N</small></div>{mode==='plan'&&<div className="zoom-controls"><button aria-label="Zoom in" onClick={()=>setZoom(Math.min(3,zoom+.4))}><Plus size={16}/></button><button aria-label="Zoom out" onClick={()=>setZoom(Math.max(1,zoom-.4))}><Minus size={16}/></button><button aria-label="Fit property" onClick={()=>setZoom(1)}><Crosshair size={16}/></button></div>}</div>
+  <div className="map-layer-controls"><label><input type="checkbox" checked={contours} onChange={e=>setContours(e.target.checked)}/>Contours · 20 ft</label><label><input type="checkbox" checked={labels} onChange={e=>setLabels(e.target.checked)}/>Place names</label>{mode==='plan'&&<label>Imagery<input aria-label="Imagery opacity" type="range" min=".2" max="1" step=".1" value={imageOpacity} onChange={e=>setImageOpacity(+e.target.value)}/></label>}<label>Coverage opacity<input aria-label="Coverage opacity" type="range" min=".05" max=".7" step=".05" value={opacity} onChange={e=>setOpacity(+e.target.value)}/></label></div>
+  {optimization&&<div className="placement-delta">Best-found preview · lime = gained target · coral = remaining gap · gray = unknown · dashed = proposed relay</div>}
+  {inspected&&mode==='plan'&&<div className="map-inspection"><button className="close" aria-label="Close inspection" onClick={()=>setInspection(null)}>×</button><small>LOCATION INSPECTOR</small><strong>{inspected.status} {Number.isFinite(inspected.marginDb)?`· ${inspected.marginDb.toFixed(1)} dB margin`:''}</strong><span>{inspected.reason}</span><span>Route: {inspected.forward.route.map(id=>s.nodes.find(n=>n.id===id)?.label??'receiver').join(' → ')||'No route'}</span><span>{elevBilinear(inspected.target.x,inspected.target.y).toFixed(1)} m ground · {gridToLl(inspected.target.x,inspected.target.y).map(v=>v.toFixed(5)).join(', ')}</span></div>}
+  {imageError&&<div className="map-error">{imageError}</div>}
+  <div className="map-footer"><span>{image.attribution} · {image.date}{compare?` / ${other.date}`:''}</span><span>{ll?`${ll[0].toFixed(5)}, ${ll[1].toFixed(5)} · ${elevBilinear(cursor!.x,cursor!.y).toFixed(0)} m`:`${Math.round((COLS-1)*CELL_M)} × ${Math.round((ROWS-1)*CELL_M)} m`}</span></div>
+ </section>;
 }
-
-function Compass({
-  apiRef,
-}: {
-  apiRef: React.RefObject<ValleyApi | null>;
-}) {
-  const [deg, setDeg] = useState(0);
-  useEffect(() => {
-    let id = 0;
-    const tick = () => {
-      id = requestAnimationFrame(tick);
-      const next = apiRef.current?.getHeadingDeg();
-      if (next !== undefined) setDeg(next);
-    };
-    tick();
-    return () => cancelAnimationFrame(id);
-  }, [apiRef]);
-  return (
-    <div className="pointer-events-none absolute left-3 top-14 z-10 size-16 rounded-full border border-border bg-bg/85 text-[10px] font-medium text-fg">
-      <div
-        className="relative size-full"
-        style={{ transform: `rotate(${-deg}deg)` }}
-      >
-        <span className="absolute left-1/2 top-1 -translate-x-1/2 text-stone">
-          N
-        </span>
-        <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-muted">
-          S
-        </span>
-        <span className="absolute left-1 top-1/2 -translate-y-1/2 text-muted">
-          W
-        </span>
-        <span className="absolute right-1 top-1/2 -translate-y-1/2 text-muted">
-          E
-        </span>
-        <span className="absolute left-1/2 top-1/2 size-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-fg" />
-      </div>
-    </div>
-  );
-}
-
-function Legend() {
-  return (
-    <div className="pointer-events-none absolute bottom-3 right-3 z-10 space-y-1 rounded-lg border border-border bg-bg/85 px-3 py-2 text-[11px] text-fg">
-      <div className="flex items-center gap-2">
-        <span className="inline-block size-2 rounded-full bg-stone" /> Totem
-        2.4 GHz
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="inline-block size-2 bg-sage" /> LoRa 915 MHz
-      </div>
-      <div className="text-muted">Glow on the ground is coverage</div>
-    </div>
-  );
-}
-
-function ProbeCard() {
-  const probe = useSim((s) => s.probe);
-  const nodes = useSim((s) => s.nodes);
-  const crowd = useSim((s) => s.crowd);
-  const bagLoss = useSim((s) => s.bagLoss);
-  const clientsHop = useSim((s) => s.clientsHop);
-  const meshHops = useSim((s) => s.meshHops);
-  const totemHops = useSim((s) => s.totemHops);
-  const communityTotems = useSim((s) => s.communityTotems);
-  if (!probe || probe[0] === probe[1]) return null;
-  const a = nodes.find((n) => n.id === probe[0]);
-  const b = nodes.find((n) => n.id === probe[1]);
-  if (!a || !b) return null;
-  const link = evaluateLink(a, b, {
-    crowd,
-    bagLoss,
-    clientsHop,
-    meshHops,
-    totemHops,
-    communityTotems,
-  });
-  const pr = profile(
-    { x: a.x, y: a.y, agl: KIND_META[a.kind].agl },
-    { x: b.x, y: b.y, agl: KIND_META[b.kind].agl },
-  );
-  return (
-    <div className="absolute bottom-14 right-3 z-10 w-[min(100%-1.5rem,280px)] rounded-xl border border-border bg-elev p-3 text-xs text-fg shadow-soft">
-      <div className="mb-1 flex items-center justify-between">
-        <span className="font-medium">Path probe</span>
-        <button
-          className="text-muted"
-          onClick={() => useSim.getState().clearProbe()}
-        >
-          Close
-        </button>
-      </div>
-      <p className="text-muted">
-        {a.label} → {b.label} · {Math.round(link.distM)} m ·{" "}
-        {Math.round(link.forestM)} m timber
-      </p>
-      <p className={link.ok ? "mt-1 text-sage" : "mt-1 text-warn"}>
-        {link.ok ? "Link holds" : "Link fails"} — {link.reason}
-      </p>
-      <p className="mt-1 tabular-nums text-muted">
-        {Math.round(link.lossDb)} dB path / {Math.round(link.budgetDb)} dB budget
-        {pr.blocked ? ` · ${pr.excessM.toFixed(1)} m of dirt in the way` : ""}
-      </p>
-    </div>
-  );
-}
+function segments(values:number[]){let d='';for(let i=0;i<values.length;i+=4)d+=`M${values[i]} ${values[i+1]}L${values[i+2]} ${values[i+3]}`;return d;}
