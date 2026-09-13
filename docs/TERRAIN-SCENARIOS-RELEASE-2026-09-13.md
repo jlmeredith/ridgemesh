@@ -1,7 +1,7 @@
 # Terrain-first scenarios and signal coverage
 
 **Phase (SoT):** [#ridgemesh·P5] Terrain scenarios → production
-**Status:** Remote acceptance passed; exact production release verification pending.
+**Status:** Accepted — live at https://ridgemesh.vercel.app.
 
 The opening view presents the computed fixed network, the landscape it serves and the alternatives worth comparing. The user's request for 3D and all layers supersedes the previous quiet 2D default. RidgeMesh remains a planning estimate; it has no live radio telemetry or field calibration.
 
@@ -31,7 +31,11 @@ The bounded search objective is unchanged: weighted strong/marginal area, two ac
 
 All numerical checks, builds, browser automation and screenshot processing run on z370 or hosted CI. Root inspected the primary RF/renderer/scenario code, official preset table, actual AstralMesh source/deployment, remote reports and normalized screenshots. Separate read-only review caught a misleading crew-mode R1-only comparison and unavailable/unknown color precedence; both were corrected with regression coverage. Terrain/receiver field accuracy, packet scheduling, capacity, mounting feasibility and calibration could not be verified without observations.
 
-z370 run `terrain-mobile-final-20260913` at `73ae5e2-worktree` passed typecheck, lint, all 77 numerical/geometry/state tests and all 22 browser checks. Browser evidence includes actual 3D imagery textures, zero runtime errors/failed requests, and mobile label bounds excluding controls and legend. The preceding `landscape-final-20260913` production build passed; the exact committed application build will also be verified by hosted CI and Vercel before promotion. Root inspected remotely normalized desktop workspace, stage-scenario and mobile map captures. Exact production records follow after deployment. Rollback is P4 production `dpl_FRzjzuPwPeHFNQKDEh1TXEH9fLNw`, application `c9e6d609192343daa3e7e77134d3460e3ad0a3de`. Main remains unmerged; draft [PR 2](https://github.com/jlmeredith/ridgemesh/pull/2) carries the complete reviewed branch.
+z370 run `terrain-mobile-final-20260913` at `73ae5e2-worktree` passed typecheck, lint, all 77 numerical/geometry/state tests and all 22 browser checks. Browser evidence includes actual 3D imagery textures, zero runtime errors/failed requests, and mobile label bounds excluding controls and legend. The preceding `landscape-final-20260913` production build passed; the exact committed application build will also be verified by hosted CI and Vercel before promotion. Root inspected remotely normalized desktop workspace, stage-scenario and mobile map captures. Exact application `3e0dde14db9c8676ddf9162a023a3024aa76d7ca` passed hosted Ubuntu 24.04 CI [34739382480](https://github.com/jlmeredith/ridgemesh/actions/runs/34739382480) and [34739384235](https://github.com/jlmeredith/ridgemesh/actions/runs/34739384235): clean install, typecheck, lint, 77 tests and production build. Primary test log identifies host `runnervmlun5p`, run `github-34739382480`, and the exact application SHA.
+
+Vercel preview `dpl_3D87bg1cKmr5HsmYYAyJupwkyF6a` for that exact SHA was promoted to production `dpl_Bx3cmRbkjcEV8S8c6DJbSe22gb4p`. Root verified **https://ridgemesh.vercel.app** resolves to that READY deployment with the same SHA and no alias error. Canonical z370 run `terrain-production-3e0dde1-20260913` at the exact application SHA passed **22/22 browser checks** against the public URL: zero runtime errors, zero failed requests, all three imagery acquisitions completed HTTP200 and decoded into actual 3D terrain textures. [Primary browser report](evidence/terrain-production-3e0dde1-20260913.json). Root inspected normalized live desktop workspace and mobile map captures after the remote screenshot gate accepted them. Evidence home: `/home/jamie/ridgemesh-planner-correction-20260913/artifacts/terrain-production-3e0dde1-20260913/`.
+
+The following documentation-only checkpoint records these results. Canonical production continues to serve the tested application SHA; the main branch remains unmerged. Rollback is P4 production `dpl_FRzjzuPwPeHFNQKDEh1TXEH9fLNw`, application `c9e6d609192343daa3e7e77134d3460e3ad0a3de`. Main remains unmerged; draft [PR 2](https://github.com/jlmeredith/ridgemesh/pull/2) carries the complete reviewed branch.
 
 ## Knowledge captured
 

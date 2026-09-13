@@ -1,7 +1,7 @@
 # Inventory-driven Meshtastic planning
 
 **Phase (SoT):** [#ridgemesh·P4] Equipment-aware placement → production
-**Status:** Accepted — live at https://ridgemesh.vercel.app.
+**Status:** Historical accepted release — display and RF baseline superseded by [P5 terrain scenarios](TERRAIN-SCENARIOS-RELEASE-2026-09-13.md).
 
 The app's purpose is to compute useful fixed-radio placement for roaming users across Astral Valley. The prior V4 router and six illustrative handhelds did not represent the actual equipment or this purpose. This release replaces that scaffold with a mandatory owned P1, a complete inventory-constrained search and a scalable fixed-radio budget. Totem is retired from the product and RF model. Manual edits are overrides that lock actual equipment, not the starting method.
 
