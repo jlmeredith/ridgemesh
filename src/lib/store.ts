@@ -2,11 +2,13 @@ import { create } from 'zustand';
 import { suggestBackbone, suggestClients, suggestTotems, type Heat, type Kind, type Node, type SimParams } from './radio';
 import { COLS, ROWS } from './terrain';
 import { SITE_VERSION } from './site-features';
+import { STARTER_PARAMS } from './placement-policy';
+import { createStarterScenario } from './starter-plan';
 
 export type Overlay = 'both' | 'totem' | 'mesh' | 'none';
 export type Tool = 'select' | Kind | 'erase';
 export type Preset = 'empty' | 'totem-crew' | 'm1-only' | 'backbone' | 'hybrid';
-export const DEFAULT_PARAMS: SimParams = { crowd: 0.35, bagLoss: false, clientsHop: false, meshHops: 3, totemHops: 5, communityTotems: false, mode: 'base', receiverAgl:1.5, meshRootId: 'm1-0', totemRootId: 'totem-0' };
+export const DEFAULT_PARAMS: SimParams = {...STARTER_PARAMS};
 export type Scenario = { schema: 2; siteVersion:string; name: string; terrainVersion: string; modelVersion: string; nodes: Node[]; params: SimParams };
 export function presetNodes(name: Preset): Node[] {
   const clients = suggestClients();
@@ -67,8 +69,8 @@ const reconcile=(nodes:Node[],params:Partial<SimParams>):Partial<SimParams>=>({.
 const clampX=(x:number)=>Math.max(0,Math.min(COLS-1,x));
 const clampY=(y:number)=>Math.max(0,Math.min(ROWS-1,y));
 export const useSim = create<State>((set,get)=>({
-  ...DEFAULT_PARAMS, nodes:presetNodes('m1-only'), overlay:'none', tool:'select', selected:null, probe:null, heat:null,
-  name:'My event plan',focusPoint:null,setFocusPoint:focusPoint=>set({focusPoint,selected:null}),extraParams:{receiverAgl:1.5,mode:'base',meshRootId:'m1-0',totemRootId:'totem-0'},history:[],hydrated:false,
+  ...DEFAULT_PARAMS, nodes:createStarterScenario().nodes, overlay:'none', tool:'select', selected:null, probe:null, heat:null,
+  name:'Optimized starting plan',focusPoint:null,setFocusPoint:focusPoint=>set({focusPoint,selected:null}),extraParams:{...STARTER_PARAMS},history:[],hydrated:false,
   setParams:patch=>set(s=>({...patch,extraParams:{...s.extraParams,...patch},heat:null})),
   params:()=>{const s=get();return {...s.extraParams,crowd:s.crowd,bagLoss:s.bagLoss,clientsHop:s.clientsHop,meshHops:s.meshHops,totemHops:s.totemHops,communityTotems:s.communityTotems};},
   replaceNodes:nodes=>set(s=>({nodes,extraParams:reconcile(nodes,s.extraParams),history:[...s.history.slice(-29),s.nodes],selected:null,probe:null,focusPoint:null,heat:null})),

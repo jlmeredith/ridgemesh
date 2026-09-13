@@ -1,0 +1,110 @@
+{
+  "version": "astral-optimized-start-v1",
+  "scenario": {
+    "schema": 2,
+    "siteVersion": "astral-source-reconciliation-20260913-v1",
+    "name": "Optimized starting plan",
+    "terrainVersion": "usgs-2021-10m-v1",
+    "modelVersion": "ridgemesh-rf-3.0",
+    "nodes": [
+      {
+        "id": "m1-0",
+        "kind": "m1",
+        "x": 118.1,
+        "y": 112,
+        "agl": 1.5,
+        "role": "client",
+        "label": "Main Stage handheld"
+      },
+      {
+        "id": "m1-1",
+        "kind": "m1",
+        "x": 125.7,
+        "y": 108.4,
+        "agl": 1.5,
+        "role": "client",
+        "label": "Main Stage Field handheld"
+      },
+      {
+        "id": "m1-2",
+        "kind": "m1",
+        "x": 123.4,
+        "y": 70.7,
+        "agl": 1.5,
+        "role": "client",
+        "label": "Stargazer camp handheld"
+      },
+      {
+        "id": "m1-3",
+        "kind": "m1",
+        "x": 140.9,
+        "y": 75.7,
+        "agl": 1.5,
+        "role": "client",
+        "label": "Harmony Grove handheld"
+      },
+      {
+        "id": "m1-4",
+        "kind": "m1",
+        "x": 158.2,
+        "y": 61,
+        "agl": 1.5,
+        "role": "client",
+        "label": "Dreamcatcher camp handheld"
+      },
+      {
+        "id": "m1-5",
+        "kind": "m1",
+        "x": 92.6,
+        "y": 72.4,
+        "agl": 1.5,
+        "role": "client",
+        "label": "Family / quiet camp handheld"
+      },
+      {
+        "id": "recommended-star-1.5",
+        "kind": "v4",
+        "x": 123.4,
+        "y": 70.7,
+        "agl": 1.5,
+        "role": "router",
+        "label": "Stargazer camp router"
+      }
+    ],
+    "params": {
+      "crowd": 0.35,
+      "bagLoss": false,
+      "clientsHop": false,
+      "meshHops": 3,
+      "totemHops": 5,
+      "communityTotems": false,
+      "mode": "base",
+      "receiverAgl": 1.5,
+      "meshRootId": "m1-0",
+      "totemRootId": "totem-0"
+    }
+  },
+  "evidence": {
+    "host": "z370",
+    "runId": "optimized-start-generation-20260913",
+    "method": "Greedy search, bounded pair lookahead and local swap; best found, not global optimum",
+    "candidateCount": 45,
+    "budget": 2,
+    "maxHeight": 12,
+    "targetStepM": 40,
+    "targetAreaSqM": 116800,
+    "evaluations": 132,
+    "baselineScore": 11.360000000000007,
+    "proposedScore": 11.680000000000007,
+    "likelyFraction": 1,
+    "marginalFraction": 0,
+    "limitations": [
+      "Maximum 96 candidate height/site combinations and six added devices.",
+      "Existing nodes are fixed; excluded sites never selected; unknown installation feasibility requires site verification.",
+      "Objective weights likely bidirectional area fully and marginal area at half weight; identical targets and RF engine used for baseline and recommendations. Equal scores prefer fewer relays, then lower total mast height.",
+      "Pair lookahead tests at most 16 shortlisted candidates only when single additions do not improve; longer chains and omitted sites may be missed.",
+      "Unknown terrain/hardware never scores as served.",
+      "Results require field validation; installation access, power and mounting are user supplied constraints."
+    ]
+  }
+}
