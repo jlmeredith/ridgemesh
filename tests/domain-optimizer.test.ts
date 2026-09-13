@@ -2,7 +2,7 @@ import {test} from 'node:test';import assert from 'node:assert/strict';
 import {optimizePlacement,type Candidate} from '../src/lib/optimizer';
 import {evaluateTarget,type Surface,type Environment,type RadioNode} from '../src/lib/model';
 const surface:Surface={version:'flat',cellM:10,cols:2000,rows:20,elevation:()=>0,cover:()=> 'field'};
-const params:Environment={crowd:0,bagLoss:false,clientsHop:true,meshHops:2,totemHops:2,communityTotems:false,fadeDb:8,rootId:'base'};
+const params:Environment={crowd:0,bagLoss:false,includeRoamingRelays:true,meshHops:2,fadeDb:8,rootId:'base'};
 const base:RadioNode={id:'base',kind:'m1',x:0,y:0,label:'base',txDbm:-45,rxDbm:-132,agl:10};
 const candidates:Candidate[]=[10,20,50].map(x=>({id:`c${x}`,node:{...base,id:`c${x}`,kind:'v4',role:'router',x},allowed:true,feasibility:'confirmed',reason:'fixture'}));
 const targets=[{id:'t',label:'target',x:30,y:0}];

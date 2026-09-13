@@ -106,7 +106,7 @@ export function buildTerrainBuffers() {
 export function tintTerrain(
   land: Float32Array,
   _heat: Heat | null,
-  _overlay: "both" | "totem" | "mesh" | "none",
+  _overlay: "mesh" | "none",
 ) {
   return new Float32Array(land);
 }

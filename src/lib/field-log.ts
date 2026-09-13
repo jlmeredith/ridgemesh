@@ -12,13 +12,13 @@ const str=(v:unknown,name:string)=>{if(typeof v!=='string'||!v.trim()||v.length>
 const num=(v:unknown,name:string,min:number,max:number)=>{if(typeof v!=='number'||!Number.isFinite(v)||v<min||v>max)throw new Error(`Invalid ${name}`);return v;};
 const bool=(v:unknown,name:string)=>{if(typeof v!=='boolean')throw new Error(`Invalid ${name}`);return v;};
 function endpoint(raw:unknown):Endpoint {
- const e=record(raw);if(!['m1','v4','totem'].includes(String(e.kind)))throw new Error('Invalid device kind');
+ const e=record(raw);if(!['m1','v4','p1','l1','g3'].includes(String(e.kind)))throw new Error('Invalid device kind');
  const lat=num(e.lat,'latitude',-90,90),lon=num(e.lon,'longitude',-180,180),[x,y]=llToGrid(lat,lon);
  if(x<0||y<0||x>COLS-1||y>ROWS-1)throw new Error('Observation endpoint is outside the terrain extent');
  return {id:str(e.id,'endpoint ID'),kind:e.kind as Node['kind'],lat,lon,agl:num(e.agl,'antenna height',0,100),firmware:str(e.firmware,'firmware'),txDbm:num(e.txDbm,'TX dBm',-50,50),rxDbm:num(e.rxDbm,'RX sensitivity',-180,0),gainDbi:num(e.gainDbi,'antenna gain',-30,60),cableDb:num(e.cableDb,'cable loss',0,100),frequencyMhz:num(e.frequencyMhz,'frequency MHz',100,10000),channel:str(e.channel,'channel'),modem:str(e.modem,'modem'),configurationKnown:bool(e.configurationKnown,'configurationKnown')};
 }
 function environment(raw:unknown):SimParams {
- const e=record(raw);const p:SimParams={crowd:num(e.crowd,'crowd',0,100),bagLoss:bool(e.bagLoss,'bagLoss'),clientsHop:bool(e.clientsHop,'clientsHop'),meshHops:num(e.meshHops,'meshHops',0,10),totemHops:num(e.totemHops,'totemHops',0,10),communityTotems:bool(e.communityTotems,'communityTotems')};
+ const e=record(raw);const p:SimParams={crowd:num(e.crowd,'crowd',0,100),bagLoss:bool(e.bagLoss,'bagLoss'),includeRoamingRelays:bool(e.includeRoamingRelays,'includeRoamingRelays'),meshHops:num(e.meshHops,'meshHops',0,10)};
  for(const key of ['fadeDb','foliageDbPerM','canopyM'] as const)if(e[key]!==undefined)p[key]=num(e[key],key,0,100);
  if(e.assumeUnknownHardware!==undefined)p.assumeUnknownHardware=bool(e.assumeUnknownHardware,'assumeUnknownHardware');return p;
 }
@@ -36,7 +36,7 @@ export function heldoutSummary(log:FieldLog,predict:(o:Observation)=>Status=o=>e
  let evaluated=0,mismatches=0,unknown=0;for(const o of log.observations.filter(o=>o.split==='heldout')){const status=predict(o);if(status==='unknown'){unknown++;continue;}evaluated++;if((status==='likely'||status==='marginal')!==o.delivered)mismatches++;}
  return {calibration:log.observations.filter(o=>o.split==='calibration').length,heldout:log.observations.filter(o=>o.split==='heldout').length,evaluated,mismatches,unknown,modelVersion:MODEL_VERSION,terrainVersion:TERRAIN_VERSION};
 }
-export function snapshotEndpoint(n:Node):Endpoint {const h=HARDWARE[n.kind],[lat,lon]=gridToLl(n.x,n.y);return {id:n.id,kind:n.kind,lat,lon,agl:n.agl??h.agl,firmware:'RECORD ACTUAL FIRMWARE',txDbm:n.txDbm??h.txDbm,rxDbm:n.rxDbm??h.rxDbm,gainDbi:n.gainDbi??0,cableDb:n.cableDb??0,frequencyMhz:n.frequencyMhz??h.mhz,channel:n.channel??'default',modem:n.modem??'default',configurationKnown:false};}
+export function snapshotEndpoint(n:Node):Endpoint {const h=HARDWARE[n.kind],[lat,lon]=gridToLl(n.x,n.y);return {id:n.id,kind:n.kind,lat,lon,agl:n.agl??h.agl,firmware:'RECORD ACTUAL FIRMWARE',txDbm:n.txDbm??h.txDbm,rxDbm:n.rxDbm??h.rxDbm,gainDbi:n.gainDbi??h.gainDbi,cableDb:n.cableDb??0,frequencyMhz:n.frequencyMhz??h.mhz,channel:n.channel??'default',modem:n.modem??'default',configurationKnown:false};}
 const csv=(v:unknown)=>`"${String(v??'').replaceAll('"','""')}"`;
 export function walkPlanCsv(nodes:Node[],params:SimParams){
  const rows:unknown[][]=[['task','from_id','to_id','from_lat','from_lon','to_lat','to_lon','from_config_json','to_config_json','environment_json','timestamp','split','delivered','rssi_dbm','snr_db','notes']];
