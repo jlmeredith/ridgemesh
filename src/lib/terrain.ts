@@ -1,8 +1,9 @@
 /** Immutable USGS bare-earth surface. Grid x=east, y=south, units=10m.
- * All legacy site vectors/land-cover masks are inferred and unverified.
+ * Site vectors are source-informed estimates; no surveyed occupancy or mount permissions.
  */
 import proj4 from "proj4";
 import terrainData from "../../public/data/terrain.json";
+import { SITE_POINTS, SITE_CLEARINGS, SITE_ROADS, SITE_CREEK, SITE_STAGE_FOOTPRINT, inSitePolygon } from "./site-features";
 export const TERRAIN_METADATA = terrainData.metadata;
 export const TERRAIN_VERSION = TERRAIN_METADATA.version;
 export const COLS = TERRAIN_METADATA.cols;
@@ -54,105 +55,27 @@ function distPoly(px: number, py: number, pts: Pt[]) {
   for (let i = 0; i < pts.length - 1; i++) d = Math.min(d, distSeg(px, py, pts[i][0], pts[i][1], pts[i + 1][0], pts[i + 1][1]));
   return d;
 }
-function inEllipse(px: number, py: number, cx: number, cy: number, rx: number, ry: number) {
-  const u = (px - cx) / rx;
-  const v = (py - cy) / ry;
-  return u * u + v * v;
-}
+/** Creek corridor interpreted from the official map and aerial canopy/valley shape.
+ * Its uncertain centreline is a visual feature; it is not a certified open-water mask.
+ */
+export const CREEK: Pt[] = SITE_CREEK;
 
-/** Legacy inferred locations; no independent ground control or surveyed boundary. */
-const PIN = llToGrid(38.0232213, -90.4113088);
-const STAR = llToGrid(38.02566, -90.4084);
-const FIELD = llToGrid(38.02216, -90.40849);
-const COSMIC = llToGrid(38.02185, -90.4087);
-const EAST_MEADOW = llToGrid(38.02528, -90.40441);
-const POND = llToGrid(38.02309, -90.41256);
-const STAGE = llToGrid(38.02275, -90.41031);
-const GATE = llToGrid(38.01877, -90.41235);
-const PEAK785 = llToGrid(38.02574, -90.4078);
-const STAR_C: Pt = [(STAR[0] + PEAK785[0]) / 2, (STAR[1] + PEAK785[1]) / 2];
-
-const CREEK_SEED: [number, number][] = [
-  [38.0314, -90.4132],
-  [38.0290, -90.4130],
-  [38.0264, -90.4134],
-  [38.0240, -90.4135],
-  [38.0224, -90.4130],
-  [38.0212, -90.4114],
-  [38.0206, -90.4094],
-  [38.0205, -90.4074],
-  [38.0212, -90.4056],
-  [38.0230, -90.4046],
-  [38.0250, -90.4044],
-  [38.0262, -90.4032],
-  [38.0246, -90.4006],
-  [38.0218, -90.4002],
-  [38.0186, -90.3996],
-];
-
-export const CREEK: Pt[] = CREEK_SEED.map(([la, lo]) => llToGrid(la, lo));
-
-const SPRINGS: { c: Pt; r: number }[] = [
-  { c: POND, r: 4.2 },
-  { c: llToGrid(38.0206, -90.4074), r: 2.4 },
-  { c: llToGrid(38.0254, -90.4044), r: 2.0 },
-];
-
-const ROAD: Pt[] = [
-  GATE,
-  llToGrid(38.0205, -90.412),
-  PIN,
-  STAGE,
-  FIELD,
-  COSMIC,
-  llToGrid(38.02148, -90.4072),
-];
-const LOOP: Pt[] = [
-  PIN,
-  llToGrid(38.02402, -90.40977),
-  STAR,
-  llToGrid(38.02638, -90.4085),
-  PEAK785,
-  STAR,
-];
-
-function buildCover(_height: Float32Array): Uint8Array {
+function buildCover(): Uint8Array {
   const c = new Uint8Array(COLS * ROWS);
   for (let j = 0; j < ROWS; j++) {
     for (let i = 0; i < COLS; i++) {
       const idx = j * COLS + i;
-      const field = inEllipse(i, j, FIELD[0], FIELD[1], 22, 11);
-      const star = inEllipse(i, j, STAR_C[0], STAR_C[1], 16, 19);
-      const east = inEllipse(i, j, EAST_MEADOW[0], EAST_MEADOW[1], 12, 8);
-      const lawn = inEllipse(i, j, PIN[0], PIN[1] + 3, 7, 8);
-      if (field < 1 || star < 1 || east < 1 || lawn < 1) {
-        c[idx] = 0;
-        continue;
-      }
-      let spring = false;
-      for (const s of SPRINGS) {
-        if (Math.hypot(i - s.c[0], j - s.c[1]) < s.r) spring = true;
-      }
-      if (spring || distPoly(i, j, CREEK) < 1.25) {
-        c[idx] = 2;
-        continue;
-      }
-      if (distPoly(i, j, ROAD) < 1.0 || distPoly(i, j, LOOP) < 0.95) {
-        c[idx] = 3;
-        continue;
-      }
-      c[idx] = 1;
-    }
-  }
-  for (let j = Math.floor(STAGE[1]) - 3; j <= Math.floor(STAGE[1]) + 3; j++) {
-    for (let i = Math.floor(STAGE[0]) - 4; i <= Math.floor(STAGE[0]) + 5; i++) {
-      if (i >= 0 && j >= 0 && i < COLS && j < ROWS) c[j * COLS + i] = 4;
+      // Only visible clearing polygons remove the default assumed forest loss.
+      // Wooded event-use polygons (Harmony/Family) do not imply open land cover.
+      c[idx] = SITE_CLEARINGS.some((p) => inSitePolygon(i, j, p)) ? 0 : 1;
+      if (SITE_ROADS.some((p) => distPoly(i, j, p) < 0.25)) c[idx] = 3;
+      if (inSitePolygon(i, j, SITE_STAGE_FOOTPRINT)) c[idx] = 4;
     }
   }
   return c;
 }
 
-export const COVER = buildCover(HEIGHT);
+export const COVER = buildCover();
 
 export function elev(i: number, j: number) {
   if (!Number.isFinite(i) || !Number.isFinite(j) || i < 0 || j < 0 || i > COLS - 1 || j > ROWS - 1) return NaN;
@@ -266,43 +189,18 @@ export const SPOTS: Spot[] = [
 });
 
 export const POIS: Poi[] = [
-  { id: "gate", label: "Front gate", x: GATE[0], y: GATE[1], kind: "gate",
-    note: "Koester Springs Rd from the south. 503 m south of the lodge pin." },
-  { id: "pin", label: "Lodge / buildings", x: PIN[0], y: PIN[1], kind: "amenity",
-    note: "Google pin 38.02322, \u221290.41131. Building cluster west of the meadow." },
-  { id: "stage", label: "Main Stage", x: STAGE[0], y: STAGE[1], kind: "stage",
-    note: "Barn on the west edge of the Cosmic Reunion meadow, 102 m SE of the lodge. Faces east." },
-  { id: "field", label: "Main Stage Field", x: FIELD[0], y: FIELD[1], kind: "camp",
-    note: "Valley-floor meadow ~691 ft. Large, flat. Creek is the drain beside it, not on the hill." },
-  { id: "star", label: "Stargazer camp", x: STAR_C[0], y: STAR_C[1], kind: "camp",
-    note: "Huge flat hilltop ~785 ft. About 100 ft above the valley floor. 400 A runs up here." },
-  { id: "grove", label: "Harmony Grove", x: llToGrid(38.02148, -90.4072)[0], y: llToGrid(38.02148, -90.4072)[1], kind: "camp",
-    note: "Timber SE of the meadow toward the creek, 409 m from the lodge." },
-  { id: "dream", label: "Dreamcatcher", x: llToGrid(38.02402, -90.40977)[0], y: llToGrid(38.02402, -90.40977)[1], kind: "camp",
-    note: "Woods on the west shoulder of the knob, 161 m NNE of the lodge." },
-  { id: "family", label: "Family camp", x: llToGrid(38.02097, -90.40656)[0], y: llToGrid(38.02097, -90.40656)[1], kind: "camp",
-    note: "South creek bend, 486 m ESE of the lodge." },
-  { id: "eastMeadow", label: "East meadow", x: EAST_MEADOW[0], y: EAST_MEADOW[1], kind: "camp",
-    note: "Clearing inside the east arm of the U, 647 m ENE of the lodge." },
-  { id: "pond", label: "West spring / pond", x: POND[0], y: POND[1], kind: "water",
-    note: "Spring-fed pond west of Koester. One of three crystal springs that feed Plattin Creek." },
-  { id: "springS", label: "South spring", x: llToGrid(38.0209, -90.4074)[0], y: llToGrid(38.0209, -90.4074)[1], kind: "water",
-    note: "Spring along the south bend, creek-side of Family camp. Not in the meadow." },
-  { id: "springE", label: "East spring", x: llToGrid(38.0256, -90.4047)[0], y: llToGrid(38.0256, -90.4047)[1], kind: "water",
-    note: "Spring on the east arm of the U, by the east meadow." },
-  { id: "boulders", label: "Stage Right", x: llToGrid(38.02206, -90.40534)[0], y: llToGrid(38.02206, -90.40534)[1], kind: "ridge",
-    note: "Mountain Project 38.02206, \u221290.40534. Across the creek from the stage." },
-  { id: "westHigh", label: "885 ft", x: llToGrid(38.02515, -90.4176)[0], y: llToGrid(38.02515, -90.4176)[1], kind: "ridge",
-    note: "CalTopo 885 ft, west of the creek." },
-  { id: "southHigh", label: "922 ft", x: llToGrid(38.01494, -90.4035)[0], y: llToGrid(38.01494, -90.4035)[1], kind: "ridge",
-    note: "CalTopo 922 ft, SE of the U." },
+  ...SITE_POINTS.map((p) => ({ id: p.id, label: p.label, x: p.x, y: p.y,
+    kind: p.kind as Poi["kind"], note: p.note })),
+  ...([
+    { id: "boulders", label: "Stage Right Boulders", lat: 38.02206, lon: -90.40534,
+      note: "Published climbing-area pin: https://www.mountainproject.com/area/125747997/stage-right-boulders . Not surveyed; mounting/access permission unverified." },
+    { id: "westHigh", label: "West ridge", lat: 38.02515, lon: -90.4176,
+      note: "Topographic reference sampled from USGS DEM; no venue occupancy or installation permission established." },
+    { id: "southHigh", label: "South ridge", lat: 38.01494, lon: -90.4035,
+      note: "Topographic reference sampled from USGS DEM; no venue occupancy or installation permission established." },
+  ].map((p) => { const [x, y] = llToGrid(p.lat, p.lon); return { id: p.id, label: p.label, x, y,
+    kind: "ridge" as const, note: p.note }; })),
 ];
-
-for (const poi of POIS) {
-  poi.note = "Inferred legacy location — unverified. " + (poi.kind === "ridge" ? "Elevation sampled from USGS DEM; installation access unknown." : "Site name retained from legacy plan; position, access and facilities need field confirmation.");
-  if (poi.id === "westHigh") poi.label = "West ridge";
-  if (poi.id === "southHigh") poi.label = "South ridge";
-}
 export const CAMPS = POIS.filter((p) => p.kind === "camp");
 
 export function minElev() {

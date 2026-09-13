@@ -1,0 +1,70 @@
+{
+  "host": "z370",
+  "runId": "planner-correction-browser-20260913-third",
+  "revision": "working-tree",
+  "url": "http://127.0.0.1:46233",
+  "started": "2026-09-13T00:44:25.870Z",
+  "checks": [
+    "Default is aerial imagery with handhelds only and coverage hidden",
+    "Named source-informed site opens an inspection popup",
+    "Base mount-site move and visible antenna/receiver heights persist",
+    "Opt-in coverage uses discrete target samples and differentiated statuses",
+    "Pan and zoom leave device positions unchanged",
+    "Three original acquisitions and synchronized comparison remain usable",
+    "Registered imagery drapes on 3D terrain",
+    "RF mast solver shows separate geometric thresholds and applies height only to From",
+    "Four comparisons preserve current custom crew locations and scenario",
+    "One-relay search respects mast cap, gives readable gains/gaps and applies its proposal",
+    "Schema2 export and reload preserve exact nodes, settings and source versions",
+    "Mobile map fits viewport without horizontal overflow",
+    "No browser runtime or hydration errors"
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "workers": [
+    "http://127.0.0.1:46233/src/lib/planner-worker.ts?worker_file&type=module",
+    "http://127.0.0.1:46233/src/lib/planner-worker.ts?worker_file&type=module",
+    "http://127.0.0.1:46233/src/lib/planner-worker.ts?worker_file&type=module",
+    "http://127.0.0.1:46233/src/lib/planner-worker.ts?worker_file&type=module",
+    "http://127.0.0.1:46233/src/lib/planner-worker.ts?worker_file&type=module",
+    "http://127.0.0.1:46233/src/lib/planner-worker.ts?worker_file&type=module",
+    "http://127.0.0.1:46233/src/lib/planner-worker.ts?worker_file&type=module",
+    "http://127.0.0.1:46233/src/lib/planner-worker.ts?worker_file&type=module",
+    "http://127.0.0.1:46233/src/lib/planner-worker.ts?worker_file&type=module"
+  ],
+  "imagery": [
+    {
+      "url": "http://127.0.0.1:46233/imagery/naip-20220618.jpg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:46233/imagery/sentinel-20240613.jpg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:46233/imagery/sentinel-20241110.jpg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:46233/imagery/naip-20220618.jpg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:46233/imagery/naip-20220618.jpg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:46233/imagery/naip-20220618.jpg",
+      "status": 304
+    }
+  ],
+  "screenshots": [
+    "planner-map-raw.png",
+    "planner-3d-raw.png",
+    "planner-controls-raw.png",
+    "planner-mobile-raw.png"
+  ],
+  "metrics": [],
+  "status": "passed",
+  "finished": "2026-09-13T00:44:40.352Z"
+}
