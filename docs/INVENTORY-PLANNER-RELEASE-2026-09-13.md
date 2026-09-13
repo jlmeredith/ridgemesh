@@ -1,7 +1,7 @@
 # Inventory-driven Meshtastic planning
 
 **Phase (SoT):** [#ridgemesh·P4] Equipment-aware placement → production
-**Status:** Remote acceptance; production verification pending.
+**Status:** Accepted — live at https://ridgemesh.vercel.app.
 
 The app's purpose is to compute useful fixed-radio placement for roaming users across Astral Valley. The prior V4 router and six illustrative handhelds did not represent the actual equipment or this purpose. This release replaces that scaffold with a mandatory owned P1, a complete inventory-constrained search and a scalable fixed-radio budget. Totem is retired from the product and RF model. Manual edits are overrides that lock actual equipment, not the starting method.
 
@@ -39,7 +39,10 @@ All tests, builds, browser automation and screenshot processing run on z370 or h
 
 - z370 `inventory-final-20260913`, revision `faf75bc-worktree`: generator 495 layouts, 61 tests, typecheck/lint/build and 24 browser checks passed.
 - z370 `inventory-release-acceptance-20260913`, revision `faf75bc-worktree`: 62/62 tests, typecheck/lint and 27/27 browser checks passed, including custom physical inventory IDs, preserved roaming positions, legacy-import raw bytes and rejection of colliding IDs. All three imagery acquisitions completed HTTP 200 and decoded; zero runtime errors or failed requests. The preceding remote build passed; the exact committed revision must also pass hosted CI/Vercel before promotion.
-- Exact-commit hosted/deployed evidence is recorded below after promotion.
+- Exact application revision `c9e6d609192343daa3e7e77134d3460e3ad0a3de` passed hosted Ubuntu 24.04 CI [34733360206](https://github.com/jlmeredith/ridgemesh/actions/runs/34733360206) and [34733361330](https://github.com/jlmeredith/ridgemesh/actions/runs/34733361330): clean install, typecheck, lint, 62 tests and production build. The first test log records host `runnervmlun5p`, run `github-34733360206`, and the exact SHA.
+- Vercel preview `dpl_3L9zrrtFcL8d2V5QLVxj4mP9rGZa` for that exact SHA was promoted to production `dpl_FRzjzuPwPeHFNQKDEh1TXEH9fLNw`. The canonical alias resolved to that READY deployment with no alias error.
+- z370 `inventory-production-c9e6d60-20260913` ran all 27 browser checks against **https://ridgemesh.vercel.app** at the exact application SHA: all passed, zero runtime errors, zero failed requests, all three original imagery assets completed HTTP 200 and decoded. [Primary browser report](evidence/inventory-production-c9e6d60-20260913.json). Remote evidence home: `/home/jamie/ridgemesh-planner-correction-20260913/artifacts/inventory-production-c9e6d60-20260913/`. Root inspected normalized default, overview and mobile images after the remote screenshot gate accepted them.
+- Code is committed on `codex/planner-correction` with [draft PR 2](https://github.com/jlmeredith/ridgemesh/pull/2). Production serves the tested application SHA; a subsequent documentation-only checkpoint records its evidence. The main branch remains unmerged.
 - Rollback is preceding production `dpl_DKjWpzqfzoRWuwW83iFzRH8C376g`, application `0de9e361eead4a6beef938fa11e18e3d6e18a2c2`. It retains corrected geography but has the superseded equipment scaffold.
 
 ## Knowledge captured
