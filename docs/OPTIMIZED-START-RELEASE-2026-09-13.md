@@ -1,7 +1,7 @@
 # Optimized starting plan and progressive detail — 2026-09-13
 
 **Phase (SoT):** [#ridgemesh·P3] Optimized start → simple planner
-**Status:** Remote acceptance passed; production replacement pending.
+**Status:** Deployed and accepted; canonical production passed all 22 browser checks.
 **Baseline:** Documentation/harness `3557decbb3e5896c28b15c3f7ee8defe72b9e284`; preceding production application `2ddbc862b48415a3f2d98900bd73810f2b552436`.
 
 ## Delivered behavior
@@ -30,7 +30,11 @@ The screenshot gate returned success without warnings for all seven scoped captu
 
 ## Deployment and rollback
 
-Target is the existing [RidgeMesh application](https://ridgemesh.vercel.app), Vercel project `prj_t9DUwu4aWVM1FmPn8sTrHiZALLOP`. [Draft PR #2](https://github.com/jlmeredith/ridgemesh/pull/2) retains the full recovery; main remains unmerged. Exact source, hosted CI, production deployment and canonical browser results will be appended after replacement.
+The existing [RidgeMesh application](https://ridgemesh.vercel.app), Vercel project `prj_t9DUwu4aWVM1FmPn8sTrHiZALLOP`, now serves application **0de9e361eead4a6beef938fa11e18e3d6e18a2c2**. Preview `dpl_765V9WdMVxZQA27in4DwxKDWiHz5` was rebuilt for production as **dpl_DKjWpzqfzoRWuwW83iFzRH8C376g**. Root verified READY, the exact source SHA, canonical alias and no alias error through Vercel's deployment record. [Draft PR #2](https://github.com/jlmeredith/ridgemesh/pull/2) retains the full recovery; main remains unmerged.
+
+Hosted Ubuntu CI [34731403631](https://github.com/jlmeredith/ridgemesh/actions/runs/34731403631) and [34731405092](https://github.com/jlmeredith/ridgemesh/actions/runs/34731405092) passed on that exact application SHA. Root read the job steps and primary test log: clean install, TypeScript, ESLint, 47 tests with 47 passes/zero failures, and production build.
+
+**RAN ON z370 · optimized-start-production-0de9e36-20260913 · revision 0de9e361eead4a6beef938fa11e18e3d6e18a2c2 · https://ridgemesh.vercel.app:** **22/22 browser assertions passed**, zero runtime/hydration errors and zero failed requests. The [canonical primary report](evidence/optimized-start-production-0de9e36/browser-report.json) records all three original image acquisitions completing HTTP 200 and decoding with positive dimensions. Root inspected those records and normalized production [default map](evidence/optimized-start-production-0de9e36/planner-default.png) and [overview](evidence/optimized-start-production-0de9e36/planner-overview.png). All seven scoped production screenshots passed the normalization gate without warnings; [mobile](evidence/optimized-start-production-0de9e36/planner-mobile.png) is retained with the optional detail views. Later evidence/documentation commits do not change the deployed application.
 
 Rollback is preceding production `dpl_3FLar7MJBGq6yb3dEjCq4kNkkzBJ`, revision `2ddbc862b48415a3f2d98900bd73810f2b552436`. It retains corrected geography but uses the earlier crowded handheld-only starting view.
 
@@ -38,4 +42,4 @@ Rollback is preceding production `dpl_3FLar7MJBGq6yb3dEjCq4kNkkzBJ`, revision `2
 
 The default is a versioned applied scenario, regenerated with the same search policy and RF targets as customization. A basic map should expose the base/router and one meaningful area metric, with detail under explicit controls. Startup migrations must distinguish an untouched scaffold from deliberate custom or empty data and preserve original bytes before replacement. Leaving a workspace must invalidate its in-flight worker messages, not merely hide its current preview.
 
-The reusable workflow is `.Codex/skills/ridgemesh-remote-verification/SKILL.md`; the current harness is `scripts/optimized-start-browser-check.mjs`. The release is cross-linked from `reports/knowledge/ridgemesh-optimized-start-20260913.md` and Codex memory `project_ridgemesh_recovery.md`. Graphiti receives only a public release-document reference after publication.
+The reusable workflow is `.Codex/skills/ridgemesh-remote-verification/SKILL.md`; the current harness is `scripts/optimized-start-browser-check.mjs`. The release is cross-linked from `reports/knowledge/ridgemesh-optimized-start-20260913.md` and Codex memory `project_ridgemesh_recovery.md`. Graphiti accepted/queued `REFERENCE: RidgeMesh public optimized-start record` in `mandalagenv2`, containing only the public release-document reference.
