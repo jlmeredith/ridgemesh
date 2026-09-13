@@ -1,7 +1,7 @@
 # RidgeMesh recovery work breakdown
 
 **Phase (SoT):** [#ridgemesh·E6] Recovery verification → Vercel
-**Status:** Implemented; remote acceptance and Vercel release underway. External survey and field-calibration evidence remain open.
+**Status:** Planning-estimate release deployed; source/field evidence and strict latency targets remain partially open. See release record for measured acceptance.
 **Date:** 2026-09-12
 **Baseline:** `47a5558` on `main`; analysis branch `codex/recovery-analysis`.
 **Scope:** Restore trustworthy terrain aligned against multiple satellite views, enhance property visuals, compare communication coverage, recommend feasible placement, and release on Vercel.
@@ -14,11 +14,11 @@ Every leaf below has a deliverable and an observable acceptance condition. Owner
 
 | WBS ID | Work package / deliverable | Depends on | Status | Owner | Acceptance |
 |---|---|---|---|---|---|
-| RM-1 | Reproducible runtime and engineering preview | — | Release verification | Runtime | RM-1.1–1.4 accepted |
+| RM-1 | Reproducible runtime and engineering preview | — | Accepted release | Runtime | RM-1.1–1.4 accepted |
 | RM-1.1 | Remove broken Grok PWA/preview hooks and unused DB/auth/multiplayer scaffold; own minimal app metadata and manifest assets | — | Implemented | Runtime | Config parses; no imported missing module, missing migration command, or referenced missing production PWA asset; actual retained dependencies are documented |
 | RM-1.2 | Resolve compatible dependencies, commit npm lockfile, pin Node/package manager; retain Start + Vite + Nitro | 1.1 | Implemented | Runtime | Clean remote install, typecheck, lint and production build succeed; clean lockfile install reproduces the graph; use Node 24 baseline after verifying compatibility |
 | RM-1.3 | Replace nonexistent test wiring with real domain/browser checks and a remote execution entry point | 1.2 | Implemented | Runtime | A deliberately failed assertion fails the job; absent suites cannot report success; source revision and remote run provenance emitted |
-| RM-1.4 | Link repository to Vercel and deploy an engineering branch preview, visibly labeled as an unvalidated model | 1.2, 1.3 | Release verification | Release | Vercel build succeeds; remote browser loads route/assets/WebGL; retain preview URL, commit and build ID; do not promote current coverage claims to production |
+| RM-1.4 | Link repository to Vercel and deploy an engineering branch preview, visibly labeled as an unvalidated model | 1.2, 1.3 | Accepted release | Release | Vercel build succeeds; remote browser loads route/assets/WebGL; retain preview URL, commit and build ID; do not promote current coverage claims to production |
 | RM-2 | Authoritative site and terrain data | — | Partial evidence | Terrain | RM-2.1–2.4 accepted |
 | RM-2.1 | Download confirmed USGS 1 m product on the box; inventory AOI plus required modeling buffer; retain raw source and manifest | — | Implemented | Terrain | Verify checksum, raster CRS/datum/resolution, nodata, exact AOI coverage and acquisition metadata; add adjacent tiles if buffer needs them; reproducible clipped output |
 | RM-2.2 | Define one metric spatial contract; produce immutable analysis elevation and separate render LOD | 2.1 | Implemented | Terrain | Grid centers/edges, extent, axis orientation and WGS84 transforms agree with independent GDAL samples; no field flattening, synthetic hill, creek carving or analytical noise |
@@ -45,14 +45,14 @@ Every leaf below has a deliverable and an observable acceptance condition. Owner
 | RM-5.1 | Generate candidate sites with boundary/access/power/mount restrictions, height options, locked nodes and device budget | 2.4, 3.1, 4.3 | Implemented | Placement | Excluded sites never returned; unknown installation feasibility shown; stage/ridge availability is not presumed from legacy prose |
 | RM-5.2 | Implement deterministic constrained greedy search with local swaps over shared RF and graph results | 3.3, 3.4, 5.1 | Implemented | Placement | Compare small cases with exhaustive enumeration and document heuristic gap; baseline cannot silently worsen; disconnected high point cannot win for base coverage; cancellation and fixed seed work |
 | RM-5.3 | Explain best-found alternatives with delta map, targets gained, residual gaps, bottleneck and each repeater's contribution | 4.4, 5.2 | Implemented | Placement | Saved scenario reproduces ranking; recomputed full-resolution result validates shortlisted sites; show constraints and objective; never claim global optimality without proof |
-| RM-6 | Responsive, stable calculation and rendering | — | Release verification | Runtime | RM-6.1–6.3 accepted |
+| RM-6 | Responsive, stable calculation and rendering | — | Partial performance | Runtime | RM-6.1–6.3 accepted |
 | RM-6.1 | Move RF/search to cancellable Web Worker with versioned jobs/results and immutable data transfer | 1.2, 2.2, 3.1 | Implemented | Runtime | New inputs supersede stale results; errors/progress explicit; job key includes terrain/model/scenario; independent remote checks confirm worker/main-reference agreement |
-| RM-6.2 | Cache terrain profiles, reuse scene objects, narrow subscriptions and dispose removed GPU resources | 4.1, 6.1 | Release verification | Runtime | Overlay/selection changes do not rerun physics; bounded remote repeated-drag/preset check shows resource plateau after warmup; teardown reaches all owned objects |
-| RM-6.3 | Bound analysis grids and search work; publish measured interaction and result-latency budgets | 4.4, 5.2, 6.2 | Release verification | Runtime | On recorded remote reference browser/device: input feedback target <=100 ms; normal scenario settled-result target <=2 s; longer search shows progress/cancel; targets measured, not asserted as current results |
-| RM-7 | Model validation and Vercel launch | — | Release verification | Verification | RM-7.1–7.3 accepted |
-| RM-7.1 | Integrate remote source, numerical, graph, scenario, optimizer and browser acceptance suite | 2.4, 3.4, 4.5, 5.3, 6.3 | Release verification | Verification | Record commit + host + run ID + preview URL; independent oracles for critical math; unknown terrain, stale jobs, no nodes, missing data and failure states pass |
+| RM-6.2 | Cache terrain profiles, reuse scene objects, narrow subscriptions and dispose removed GPU resources | 4.1, 6.1 | Accepted release | Runtime | Overlay/selection changes do not rerun physics; bounded remote repeated-drag/preset check shows resource plateau after warmup; teardown reaches all owned objects |
+| RM-6.3 | Bound analysis grids and search work; publish measured interaction and result-latency budgets | 4.4, 5.2, 6.2 | Partial performance | Runtime | On recorded remote reference browser/device: input feedback target <=100 ms; normal scenario settled-result target <=2 s; longer search shows progress/cancel; targets measured, not asserted as current results |
+| RM-7 | Model validation and Vercel launch | — | Accepted release | Verification | RM-7.1–7.3 accepted |
+| RM-7.1 | Integrate remote source, numerical, graph, scenario, optimizer and browser acceptance suite | 2.4, 3.4, 4.5, 5.3, 6.3 | Accepted release | Verification | Record commit + host + run ID + preview URL; independent oracles for critical math; unknown terrain, stale jobs, no nodes, missing data and failure states pass |
 | RM-7.2 | Export field walk plan and import observed bidirectional delivery/RSSI/SNR with device and antenna configuration | 3.4, 4.3, 5.3 | Partial evidence | RF | Calibrate on one observation set, evaluate held-out observations; publish error and confidence limits; without observations, release only as an explicitly uncalibrated planning estimate |
-| RM-7.3 | Release accepted preview with versioned data/model, release notes and rollback reference | 1.4, 7.1, 7.2 workflow | Release verification | Release | Production smoke matches accepted preview; source/model labels correct; assets and workers load; prior deployment retained; field-verified claims require actual 7.2 observations |
+| RM-7.3 | Release accepted preview with versioned data/model, release notes and rollback reference | 1.4, 7.1, 7.2 workflow | Accepted release | Release | Production smoke matches accepted preview; source/model labels correct; assets and workers load; prior deployment retained; field-verified claims require actual 7.2 observations |
 
 ## Order and scope boundaries
 
