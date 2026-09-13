@@ -1,0 +1,170 @@
+{
+  "host": "z370",
+  "runId": "terrain-production-3e0dde1-20260913",
+  "revision": "3e0dde14db9c8676ddf9162a023a3024aa76d7ca",
+  "url": "https://ridgemesh.vercel.app",
+  "started": "2026-09-13T05:06:38.432Z",
+  "checks": [
+    "Fresh visit presents the computed MediumFast recommendation in actual-scale 3D with a filled signal-margin heatmap",
+    "Every supported information layer is enabled on the opening 3D scene",
+    "Selectable 3D radio labels expose actual roles and AGL; fit and zoom retain 3D and physical placements",
+    "R1-alone preview removes repeaters from the rendered scenario and recomputes two-way margins without changing the saved network",
+    "Alternate-site preview moves existing R1 identity to the proposed stage coordinates and reports placement changes",
+    "Applying a scenario updates actual positions and heat; restoring the previous plan recovers the exact applied network",
+    "3D layer toggles and heatmap opacity control real rendered content without changing RF or physical coordinates",
+    "A landscape point relocates the selected radio in 3D, recomputes coverage and locks the placement through subsequent optimization",
+    "Direct radio editing exposes physical antenna height and preserves true terrain scale while recalculating the field",
+    "Budget scaling recomputes the recommended fixed network while retaining the mandatory P1",
+    "Equipment constraints remain accessible and the offered G3 participates as real optional ROUTER_LATE stock",
+    "All three registered acquisitions finish HTTP200, decode and become the actual 3D terrain texture",
+    "2D fallback uses the same filled clipped margin field and preserves registered imagery comparison",
+    "2D and 3D previews both display moved existing nodes at the actual scenario locations",
+    "Late scenario-worker responses cannot replace or resurrect a dismissed preview",
+    "Export and reload retain the exact model, inventory and positions while opening the requested 3D layers",
+    "Mobile retains true-scale3D, readable recommendation and scenario controls without horizontal overflow",
+    "Only the untouched prior recommendation upgrades to MediumFast; custom placements and old RF assumptions retain an exact original backup",
+    "An intentionally empty custom plan is preserved rather than silently populated",
+    "Complete recomputation preserves custom physical inventory identities, locks and roaming test positions",
+    "Unreadable saved bytes are preserved and backup failure blocks destructive autosave",
+    "All exercised 3D/scenario flows complete with zero runtime errors and zero failed requests"
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "workers": [
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-J2oTQVMq.js"
+  ],
+  "imagery": [
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20241110.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20241110.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    }
+  ],
+  "screenshots": [
+    "terrain-default-raw.png",
+    "terrain-workbench-raw.png",
+    "terrain-workspace-raw.png",
+    "terrain-overview-raw.png",
+    "terrain-r1-only-raw.png",
+    "terrain-stage-scenario-raw.png",
+    "terrain-radio-editor-raw.png",
+    "terrain-2d-heatmap-raw.png",
+    "terrain-mobile-map-raw.png",
+    "terrain-mobile-recommendation-raw.png"
+  ],
+  "metrics": [
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+        "width": 2040,
+        "height": 2060,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+        "width": 408,
+        "height": 412,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/sentinel-20241110.jpg",
+        "width": 408,
+        "height": 412,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+        "width": 2040,
+        "height": 2060,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+        "width": 2040,
+        "height": 2060,
+        "complete": true
+      }
+    }
+  ],
+  "status": "passed",
+  "finished": "2026-09-13T05:07:50.476Z"
+}

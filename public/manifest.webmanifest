@@ -1,0 +1,16 @@
+{
+  "name": "RidgeMesh engineering planner",
+  "short_name": "RidgeMesh",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1210",
+  "theme_color": "#0e1210",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

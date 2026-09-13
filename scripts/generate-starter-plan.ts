@@ -1,0 +1,16 @@
+import {hostname} from 'node:os';
+import {writeFileSync} from 'node:fs';
+import {planInfrastructure} from '../src/lib/infrastructure-planner';
+import {DEFAULT_INVENTORY} from '../src/lib/equipment';
+import {STARTER_PARAMS} from '../src/lib/placement-policy';
+import {planningTargets,analysisSurface,MODEL_VERSION} from '../src/lib/radio';
+import {SITE_VERSION} from '../src/lib/site-features';
+import {TERRAIN_VERSION} from '../src/lib/terrain';
+if(hostname()!=='z370')throw new Error('Generate on z370 only.');
+const runId=process.env.RIDGEMESH_RUN_ID??'inventory-start-generation-20260913';
+const start=performance.now();
+const plan=planInfrastructure({inventory:DEFAULT_INVENTORY,params:STARTER_PARAMS,targets:planningTargets(STARTER_PARAMS,4),surface:analysisSurface});
+const scenario={schema:3,siteVersion:SITE_VERSION,name:'Computed infrastructure plan',terrainVersion:TERRAIN_VERSION,modelVersion:MODEL_VERSION,nodes:plan.nodes,params:plan.params,inventory:plan.inventory};
+const data={version:'astral-mediumfast-start-v1',scenario,plan,evidence:{host:hostname(),runId,method:plan.method,evaluations:plan.evaluations,targetStepM:40,targetAreaSqM:plan.areaSqM,likelyFraction:plan.likelyFraction,marginalFraction:plan.marginalFraction,redundantFraction:plan.redundantFraction,limitations:plan.limitations}};
+writeFileSync('public/data/optimized-plan.json',JSON.stringify(data,null,2)+'\n');
+console.log(JSON.stringify({host:hostname(),runId,elapsedMs:Math.round(performance.now()-start),used:plan.used,nodes:plan.nodes,score:plan.score,byBudget:plan.byBudget.map(({budget,used,score,likelyFraction,redundantFraction})=>({budget,used,score,likelyFraction,redundantFraction})),evaluations:plan.evaluations},null,2));
