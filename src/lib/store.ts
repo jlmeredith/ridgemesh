@@ -18,7 +18,7 @@ export function parseScenario(text:string,terrainVersion:string,modelVersion:str
  if(text.length>500_000)throw new Error('Scenario file is too large.');
  const raw=JSON.parse(text);
  if(!raw||typeof raw.name!=='string'||raw.name.length>100||![2,3].includes(raw.schema)||!Array.isArray(raw.nodes)||raw.nodes.length>40)throw new Error('Expected a RidgeMesh scenario with at most 40 radios.');
- if(raw.terrainVersion!==terrainVersion||raw.siteVersion!==SITE_VERSION||!(raw.modelVersion===modelVersion||(raw.schema===2&&raw.modelVersion==='ridgemesh-rf-3.0')))throw new Error('This file uses an incompatible venue, terrain or radio model.');
+ if(raw.terrainVersion!==terrainVersion||raw.siteVersion!==SITE_VERSION||!(raw.modelVersion===modelVersion||(raw.schema===3&&raw.modelVersion==='ridgemesh-rf-4.0')||(raw.schema===2&&raw.modelVersion==='ridgemesh-rf-3.0')))throw new Error('This file uses an incompatible venue, terrain or radio model.');
  const legacy=raw.schema===2;
  const nodes=legacy?raw.nodes.filter((n:{kind:string})=>n?.kind!=='totem').map((n:Node)=>({...n,deployment:n.kind==='v4'?'fixed':'roaming'})):raw.nodes;
  const old=raw.params??{};
@@ -41,6 +41,7 @@ export function parseScenario(text:string,terrainVersion:string,modelVersion:str
  }
  const p=d.params;
  if(!p||!finite(p.crowd)||p.crowd<0||p.crowd>1||!Number.isInteger(p.meshHops)||p.meshHops<1||p.meshHops>7||typeof p.bagLoss!=='boolean'||typeof p.includeRoamingRelays!=='boolean')throw new Error('Invalid radio parameters.');
+ if(p.defaultRxDbm!==undefined&&(!finite(p.defaultRxDbm)||p.defaultRxDbm< -150||p.defaultRxDbm> -60))throw new Error('Invalid default receiver sensitivity.');
  for(const k of ['rootId','meshRootId'] as const)if(p[k]!==undefined&&(typeof p[k]!=='string'||p[k]!.length>100))throw new Error('Invalid destination identifier.');
  if(p.receiverAgl!==undefined&&(!finite(p.receiverAgl)||p.receiverAgl<.5||p.receiverAgl>30))throw new Error('Invalid roaming receiver height.');
  if(p.receiverKind!==undefined&&!['m1','v4','p1','l1','g3'].includes(p.receiverKind))throw new Error('Invalid roaming receiver hardware.');
@@ -55,14 +56,14 @@ const reconcile=(nodes:Node[],params:SimParams):SimParams=>({...params,meshRootI
 type State={nodes:Node[];inventory:InventorySettings;parameters:SimParams;name:string;overlay:Overlay;tool:Tool;selected:string|null;probe:[string,string]|null;heat:Heat|null;history:Node[][];focusPoint:{x:number;y:number;label?:string}|null;hydrated:boolean;
  params:()=>SimParams;setParams:(p:Partial<SimParams>)=>void;setInventory:(v:InventorySettings)=>void;restore:(s:Scenario)=>void;replaceNodes:(n:Node[])=>void;applyPlan:(nodes:Node[],params:SimParams,inventory:InventorySettings)=>void;addNode:(kind:Kind,x:number,y:number)=>void;updateNode:(id:string,p:Partial<Node>)=>void;moveNode:(id:string,x:number,y:number)=>void;removeNode:(id:string)=>void;select:(id:string|null)=>void;setTool:(v:Tool)=>void;setOverlay:(v:Overlay)=>void;setHeat:(h:Heat|null)=>void;setFocusPoint:(p:State['focusPoint'])=>void;undo:()=>void;loadPreset:(p:Preset)=>void;toggleProbe:(id:string)=>void;clearProbe:()=>void};
 const initial=createStarterScenario();
-export const useSim=create<State>((set,get)=>({nodes:initial.nodes,inventory:initial.inventory??DEFAULT_INVENTORY,parameters:initial.params,name:initial.name,overlay:'none',tool:'select',selected:null,probe:null,heat:null,history:[],focusPoint:null,hydrated:false,
+export const useSim=create<State>((set,get)=>({nodes:initial.nodes,inventory:initial.inventory??DEFAULT_INVENTORY,parameters:initial.params,name:initial.name,overlay:'mesh',tool:'select',selected:null,probe:null,heat:null,history:[],focusPoint:null,hydrated:false,
  params:()=>get().parameters,setParams:p=>set(s=>({parameters:{...s.parameters,...p},heat:null})),setInventory:inventory=>set({inventory:validateInventory(inventory)}),
- restore:s=>set({nodes:s.nodes,parameters:s.params,inventory:s.inventory,name:s.name,selected:null,probe:null,history:[],heat:null,focusPoint:null,overlay:'none',hydrated:true}),
+ restore:s=>set({nodes:s.nodes,parameters:s.params,inventory:s.inventory,name:s.name,selected:null,probe:null,history:[],heat:null,focusPoint:null,overlay:'mesh',hydrated:true}),
  replaceNodes:nodes=>set(s=>({nodes,parameters:reconcile(nodes,s.parameters),history:[...s.history.slice(-29),s.nodes],selected:null,probe:null,focusPoint:null,heat:null})),
  applyPlan:(nodes,parameters,inventory)=>set(s=>({nodes,parameters,inventory,name:'Computed infrastructure plan',history:[...s.history.slice(-29),s.nodes],selected:null,probe:null,focusPoint:null,heat:null})),
  addNode:(kind,x,y)=>{const s=get();if(s.nodes.length>=40)return;const id=crypto.randomUUID(),fixed=['p1','v4','g3'].includes(kind);s.replaceNodes([...s.nodes,{id,kind,x:Math.max(0,Math.min(COLS-1,x)),y:Math.max(0,Math.min(ROWS-1,y)),label:fixed?'Custom fixed radio':'Roaming test radio',agl:fixed?3:1.5,role:kind==='p1'?'router':fixed?'client_base':'client',deployment:fixed?'fixed':'roaming',locked:fixed}]);set({selected:id,tool:'select'});},
  updateNode:(id,p)=>set(s=>{const nodes=s.nodes.map(n=>n.id===id?{...n,...p,id:n.id}:n);return{nodes,parameters:reconcile(nodes,s.parameters),history:[...s.history.slice(-29),s.nodes],heat:null};}),
  moveNode:(id,x,y)=>get().updateNode(id,{x:Math.max(0,Math.min(COLS-1,x)),y:Math.max(0,Math.min(ROWS-1,y)),locked:true}),removeNode:id=>get().replaceNodes(get().nodes.filter(n=>n.id!==id)),select:selected=>set({selected,focusPoint:null}),setTool:tool=>set({tool}),setOverlay:overlay=>set({overlay}),setHeat:heat=>set({heat}),setFocusPoint:focusPoint=>set({focusPoint,selected:null}),
  undo:()=>{const s=get();if(s.history.length){const nodes=s.history.at(-1)!;set({nodes,parameters:reconcile(nodes,s.parameters),history:s.history.slice(0,-1),selected:null,probe:null,heat:null});}},
- loadPreset:p=>{get().replaceNodes(presetNodes(p));set({parameters:{...DEFAULT_PARAMS},name:p,tool:'select',overlay:'none'});},toggleProbe:id=>set(s=>({probe:!s.probe||s.probe[0]!==s.probe[1]?[id,id]:[s.probe[0],id],selected:id})),clearProbe:()=>set({probe:null}),
+ loadPreset:p=>{get().replaceNodes(presetNodes(p));set({parameters:{...DEFAULT_PARAMS},name:p,tool:'select',overlay:'mesh'});},toggleProbe:id=>set(s=>({probe:!s.probe||s.probe[0]!==s.probe[1]?[id,id]:[s.probe[0],id],selected:id})),clearProbe:()=>set({probe:null}),
 }));

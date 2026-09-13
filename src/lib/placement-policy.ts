@@ -1,7 +1,7 @@
 import { MOUNT_SITES } from './site-features';
 import type { Candidate } from './optimizer';
 import type { SimParams } from './radio';
-export const STARTER_PARAMS:SimParams={crowd:.35,bagLoss:false,includeRoamingRelays:false,meshHops:3,mode:'base',receiverAgl:1.5,receiverKind:'l1',meshRootId:'primary-p1'};
+export const STARTER_PARAMS:SimParams={defaultRxDbm:-126,crowd:.35,bagLoss:false,includeRoamingRelays:false,meshHops:3,mode:'base',receiverAgl:1.5,receiverKind:'l1',meshRootId:'primary-p1'};
 export const STARTER_BUDGET=3;
 export const STARTER_MAX_HEIGHT=12;
 export const MAST_HEIGHTS=[1.5,3,6,9,12,18,24,30];

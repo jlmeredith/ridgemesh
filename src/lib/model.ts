@@ -1,10 +1,10 @@
 /** Versioned planning model. RF feasibility is not delivery probability or capacity. */
-export const MODEL_VERSION = 'ridgemesh-rf-4.0';
+export const MODEL_VERSION = 'ridgemesh-rf-4.1';
 export type Status = 'likely' | 'marginal' | 'unavailable' | 'unknown';
 export type Surface = {version:string; cellM:number; cols:number; rows:number; elevation:(x:number,y:number)=>number; cover:(x:number,y:number)=>string};
 export type DeviceRole = 'client' | 'client_base' | 'router' | 'router_late' | 'mute';
 export type RadioNode = {id:string;kind:'m1'|'v4'|'p1'|'l1'|'g3';x:number;y:number;label:string;agl?:number;role?:DeviceRole;deployment?:'fixed'|'roaming';locked?:boolean;inventorySlot?:string;favoriteIds?:string[];txDbm?:number;rxDbm?:number;gainDbi?:number;cableDb?:number;frequencyMhz?:number;channel?:string;modem?:string;configurationKnown?:boolean};
-export type Environment = {crowd:number;bagLoss:boolean;includeRoamingRelays:boolean;meshHops:number;fadeDb?:number;foliageDbPerM?:number;canopyM?:number;rootId?:string;meshRootId?:string;mode?:'base'|'crew';crewIds?:string[];assumeUnknownHardware?:boolean;receiverAgl?:number;receiverKind?:RadioNode['kind'];targetPolygon?:[number,number][]};
+export type Environment = {crowd:number;bagLoss:boolean;includeRoamingRelays:boolean;meshHops:number;defaultRxDbm?:number;fadeDb?:number;foliageDbPerM?:number;canopyM?:number;rootId?:string;meshRootId?:string;mode?:'base'|'crew';crewIds?:string[];assumeUnknownHardware?:boolean;receiverAgl?:number;receiverKind?:RadioNode['kind'];targetPolygon?:[number,number][]};
 export const HARDWARE = {
  m1:{title:'ThinkNode M1',txDbm:22,rxDbm:-132,agl:1.5,mhz:915,gainDbi:0,system:'mesh' as const,known:true},
  v4:{title:'Heltec V4 / camp radio',txDbm:22,rxDbm:-132,agl:3,mhz:915,gainDbi:0,system:'mesh' as const,known:true},
@@ -16,7 +16,7 @@ export const ROLE_LABELS:Record<DeviceRole,string>={client:'CLIENT',client_base:
 export const ROLE_DETAILS:Record<DeviceRole,string>={client:'Normal conditional rebroadcast; suitable for roaming handhelds or fixed clients.',client_base:'Fixed personal base: always rebroadcasts traffic to/from favorites; other traffic uses CLIENT behavior. Configure favorites on the real node.',router:'Prioritized infrastructure rebroadcast. Reserve for the main well-positioned solar node.',router_late:'Infrastructure rebroadcast after other roles; useful for local coverage gaps.',mute:'Endpoint only; never rebroadcasts other devices’ packets.'};
 export function isFixed(n:RadioNode){return n.deployment==='fixed'||(n.deployment===undefined&&['p1','v4','g3'].includes(n.kind));}
 export function isRouter(n:RadioNode){return n.role==='router'||n.role==='router_late'||(n.role===undefined&&n.kind==='p1');}
-export const MODEL_ASSUMPTIONS = ['915 MHz and -132 dBm receiver sensitivity are editable link-budget assumptions; the actual modem and firmware configuration must be aligned onsite.','P1: Seeed specifies SX1262 output up to 22 dBm and stock 2 dBi antenna. Configured power, cable losses and tree/mount solar exposure remain unverified.','M1, V4, L1 Pro and offered Station G3 use a conservative 22 dBm planning setting; G3 5.8 dBi comes from its owner’s offer, not a measured pattern.','CLIENT and CLIENT_BASE can forward. Roaming intermediates are excluded from dependable coverage unless explicitly enabled. ROUTER_LATE timing and CLIENT_BASE favorites do not create extra RF power.','Single dominant knife-edge ITU-R P.526 approximation; no multiple-edge, building, reflection or interference solution.','Foliage is integrated below assumed canopy; land cover and crowd/body penalties remain scenario assumptions.','Hop limit counts RF edges. Both directions are required; no packet scheduling, airtime capacity, latency, battery runtime or delivery probability is simulated.'];
+export const MODEL_ASSUMPTIONS = ['The new AstralMesh baseline uses MediumFast and -126 dBm receiver sensitivity, inferred from Meshtastic’s 148 dB link budget at +22 dBm and 0 dBi. This is a planning threshold, not a measured receiver specification. Legacy plans retain their prior -132 dBm fallback unless updated. 915 MHz is a nominal propagation frequency, not the auto-hashed event carrier.','P1: Seeed specifies SX1262 output up to 22 dBm and stock 2 dBi antenna. Configured power, cable losses and tree/mount solar exposure remain unverified.','M1, V4, L1 Pro and offered Station G3 use a conservative 22 dBm planning setting; G3 5.8 dBi comes from its owner’s offer, not a measured pattern.','CLIENT and CLIENT_BASE can forward. Roaming intermediates are excluded from dependable coverage unless explicitly enabled. ROUTER_LATE timing and CLIENT_BASE favorites do not create extra RF power.','Single dominant knife-edge ITU-R P.526 approximation; no multiple-edge, building, reflection or interference solution.','Foliage is integrated below assumed canopy; land cover and crowd/body penalties remain scenario assumptions.','Hop limit counts RF edges. Both directions are required; no packet scheduling, airtime capacity, latency, battery runtime or delivery probability is simulated.'];
 export function fsplDb(distanceM:number,frequencyMhz:number){return 32.44+20*Math.log10(Math.max(1,distanceM)/1000)+20*Math.log10(frequencyMhz);}
 export function knifeEdgeDb(v:number){return v<=-0.78?0:6.9+20*Math.log10(Math.sqrt((v-.1)**2+1)+v-.1);}
 export function pathProfile(a:{x:number;y:number;agl:number},b:{x:number;y:number;agl:number},surface:Surface,stepM=5,canopyM=15){
@@ -36,7 +36,7 @@ export function directedLink(a:RadioNode,b:RadioNode,p:Environment,s:Surface):Bu
  if(ma.system!==mb.system||freq!==(b.frequencyMhz??mb.mhz)||(a.channel??'default')!==(b.channel??'default')||(a.modem??'default')!==(b.modem??'default'))return empty('unavailable','Incompatible frequency, modem, channel or system.');
  if(!(a.configurationKnown??ma.known)||!(b.configurationKnown??mb.known)){if(!p.assumeUnknownHardware)return empty('unknown','Hardware/protocol configuration is unverified.');}
  const aglA=a.agl??ma.agl,aglB=b.agl??mb.agl;
- const inputs=[a.x,a.y,b.x,b.y,aglA,aglB,freq,a.txDbm??ma.txDbm,b.rxDbm??mb.rxDbm,a.gainDbi??ma.gainDbi,b.gainDbi??mb.gainDbi,a.cableDb??0,b.cableDb??0,p.fadeDb??8,p.foliageDbPerM??0,p.canopyM??15,p.crowd];
+ const inputs=[a.x,a.y,b.x,b.y,aglA,aglB,freq,a.txDbm??ma.txDbm,b.rxDbm??p.defaultRxDbm??mb.rxDbm,a.gainDbi??ma.gainDbi,b.gainDbi??mb.gainDbi,a.cableDb??0,b.cableDb??0,p.fadeDb??8,p.foliageDbPerM??0,p.canopyM??15,p.crowd];
  if(inputs.some(v=>!Number.isFinite(v))||aglA<0||aglB<0||freq<=0||(a.cableDb??0)<0||(b.cableDb??0)<0||(p.foliageDbPerM??0)<0||(p.canopyM??15)<0||(p.fadeDb??8)<0||p.crowd<0||p.crowd>1)return empty('unknown','Invalid physical input.');
  const path=pathProfile({...a,agl:aglA},{...b,agl:aglB},s,Math.min(s.cellM,5),p.canopyM??15);
  if(path.unknown)return empty('unknown','Terrain is unavailable along this path.');
@@ -47,7 +47,7 @@ export function directedLink(a:RadioNode,b:RadioNode,p:Environment,s:Surface):Bu
  const foliage=path.forestM*(p.foliageDbPerM??.045);
  const body=p.bagLoss?2.2:0,crowd=Math.max(0,p.crowd)* 3.5*Math.min(1,path.distM/180);
  const lossDb=fsplDb(path.distM,freq)+diffractionDb+foliage+body+crowd;
- const budgetDb=(a.txDbm??ma.txDbm)+(a.gainDbi??ma.gainDbi)+(b.gainDbi??mb.gainDbi)-(a.cableDb??0)-(b.cableDb??0)-(b.rxDbm??mb.rxDbm)-(p.fadeDb??8);
+ const budgetDb=(a.txDbm??ma.txDbm)+(a.gainDbi??ma.gainDbi)+(b.gainDbi??mb.gainDbi)-(a.cableDb??0)-(b.cableDb??0)-(b.rxDbm??p.defaultRxDbm??mb.rxDbm)-(p.fadeDb??8);
  const marginDb=budgetDb-lossDb,status:Status=marginDb<0?'unavailable':marginDb<6?'marginal':'likely';
  return {...path,ok:marginDb>=0,status,marginDb,lossDb,budgetDb,hops:1,diffractionDb,fresnelClearanceRatio:fresnel,reason:`${status}: ${marginDb.toFixed(1)} dB directed margin after fade allowance.`,assumptions:MODEL_ASSUMPTIONS};
 }

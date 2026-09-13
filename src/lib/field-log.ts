@@ -20,6 +20,7 @@ function endpoint(raw:unknown):Endpoint {
 function environment(raw:unknown):SimParams {
  const e=record(raw);const p:SimParams={crowd:num(e.crowd,'crowd',0,100),bagLoss:bool(e.bagLoss,'bagLoss'),includeRoamingRelays:bool(e.includeRoamingRelays,'includeRoamingRelays'),meshHops:num(e.meshHops,'meshHops',0,10)};
  for(const key of ['fadeDb','foliageDbPerM','canopyM'] as const)if(e[key]!==undefined)p[key]=num(e[key],key,0,100);
+ if(e.defaultRxDbm!==undefined)p.defaultRxDbm=num(e.defaultRxDbm,'default receiver sensitivity',-150,-60);
  if(e.assumeUnknownHardware!==undefined)p.assumeUnknownHardware=bool(e.assumeUnknownHardware,'assumeUnknownHardware');return p;
 }
 export function parseFieldLog(text:string):FieldLog {
@@ -36,13 +37,13 @@ export function heldoutSummary(log:FieldLog,predict:(o:Observation)=>Status=o=>e
  let evaluated=0,mismatches=0,unknown=0;for(const o of log.observations.filter(o=>o.split==='heldout')){const status=predict(o);if(status==='unknown'){unknown++;continue;}evaluated++;if((status==='likely'||status==='marginal')!==o.delivered)mismatches++;}
  return {calibration:log.observations.filter(o=>o.split==='calibration').length,heldout:log.observations.filter(o=>o.split==='heldout').length,evaluated,mismatches,unknown,modelVersion:MODEL_VERSION,terrainVersion:TERRAIN_VERSION};
 }
-export function snapshotEndpoint(n:Node):Endpoint {const h=HARDWARE[n.kind],[lat,lon]=gridToLl(n.x,n.y);return {id:n.id,kind:n.kind,lat,lon,agl:n.agl??h.agl,firmware:'RECORD ACTUAL FIRMWARE',txDbm:n.txDbm??h.txDbm,rxDbm:n.rxDbm??h.rxDbm,gainDbi:n.gainDbi??h.gainDbi,cableDb:n.cableDb??0,frequencyMhz:n.frequencyMhz??h.mhz,channel:n.channel??'default',modem:n.modem??'default',configurationKnown:false};}
+export function snapshotEndpoint(n:Node,params?:SimParams):Endpoint {const h=HARDWARE[n.kind],[lat,lon]=gridToLl(n.x,n.y);return {id:n.id,kind:n.kind,lat,lon,agl:n.agl??h.agl,firmware:'RECORD ACTUAL FIRMWARE',txDbm:n.txDbm??h.txDbm,rxDbm:n.rxDbm??params?.defaultRxDbm??h.rxDbm,gainDbi:n.gainDbi??h.gainDbi,cableDb:n.cableDb??0,frequencyMhz:n.frequencyMhz??h.mhz,channel:n.channel??'default',modem:n.modem??(params?.defaultRxDbm===-126?'MediumFast':'default'),configurationKnown:false};}
 const csv=(v:unknown)=>`"${String(v??'').replaceAll('"','""')}"`;
 export function walkPlanCsv(nodes:Node[],params:SimParams){
  const rows:unknown[][]=[['task','from_id','to_id','from_lat','from_lon','to_lat','to_lon','from_config_json','to_config_json','environment_json','timestamp','split','delivered','rssi_dbm','snr_db','notes']];
- const add=(a:Node,b:Node,task:string)=>{const from=snapshotEndpoint(a),to=snapshotEndpoint(b);rows.push([task,a.id,b.id,from.lat,from.lon,to.lat,to.lon,JSON.stringify(from),JSON.stringify(to),JSON.stringify(params),'','','','','','Record both directions; confirm access and actual hardware configuration']);};
+ const add=(a:Node,b:Node,task:string)=>{const from=snapshotEndpoint(a,params),to=snapshotEndpoint(b,params);rows.push([task,a.id,b.id,from.lat,from.lon,to.lat,to.lon,JSON.stringify(from),JSON.stringify(to),JSON.stringify(params),'','','','','','Record both directions; confirm access and actual hardware configuration']);};
  for(const a of nodes)for(const b of nodes)if(a.id!==b.id&&HARDWARE[a.kind].system===HARDWARE[b.kind].system)add(a,b,'node-pair');
  for(const a of nodes)for(const poi of POIS){const b:Node={...a,id:`walk:${poi.id}`,label:poi.label,x:poi.x,y:poi.y,agl:1.3};add(a,b,`POI: ${poi.label} (inferred location)`);add(b,a,`POI return: ${poi.label}`);}
  return rows.map(r=>r.map(csv).join(',')).join('\r\n');
 }
-export function measurementTemplate(nodes:Node[],params:SimParams){return {schema:FIELD_SCHEMA,observations:[],instructions:'Add genuine observations using the row shape below. Record each direction separately; reserve heldout rows before changing model parameters. Replace unknown firmware/configuration. Delete exampleShape before import if desired.',exampleShape:{id:'unique-observation-id',timestamp:'YYYY-MM-DDTHH:mm:ssZ',split:'heldout',from:nodes[0]?snapshotEndpoint(nodes[0]):{},to:nodes[1]?snapshotEndpoint(nodes[1]):{},delivered:null,rssiDbm:null,snrDb:null,environment:params,notes:''}};}
+export function measurementTemplate(nodes:Node[],params:SimParams){return {schema:FIELD_SCHEMA,observations:[],instructions:'Add genuine observations using the row shape below. Record each direction separately; reserve heldout rows before changing model parameters. Replace unknown firmware/configuration. Delete exampleShape before import if desired.',exampleShape:{id:'unique-observation-id',timestamp:'YYYY-MM-DDTHH:mm:ssZ',split:'heldout',from:nodes[0]?snapshotEndpoint(nodes[0],params):{},to:nodes[1]?snapshotEndpoint(nodes[1],params):{},delivered:null,rssiDbm:null,snrDb:null,environment:params,notes:''}};}

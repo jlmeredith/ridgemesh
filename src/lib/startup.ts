@@ -1,5 +1,6 @@
-import { parseScenario } from './store';
-import { createStarterScenario } from './starter-plan';
+import { parseScenario,type Scenario } from './store';
+import legacyInventory from './legacy-inventory-start.json';
+import { createStarterScenario,samePlan } from './starter-plan';
 import { MODEL_VERSION } from './radio';
 import { TERRAIN_VERSION } from './terrain';
 export const SCENARIO_STORAGE='ridgemesh-scenario-v3';
@@ -20,6 +21,6 @@ function untouchedOldStarter(raw:Record<string,unknown>){
 }
 export function resolveStartup(saved:string|null){
  if(saved===null)return{scenario:createStarterScenario(),source:'recommended' as const};
- try{const scenario=parseScenario(saved,TERRAIN_VERSION,MODEL_VERSION),raw=JSON.parse(saved);if(untouchedOldStarter(raw))return{scenario:createStarterScenario(),source:'upgraded' as const,backup:saved};return{scenario,source:'saved' as const,...(raw.schema===2?{backup:saved,notice:'Previous supported radios retained; original file backed up. Compute a plan to use the P1 inventory.'}:{})};}
+ try{const scenario=parseScenario(saved,TERRAIN_VERSION,MODEL_VERSION),raw=JSON.parse(saved);if(untouchedOldStarter(raw)||(raw.schema===3&&raw.modelVersion==='ridgemesh-rf-4.0'&&raw.name===legacyInventory.name&&JSON.stringify(raw.inventory)===JSON.stringify(legacyInventory.inventory)&&samePlan(raw,legacyInventory as unknown as Scenario)))return{scenario:createStarterScenario(),source:'upgraded' as const,backup:saved};return{scenario,source:'saved' as const,...(raw.schema===2||raw.modelVersion!==MODEL_VERSION?{backup:saved,notice:'Your custom plan and prior RF assumptions are retained; the original file is backed up. Load the starting plan for the AstralMesh MediumFast baseline.'}:{})};}
  catch(error){return{scenario:createStarterScenario(),source:'recovered' as const,rejected:saved,error:error instanceof Error?error.message:'Saved plan could not be read.'};}
 }

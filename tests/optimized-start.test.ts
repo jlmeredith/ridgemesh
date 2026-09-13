@@ -8,6 +8,7 @@ import {DEFAULT_INVENTORY} from '../src/lib/equipment';
 import {MODEL_VERSION,analyzeScenario,analysisSurface,planningTargets,suggestClients} from '../src/lib/radio';
 import {TERRAIN_VERSION} from '../src/lib/terrain';
 import {planInfrastructure} from '../src/lib/infrastructure-planner';
+import legacyInventory from '../src/lib/legacy-inventory-start.json';
 test('committed starter is actual current inventory search with mandatory solar P1 and no invented roaming positions',()=>{
  const scenario=createStarterScenario();assert.deepEqual(parseScenario(JSON.stringify(scenario),TERRAIN_VERSION,MODEL_VERSION),scenario);
  const result=planInfrastructure({inventory:DEFAULT_INVENTORY,params:STARTER_PARAMS,targets:planningTargets(STARTER_PARAMS,4),surface:analysisSurface});
@@ -29,3 +30,4 @@ test('retired hardware migration preserves original bytes and supported devices;
  const old=oldStarter();const raw=JSON.stringify({...old,name:'Custom mixed legacy',nodes:[...old.nodes,{...old.nodes[0],kind:'totem',id:'retired'}]});const result=resolveStartup(raw);assert.equal(result.source,'saved');assert.equal(result.backup,raw);assert.equal(result.scenario.nodes.length,old.nodes.length);assert.ok(result.scenario.nodes.every(n=>n.kind!=='totem' as string));
  for(const raw of ['', '{broken',JSON.stringify({...createStarterScenario(),siteVersion:'old-site'})]){const result=resolveStartup(raw);assert.equal(result.source,'recovered');assert.equal(result.rejected,raw);assert.ok(result.error);}
 });
+test('only the exact prior inventory starter upgrades to MediumFast; custom physical and RF decisions retain previous assumptions',()=>{const raw=JSON.stringify(legacyInventory),upgraded=resolveStartup(raw);assert.equal(upgraded.source,'upgraded');assert.equal(upgraded.backup,raw);assert.equal(upgraded.scenario.params.defaultRxDbm,-126);for(const changed of [{...legacyInventory,name:'My saved radio decision'},{...legacyInventory,nodes:legacyInventory.nodes.map((n,i)=>i?n:{...n,agl:9})}]){const text=JSON.stringify(changed),r=resolveStartup(text);assert.equal(r.source,'saved');assert.equal(r.backup,text);assert.equal(r.scenario.params.defaultRxDbm,undefined);assert.deepEqual(r.scenario.nodes,changed.nodes);}});
