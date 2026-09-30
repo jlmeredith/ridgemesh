@@ -5,7 +5,7 @@
 | Artifact ID | WBS-ridgemesh |
 | Source Plan | `docs/plans/ridgemesh-PLAN.md` |
 | Status | Active |
-| Last Updated | 2026-09-29 |
+| Last Updated | 2026-09-30 |
 
 **Phase (SoT):** [#ridgemesh·P6] Consolidate onto main → post-event disposition
 
@@ -19,11 +19,11 @@ Status words: **Not started**, **In progress**, **Blocked**, **Done**, **Deferre
 | RGM-1.3 | P2 Planner correction: sourced venue geometry, device roles, height-aware placement (PC-1…PC-4) | Corrected planner accepted in production | Codex | RGM-1.2 | Done — app 2ddbc86, `dpl_3FLar7MJBGq6yb3dEjCq4kNkkzBJ`, z370 run `planner-production-2ddbc86-verified-20260913` (`docs/PLANNER-CORRECTION-WBS.md`) |
 | RGM-1.4 | P3 Optimized start and progressive detail (OS-1…OS-3) | Optimized starter accepted in production | Codex | RGM-1.3 | Done — app 0de9e36, `dpl_DKjWpzqfzoRWuwW83iFzRH8C376g`, z370 run `optimized-start-production-0de9e36-20260913`, 22 checks (`docs/OPTIMIZED-START-WBS.md`) |
 | RGM-1.5 | P4 Inventory-driven placement; Totem retired (IP-1…IP-4) | Equipment-aware planner accepted in production | Codex | RGM-1.4 | Done — app c9e6d60, `dpl_FRzjzuPwPeHFNQKDEh1TXEH9fLNw`, z370 run `inventory-production-c9e6d60-20260913`, 27/27 (`docs/INVENTORY-PLANNER-RELEASE-2026-09-13.md`) |
-| RGM-1.6 | P5 Terrain-first scenarios, actual-scale 3D, MediumFast baseline (TS-1…TS-3) | Current production build accepted | Codex | RGM-1.5 | Done — app 3e0dde1, `dpl_Bx3cmRbkjcEV8S8c6DJbSe22gb4p`, z370 run `terrain-production-3e0dde1-20260913`, 22/22. Site still serves this starter (`astral-mediumfast-start-v1`, checked 2026-09-29) |
-| RGM-1.7 | AstralMesh planning recommendations for the separate astral-mesh site | Recommendations written; astral-mesh left unchanged | Codex | RGM-1.6 | Done — `docs/ASTRALMESH-PLANNING-RECOMMENDATIONS-2026-09-13.md`. They were not applied before the event; astral-mesh has no commit after 2026-09-12 |
+| RGM-1.6 | P5 Terrain-first scenarios, actual-scale 3D, MediumFast baseline (TS-1…TS-3) | Current production build accepted | Codex | RGM-1.5 | Done — app 3e0dde1, `dpl_Bx3cmRbkjcEV8S8c6DJbSe22gb4p`, z370 run `terrain-production-3e0dde1-20260913`, 22/22 (`docs/TERRAIN-SCENARIOS-RELEASE-2026-09-13.md`). Site still serves this starter (`astral-mediumfast-start-v1`, checked 2026-09-29 and 2026-09-30) |
+| RGM-1.7 | AstralMesh planning recommendations for the separate astral-mesh site | Recommendations written; astral-mesh left unchanged | Codex | RGM-1.6 | Done — `docs/ASTRALMESH-PLANNING-RECOMMENDATIONS-2026-09-13.md`. They were not applied before the event: astral-mesh's last site commit is 533640a (2026-09-12 19:16 -0600), before this doc's commit 2ab6a6a (23:09 the same day); astral-mesh has had only PF-4.2 plan/WBS docs since |
 | **RGM-2** | **Consolidate onto main** | | | | |
 | RGM-2.1 | Decide draft PR #2 (`codex/planner-correction` → `main`) | PR #2 is merged, or closed with a reason. After a merge, `git merge-base --is-ancestor 3e0dde1 origin/main` succeeds, so production and `main` agree | Jamie | | Not started |
-| RGM-2.2 | Resolve local branch `fix/grok-pwa-shared-escapehtml` (bafd058, unpushed) | If PR #2 merged: keep only `docs/captures/astral-valley-overview-v4-backbone.png` (evidence for festival-mesh FM-3.3), then delete the branch and its worktree. If PR #2 closed: open a PR for bafd058 | Claude | RGM-2.1 | Not started |
+| RGM-2.2 | Resolve local branch `fix/grok-pwa-shared-escapehtml` (bafd058, unpushed) | If PR #2 merged: keep only `docs/captures/astral-valley-overview-v4-backbone.png` (taken for the festival-mesh FM-3.3 comparison per the bafd058 message; festival-mesh does not reference it yet), then delete the branch and its worktree. If PR #2 closed: open a PR for bafd058 | Claude | RGM-2.1 | Not started |
 | RGM-2.3 | Move the five phase WBS docs to Portfolio status words | `Accepted` / `Accepted release` → Done; `Implemented` → Done where the release record accepts it; `Partial …` → In progress. `node portfolio/src/cli.mjs check ridgemesh` on the main checkout prints PASS or WARN | Claude | RGM-2.1 | Not started |
 | **RGM-3** | **Post-event disposition (event window Sept 23–27, 2026 has passed)** | | | | |
 | RGM-3.1 | Decide what RidgeMesh is now | One choice is recorded here and on the board: keep building (next event or field calibration), exempt from the docs rule, or archive. Feeds PF-4.1 | Jamie | | Not started |

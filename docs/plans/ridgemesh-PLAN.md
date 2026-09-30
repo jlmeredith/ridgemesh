@@ -4,7 +4,7 @@
 |---|---|
 | Artifact ID | PLAN-ridgemesh |
 | Status | Active |
-| Last Updated | 2026-09-29 |
+| Last Updated | 2026-09-30 |
 | WBS | `docs/wbs/ridgemesh-WBS.md` |
 
 ## Goal
@@ -15,17 +15,17 @@ Sources: `README.md`; `docs/INVENTORY-PLANNER-WBS.md` on `codex/planner-correcti
 
 This plan does not add product goals. It records what has shipped, gets that work onto `main`, and asks Jamie what RidgeMesh should become now that the event is over.
 
-## Where it stands (checked 2026-09-29)
+## Where it stands (checked 2026-09-29, re-checked 2026-09-30)
 
 | Fact | Evidence |
 |---|---|
 | Production is live and serves the recovered planner, not `main` | `GET https://ridgemesh.vercel.app` → 200. `/data/optimized-plan.json` returns `version: astral-mediumfast-start-v1`. That file exists only on `codex/planner-correction`; `main` has no `public/data/` |
 | `main` (47a5558, 2026-09-09) is still the original Grok export | `git log origin/main`. The recovery audit (`docs/RECOVERY-AUDIT-2026-09-12.md` on PR #2) lists its P0 defects: hand-shaped terrain, coverage that ignores mesh connectivity, graph traversal that cannot advance, and a build that fails |
-| None of the planner work has been merged: five phases, 14 commits | `codex/planner-correction` @ 2ab6a6a. Draft PR jlmeredith/ridgemesh#2 is open (GitHub API, 2026-09-29). PR jlmeredith/ridgemesh#1 (`codex/recovery-build`) is closed, and its commits are ancestors of PR #2 |
-| The phase WBS docs exist only on that branch | `docs/RECOVERY-WBS.md`, `PLANNER-CORRECTION-WBS.md`, `OPTIMIZED-START-WBS.md`, `INVENTORY-PLANNER-WBS.md`, `TERRAIN-SCENARIOS-WBS.md`. Their status words (`Accepted`, `Accepted release`, `Implemented`, `Partial evidence`) are mostly not Portfolio status words |
+| None of the planner work has been merged: five phases, 14 commits | `codex/planner-correction` @ 2ab6a6a. Draft PR jlmeredith/ridgemesh#2 is open (GitHub API, 2026-09-29; `gh pr view` 2026-09-30: OPEN, draft, head 2ab6a6a). PR jlmeredith/ridgemesh#1 (`codex/recovery-build`) is closed, and its commits are ancestors of PR #2 |
+| The phase WBS docs exist only on that branch | `docs/RECOVERY-WBS.md`, `PLANNER-CORRECTION-WBS.md`, `OPTIMIZED-START-WBS.md`, `INVENTORY-PLANNER-WBS.md`, `TERRAIN-SCENARIOS-WBS.md`. Their status words: 50 rows `Accepted` and 6 `Accepted release`, which Portfolio does not recognise; 24 `Implemented` and 9 `Partial evidence` / `Partial performance`, which Portfolio reads as In progress |
 | A local fix to the old `main` app has not been pushed | `fix/grok-pwa-shared-escapehtml` @ bafd058 (2026-09-29, worktree `.claude/worktrees/blissful-lewin-5fbf42`). It repairs `scripts/grok-pwa-shared.mjs` and adds `docs/captures/astral-valley-overview-v4-backbone.png` for festival-mesh FM-3.3. PR #2 deletes that Grok scaffold (RM-1.1), so this fix and the merge collide |
 | festival-mesh reuses pre-recovery code | `festival-mesh/docs/FM-4-placement-engine.md`: `scripts/placement/ref/` holds copies of `src/lib/{terrain,radio}.ts` taken at 47a5558. That is the baseline the recovery audit found defective, not the recovered engine |
-| Evidence items still open in the release records | RM-2.3.2, RM-2.3.3 and RM-2.4 have no surveyed ground control or authoritative site vectors. RM-3.1 hardware profiles are assumptions. RM-6.3: cold worker creation-to-result was measured at 2676 ms against a ≤2 s target. RM-7.2 has no field observations, so the release is an uncalibrated planning estimate. Sources: `docs/RECOVERY-RELEASE-2026-09-12.md` on PR #2 |
+| Evidence items still open in the release records | RM-2.3.2 and RM-2.3.3 have no surveyed ground control or authoritative site vectors, and RM-2.4 (which depends on them) is `Partial evidence`. RM-3.1 hardware profiles are assumptions. RM-6.3: cold worker creation-to-result was measured at 2676 ms against a ≤2 s target. RM-7.2 has no field observations, so the release is an uncalibrated planning estimate. Sources: `docs/RECOVERY-RELEASE-2026-09-12.md` and the status column of `docs/RECOVERY-WBS.md`, both on PR #2 |
 
 ## Done means
 
@@ -52,6 +52,6 @@ This plan does not add product goals. It records what has shipped, gets that wor
 |---|---|---|---|
 | Branch base for this plan | `docs/pf-4.2b-plan-wbs`, docs-only, based on `origin/main` (47a5558) | Merging these docs must not bring in the 14 commits of PR #2. That merge is Jamie's decision | 2026-09-29 |
 | WBS ID prefix | `RGM-` | Avoids clashing with the RM-, PC-, OS-, IP- and TS- rows once PR #2 lands; Portfolio flags one ID that appears with two statuses | 2026-09-29 |
-| bafd058 after a PR #2 merge | Keep only the FM-3.3 capture PNG, then delete the branch | PR #2 removes the file the fix repairs. The capture is evidence that festival-mesh cites | 2026-09-29 |
+| bafd058 after a PR #2 merge | Keep only the FM-3.3 capture PNG, then delete the branch | PR #2 removes the file the fix repairs. The bafd058 message says the capture was taken for the festival-mesh FM-3.3 comparison; festival-mesh does not reference the file yet (grep of its docs and history, 2026-09-30) | 2026-09-29 |
 | Open: merge PR #2? | Jamie (RGM-2.1) | Production already runs this code; `main` does not | — |
 | Open: post-event disposition | Jamie (RGM-3.1) | The event window has passed; this goes to PF-4.1 | — |
