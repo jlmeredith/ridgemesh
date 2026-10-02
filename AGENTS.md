@@ -1,0 +1,12 @@
+<!-- portfolio:start -->
+## Portfolio standard
+
+This project is tracked on the Portfolio board. Whoever works here, person or AI tool, keeps to it:
+
+- **Docs:** `docs/` holds the plan (`docs/plans/<name>-PLAN.md`) and the work breakdown (`docs/wbs/<name>-WBS.md`). New plans and WBS files go there.
+- **The WBS is the record.** Set a row to In progress when you start it, and to Done (with evidence: a commit or PR) or Blocked (with the reason) when you stop. New work goes in as new rows, not only in chat.
+- **Work in a git worktree on a branch**, never directly on the main branch.
+- **Portfolio MCP tools:** `portfolio_project` (this project's checks and next work), `portfolio_next`, `portfolio_set_status` (update a row), `portfolio_check` (run it before you finish), `portfolio_repair` (plans the fix for a project that fails the standard; the owner applies it on the board).
+
+Portfolio writes this block (`portfolio repair`) and replaces it when the standard changes: edit outside the markers.
+<!-- portfolio:end -->
