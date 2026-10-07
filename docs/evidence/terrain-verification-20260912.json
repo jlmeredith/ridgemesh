@@ -1,0 +1,50 @@
+{
+  "host": "z370",
+  "runId": "ridgemesh-terrain-20260912",
+  "jsonVsGeoTiffMaxErrorM": 0.000518798828125,
+  "source1mClipShape": [
+    2070,
+    2050
+  ],
+  "noDataCount": 0,
+  "coordinateChecks": [
+    {
+      "x": 0,
+      "y": 0,
+      "lat": 38.03205509313107,
+      "lon": -90.42156163371888,
+      "roundtripErrorM": 9.946529457016767e-10
+    },
+    {
+      "x": 204,
+      "y": 0,
+      "lat": 38.03154319764836,
+      "lon": -90.39834006970912,
+      "roundtripErrorM": 9.946529457016767e-10
+    },
+    {
+      "x": 0,
+      "y": 206,
+      "lat": 38.0135074322591,
+      "lon": -90.42221193884211,
+      "roundtripErrorM": 2.3283064365386963e-10
+    },
+    {
+      "x": 204,
+      "y": 206,
+      "lat": 38.012995876000595,
+      "lon": -90.39899621548642,
+      "roundtripErrorM": 9.385703304198744e-10
+    },
+    {
+      "x": 102,
+      "y": 103,
+      "lat": 38.02252598066892,
+      "lon": -90.41027746588776,
+      "roundtripErrorM": 1.3969838619232178e-09
+    }
+  ],
+  "groundControlResiduals": null,
+  "groundControlStatus": "Unmeasured: numerical georeferencing is not independent field alignment validation",
+  "analysisAreaM2": 4202400
+}

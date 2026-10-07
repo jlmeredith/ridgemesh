@@ -73,7 +73,8 @@ export function buildTerrainBuffers() {
   for (let j = 0; j < ROWS; j++) {
     for (let i = 0; i < COLS; i++) {
       const idx = j * COLS + i;
-      let [wx, wy, wz] = gridToWorld(i, j);
+      const [wx, baseY, wz] = gridToWorld(i, j);
+      let wy = baseY;
       if (COVER[idx] === 2) wy -= 0.22;
       positions[idx * 3] = wx;
       positions[idx * 3 + 1] = wy;
@@ -105,7 +106,7 @@ export function buildTerrainBuffers() {
 export function tintTerrain(
   land: Float32Array,
   _heat: Heat | null,
-  _overlay: "both" | "totem" | "mesh" | "none",
+  _overlay: "mesh" | "none",
 ) {
   return new Float32Array(land);
 }

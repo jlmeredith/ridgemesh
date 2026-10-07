@@ -1,0 +1,138 @@
+{
+  "host": "z370",
+  "runId": "optimized-start-production-0de9e36-20260913",
+  "revision": "0de9e361eead4a6beef938fa11e18e3d6e18a2c2",
+  "url": "https://ridgemesh.vercel.app",
+  "started": "2026-09-13T01:48:47.816Z",
+  "checks": [
+    "Fresh visit applies the optimized router and base with minimal initial detail",
+    "Router inspection identifies forwarding; basic view cannot accidentally edit its location",
+    "Independent layers increase detail without changing network physics or saved devices",
+    "Customize reveals all device editing while detailed analysis stays collapsed",
+    "Named source-informed site opens an inspection popup",
+    "Base mount-site move and visible antenna/receiver heights persist",
+    "Opt-in coverage uses discrete target samples and differentiated statuses",
+    "Pan and zoom leave device positions unchanged",
+    "Three original acquisitions and synchronized comparison remain usable",
+    "Registered imagery drapes on 3D terrain",
+    "RF mast solver shows separate geometric thresholds and applies height only to From",
+    "Four comparisons preserve current custom crew locations and scenario",
+    "Proposed coverage and metric delta preview is distinct from saved plan, closes fully and reopens",
+    "One-relay search respects mast cap, gives readable gains/gaps and applies its proposal",
+    "Leaving Customize cancels proposals and ignores late optimizer responses",
+    "Schema2 export and reload preserve exact nodes, settings and source versions",
+    "Mobile returns to the uncluttered plan and fits without horizontal overflow",
+    "Loading the optimized plan preserves and can restore the complete previous custom scenario",
+    "An intentionally empty saved plan is not replaced by the optimized default",
+    "The exact previous untouched starter upgrades to a router plan with original bytes backed up",
+    "Unreadable saved bytes are preserved; backup failure blocks autosave instead of destroying them",
+    "All three imagery acquisitions decoded after completed HTTP200 responses; zero failed requests or browser errors"
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "workers": [
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-Cc5Je1Ax.js"
+  ],
+  "imagery": [
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20241110.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 304,
+      "completed": true
+    }
+  ],
+  "screenshots": [
+    "planner-default-raw.png",
+    "planner-overview-raw.png",
+    "planner-map-raw.png",
+    "planner-3d-raw.png",
+    "planner-proposed-raw.png",
+    "planner-controls-raw.png",
+    "planner-mobile-raw.png"
+  ],
+  "metrics": [
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+        "width": 2040,
+        "height": 2060,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+        "width": 408,
+        "height": 412,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/sentinel-20241110.jpg",
+        "width": 408,
+        "height": 412,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+        "width": 2040,
+        "height": 2060,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+        "width": 2040,
+        "height": 2060,
+        "complete": true
+      }
+    }
+  ],
+  "status": "passed",
+  "finished": "2026-09-13T01:49:17.319Z"
+}

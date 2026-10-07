@@ -1,0 +1,168 @@
+{
+  "host": "z370",
+  "runId": "ridgemesh-production-fec8677-final",
+  "revision": "fec8677010d7577f098541d1932761ba0a71bc77",
+  "url": "https://ridgemesh.vercel.app",
+  "started": "2026-09-13T00:00:22.659Z",
+  "checks": [
+    "RidgeMesh route rendered",
+    "Current scenario completed in worker",
+    "Scenario export/import preserves complete snapshot",
+    "Three imagery acquisitions selectable",
+    "Synchronized imagery comparison slider works",
+    "Plan opacity and zoom controls work",
+    "WebGL terrain and cardinal camera controls work",
+    "Renderer geometry/texture counts plateau across six bounded preset/height/view changes",
+    "Direct path profile and Fresnel chart rendered",
+    "Comparison cancellation is explicit",
+    "Four matched comparison options complete",
+    "Constrained one-relay optimizer returns best found layout",
+    "Empty and rapidly superseded presets settle on latest scenario",
+    "Field JSON export/import persists across reload",
+    "Mobile plan fits viewport",
+    "Imagery and worker loaded without browser console errors"
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "workers": [
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-BER_Kuqr.js"
+  ],
+  "imagery": [
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+      "status": 200
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20241110.jpg",
+      "status": 200
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+      "status": 200
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 304
+    }
+  ],
+  "screenshots": [
+    "desktop-map-raw.png",
+    "terrain-3d-raw.png",
+    "mobile-map-raw.png"
+  ],
+  "metrics": [
+    {
+      "initialAnalysisWaitMs": 6
+    },
+    {
+      "initialWorkerRuns": [
+        {
+          "kind": "analyze",
+          "workerReportedMs": 412.30000019073486,
+          "creationToResultMs": 2676
+        }
+      ]
+    },
+    {
+      "rendererCycle": "m1-only",
+      "geometries": 22,
+      "textures": 1
+    },
+    {
+      "rendererCycle": "backbone",
+      "geometries": 37,
+      "textures": 1
+    },
+    {
+      "rendererCycle": "m1-only",
+      "geometries": 22,
+      "textures": 1
+    },
+    {
+      "rendererCycle": "backbone",
+      "geometries": 37,
+      "textures": 1
+    },
+    {
+      "rendererCycle": "m1-only",
+      "geometries": 22,
+      "textures": 1
+    },
+    {
+      "rendererCycle": "backbone",
+      "geometries": 37,
+      "textures": 1
+    },
+    {
+      "iteration": 0,
+      "inputRoundtripMs": 171,
+      "domNodes": 1206,
+      "canvasCount": 0,
+      "resourceCount": 19
+    },
+    {
+      "iteration": 1,
+      "inputRoundtripMs": 199,
+      "domNodes": 1206,
+      "canvasCount": 0,
+      "resourceCount": 19
+    },
+    {
+      "iteration": 2,
+      "inputRoundtripMs": 81,
+      "domNodes": 1206,
+      "canvasCount": 0,
+      "resourceCount": 19
+    },
+    {
+      "iteration": 3,
+      "inputRoundtripMs": 84,
+      "domNodes": 1206,
+      "canvasCount": 0,
+      "resourceCount": 19
+    },
+    {
+      "iteration": 4,
+      "inputRoundtripMs": 3468,
+      "domNodes": 1206,
+      "canvasCount": 0,
+      "resourceCount": 19
+    },
+    {
+      "zoomClickToTwoAnimationFramesMs": [
+        29.5,
+        53.299999713897705,
+        58.5,
+        29.90000009536743,
+        28.700000286102295,
+        16
+      ]
+    }
+  ],
+  "status": "passed",
+  "finished": "2026-09-13T00:01:22.535Z"
+}

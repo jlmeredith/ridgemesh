@@ -1,0 +1,663 @@
+{
+  "version": "astral-mediumfast-start-v1",
+  "scenario": {
+    "schema": 3,
+    "siteVersion": "astral-source-reconciliation-20260913-v1",
+    "name": "Computed infrastructure plan",
+    "terrainVersion": "usgs-2021-10m-v1",
+    "modelVersion": "ridgemesh-rf-4.1",
+    "nodes": [
+      {
+        "id": "primary-p1",
+        "kind": "p1",
+        "x": 123.4,
+        "y": 70.7,
+        "agl": 1.5,
+        "role": "router",
+        "deployment": "fixed",
+        "label": "Main Seeed P1 · Stargazer camp"
+      },
+      {
+        "id": "camp-1",
+        "kind": "v4",
+        "x": 140.9,
+        "y": 75.7,
+        "agl": 3,
+        "role": "client_base",
+        "deployment": "fixed",
+        "label": "Camp radio 1 · Harmony Grove"
+      }
+    ],
+    "params": {
+      "defaultRxDbm": -126,
+      "crowd": 0.35,
+      "bagLoss": false,
+      "includeRoamingRelays": false,
+      "meshHops": 3,
+      "mode": "base",
+      "receiverAgl": 1.5,
+      "receiverKind": "l1",
+      "meshRootId": "primary-p1",
+      "rootId": "primary-p1"
+    },
+    "inventory": {
+      "budget": 3,
+      "campRadios": 2,
+      "communityRadios": 0,
+      "includeG3": false,
+      "roamingCount": 2,
+      "maxAgl": 12,
+      "mainSite": "auto",
+      "mainRole": "router",
+      "supportRole": "client_base",
+      "allowedSiteIds": [
+        "gate",
+        "pin",
+        "stage",
+        "field",
+        "star",
+        "grove",
+        "dream",
+        "family",
+        "bondfire"
+      ]
+    }
+  },
+  "plan": {
+    "nodes": [
+      {
+        "id": "primary-p1",
+        "kind": "p1",
+        "x": 123.4,
+        "y": 70.7,
+        "agl": 1.5,
+        "role": "router",
+        "deployment": "fixed",
+        "label": "Main Seeed P1 · Stargazer camp"
+      },
+      {
+        "id": "camp-1",
+        "kind": "v4",
+        "x": 140.9,
+        "y": 75.7,
+        "agl": 3,
+        "role": "client_base",
+        "deployment": "fixed",
+        "label": "Camp radio 1 · Harmony Grove"
+      }
+    ],
+    "params": {
+      "defaultRxDbm": -126,
+      "crowd": 0.35,
+      "bagLoss": false,
+      "includeRoamingRelays": false,
+      "meshHops": 3,
+      "mode": "base",
+      "receiverAgl": 1.5,
+      "receiverKind": "l1",
+      "meshRootId": "primary-p1",
+      "rootId": "primary-p1"
+    },
+    "inventory": {
+      "budget": 3,
+      "campRadios": 2,
+      "communityRadios": 0,
+      "includeG3": false,
+      "roamingCount": 2,
+      "maxAgl": 12,
+      "mainSite": "auto",
+      "mainRole": "router",
+      "supportRole": "client_base",
+      "allowedSiteIds": [
+        "gate",
+        "pin",
+        "stage",
+        "field",
+        "star",
+        "grove",
+        "dream",
+        "family",
+        "bondfire"
+      ]
+    },
+    "score": 11.680000000000007,
+    "likelyFraction": 1,
+    "marginalFraction": 0,
+    "redundantFraction": 1,
+    "areaSqM": 116800.00000000007,
+    "bottleneckDb": 25.55824918590025,
+    "evaluations": 495,
+    "used": 2,
+    "available": 3,
+    "reserve": 1,
+    "byBudget": [
+      {
+        "budget": 1,
+        "used": 1,
+        "score": 11.680000000000007,
+        "likelyFraction": 1,
+        "marginalFraction": 0,
+        "redundantFraction": 0,
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 123.4,
+            "y": 70.7,
+            "agl": 1.5,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Stargazer camp"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        }
+      },
+      {
+        "budget": 2,
+        "used": 2,
+        "score": 11.680000000000007,
+        "likelyFraction": 1,
+        "marginalFraction": 0,
+        "redundantFraction": 1,
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 123.4,
+            "y": 70.7,
+            "agl": 1.5,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Stargazer camp"
+          },
+          {
+            "id": "camp-1",
+            "kind": "v4",
+            "x": 140.9,
+            "y": 75.7,
+            "agl": 3,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 1 · Harmony Grove"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        }
+      },
+      {
+        "budget": 3,
+        "used": 2,
+        "score": 11.680000000000007,
+        "likelyFraction": 1,
+        "marginalFraction": 0,
+        "redundantFraction": 1,
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 123.4,
+            "y": 70.7,
+            "agl": 1.5,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Stargazer camp"
+          },
+          {
+            "id": "camp-1",
+            "kind": "v4",
+            "x": 140.9,
+            "y": 75.7,
+            "agl": 3,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 1 · Harmony Grove"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        }
+      }
+    ],
+    "alternatives": [
+      {
+        "label": "Main P1 at Stargazer camp",
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 123.4,
+            "y": 70.7,
+            "agl": 1.5,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Stargazer camp"
+          },
+          {
+            "id": "camp-1",
+            "kind": "v4",
+            "x": 140.9,
+            "y": 75.7,
+            "agl": 3,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 1 · Harmony Grove"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        },
+        "score": 11.680000000000007,
+        "likelyFraction": 1,
+        "marginalFraction": 0,
+        "redundantFraction": 1
+      },
+      {
+        "label": "Main P1 at Harmony Grove",
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 140.9,
+            "y": 75.7,
+            "agl": 12,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Harmony Grove"
+          },
+          {
+            "id": "camp-1",
+            "kind": "v4",
+            "x": 123.4,
+            "y": 70.7,
+            "agl": 1.5,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 1 · Stargazer camp"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        },
+        "score": 11.680000000000007,
+        "likelyFraction": 1,
+        "marginalFraction": 0,
+        "redundantFraction": 1
+      },
+      {
+        "label": "Main P1 at Main Stage",
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 118.1,
+            "y": 112,
+            "agl": 12,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Main Stage"
+          },
+          {
+            "id": "camp-1",
+            "kind": "v4",
+            "x": 123.4,
+            "y": 70.7,
+            "agl": 1.5,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 1 · Stargazer camp"
+          },
+          {
+            "id": "camp-2",
+            "kind": "v4",
+            "x": 140.9,
+            "y": 75.7,
+            "agl": 1.5,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 2 · Harmony Grove"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        },
+        "score": 11.680000000000007,
+        "likelyFraction": 1,
+        "marginalFraction": 0,
+        "redundantFraction": 1
+      },
+      {
+        "label": "Main P1 at Main Stage Field",
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 125.7,
+            "y": 108.4,
+            "agl": 12,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Main Stage Field"
+          },
+          {
+            "id": "camp-1",
+            "kind": "v4",
+            "x": 123.4,
+            "y": 70.7,
+            "agl": 1.5,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 1 · Stargazer camp"
+          },
+          {
+            "id": "camp-2",
+            "kind": "v4",
+            "x": 140.9,
+            "y": 75.7,
+            "agl": 1.5,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 2 · Harmony Grove"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        },
+        "score": 11.680000000000007,
+        "likelyFraction": 1,
+        "marginalFraction": 0,
+        "redundantFraction": 1
+      },
+      {
+        "label": "Main P1 at Family / quiet camp",
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 92.6,
+            "y": 72.4,
+            "agl": 12,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Family / quiet camp"
+          },
+          {
+            "id": "camp-1",
+            "kind": "v4",
+            "x": 123.4,
+            "y": 70.7,
+            "agl": 1.5,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 1 · Stargazer camp"
+          },
+          {
+            "id": "camp-2",
+            "kind": "v4",
+            "x": 140.9,
+            "y": 75.7,
+            "agl": 1.5,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 2 · Harmony Grove"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        },
+        "score": 11.680000000000007,
+        "likelyFraction": 1,
+        "marginalFraction": 0,
+        "redundantFraction": 1
+      },
+      {
+        "label": "Main P1 at House / west camp buildings",
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 96.7,
+            "y": 90.4,
+            "agl": 12,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · House / west camp buildings"
+          },
+          {
+            "id": "camp-1",
+            "kind": "v4",
+            "x": 123.4,
+            "y": 70.7,
+            "agl": 1.5,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 1 · Stargazer camp"
+          },
+          {
+            "id": "camp-2",
+            "kind": "v4",
+            "x": 140.9,
+            "y": 75.7,
+            "agl": 1.5,
+            "role": "client_base",
+            "deployment": "fixed",
+            "label": "Camp radio 2 · Harmony Grove"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        },
+        "score": 11.680000000000007,
+        "likelyFraction": 1,
+        "marginalFraction": 0,
+        "redundantFraction": 1
+      },
+      {
+        "label": "Main P1 at Dreamcatcher camp",
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 158.2,
+            "y": 61,
+            "agl": 12,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Dreamcatcher camp"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        },
+        "score": 9.600000000000003,
+        "likelyFraction": 0.7260273972602739,
+        "marginalFraction": 0.1917808219178081,
+        "redundantFraction": 0
+      },
+      {
+        "label": "Main P1 at Bondfire / north Harmony",
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 148,
+            "y": 54,
+            "agl": 12,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Bondfire / north Harmony"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        },
+        "score": 9.520000000000003,
+        "likelyFraction": 0.6849315068493149,
+        "marginalFraction": 0.2602739726027396,
+        "redundantFraction": 0
+      },
+      {
+        "label": "Main P1 at Front gate / check-in",
+        "nodes": [
+          {
+            "id": "primary-p1",
+            "kind": "p1",
+            "x": 92,
+            "y": 146,
+            "agl": 12,
+            "role": "router",
+            "deployment": "fixed",
+            "label": "Main Seeed P1 · Front gate / check-in"
+          }
+        ],
+        "params": {
+          "defaultRxDbm": -126,
+          "crowd": 0.35,
+          "bagLoss": false,
+          "includeRoamingRelays": false,
+          "meshHops": 3,
+          "mode": "base",
+          "receiverAgl": 1.5,
+          "receiverKind": "l1",
+          "meshRootId": "primary-p1",
+          "rootId": "primary-p1"
+        },
+        "score": 3.84,
+        "likelyFraction": 0.17808219178082177,
+        "marginalFraction": 0.30136986301369856,
+        "redundantFraction": 0
+      }
+    ],
+    "method": "Exhaustive main P1 site/height comparison; six-state beam optimizing served area then two-access-node coverage; best found, not global optimum",
+    "limitations": [
+      "Budget includes one mandatory owned P1; unused inventory remains in reserve. Search supports at most eight fixed devices even when more stock is entered. Optional offers and generic camp hardware are planning inputs, not deployment confirmations.",
+      "All allowed P1 site/height combinations are checked. Support search keeps six states with distinct main sites first; only the next unused identical radio in each inventory group is expanded. Longer bridging chains can be missed.",
+      "Likely area has full weight and marginal area half weight. Equal weighted coverage prefers greater two-access-node coverage, then capped 12 dB headroom in 0.5 dB steps, then fewer devices and lower total antenna height.",
+      "Two-access-node coverage is the weighted fraction of targets with two known bidirectional direct access nodes, each linked both ways to the primary within the remaining RF edge budget. This is a planning definition, not a capacity or delivery-probability claim; it does not establish survival of primary P1 failure.",
+      "Roaming count does not add fixed locations or dependable coverage. CLIENT_BASE favorites and actual packet timing require device configuration; RF reachability does not simulate contention.",
+      "Locked physical IDs, labels and overrides are preserved exactly; each device reserves one unique existing inventory slot and counts toward the budget; explicit custom locks override allowed-site exclusions, but must satisfy physical bounds, maximum height and an explicitly chosen main site. Generic camp/community slots may use their actual non-P1 hardware profile. Candidate locations, tree/mast heights, sun exposure, power, access and owner permission require confirmation.",
+      "Target weights are hectares. Coverage, sensitivity and equipment settings are planning assumptions until field validated."
+    ]
+  },
+  "evidence": {
+    "host": "z370",
+    "runId": "mediumfast-terrain-20260913",
+    "method": "Exhaustive main P1 site/height comparison; six-state beam optimizing served area then two-access-node coverage; best found, not global optimum",
+    "evaluations": 495,
+    "targetStepM": 40,
+    "targetAreaSqM": 116800.00000000007,
+    "likelyFraction": 1,
+    "marginalFraction": 0,
+    "redundantFraction": 1,
+    "limitations": [
+      "Budget includes one mandatory owned P1; unused inventory remains in reserve. Search supports at most eight fixed devices even when more stock is entered. Optional offers and generic camp hardware are planning inputs, not deployment confirmations.",
+      "All allowed P1 site/height combinations are checked. Support search keeps six states with distinct main sites first; only the next unused identical radio in each inventory group is expanded. Longer bridging chains can be missed.",
+      "Likely area has full weight and marginal area half weight. Equal weighted coverage prefers greater two-access-node coverage, then capped 12 dB headroom in 0.5 dB steps, then fewer devices and lower total antenna height.",
+      "Two-access-node coverage is the weighted fraction of targets with two known bidirectional direct access nodes, each linked both ways to the primary within the remaining RF edge budget. This is a planning definition, not a capacity or delivery-probability claim; it does not establish survival of primary P1 failure.",
+      "Roaming count does not add fixed locations or dependable coverage. CLIENT_BASE favorites and actual packet timing require device configuration; RF reachability does not simulate contention.",
+      "Locked physical IDs, labels and overrides are preserved exactly; each device reserves one unique existing inventory slot and counts toward the budget; explicit custom locks override allowed-site exclusions, but must satisfy physical bounds, maximum height and an explicitly chosen main site. Generic camp/community slots may use their actual non-P1 hardware profile. Candidate locations, tree/mast heights, sun exposure, power, access and owner permission require confirmation.",
+      "Target weights are hectares. Coverage, sensitivity and equipment settings are planning assumptions until field validated."
+    ]
+  }
+}

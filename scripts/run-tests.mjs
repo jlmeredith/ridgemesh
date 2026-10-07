@@ -1,0 +1,12 @@
+import { readdirSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { platform, hostname } from 'node:os';
+import { resolve } from 'node:path';
+if (platform() === 'darwin') throw new Error('Run npm run test:remote: local testing is prohibited.');
+const directory = resolve(process.env.RIDGEMESH_TEST_DIRECTORY || 'tests');
+const suites = readdirSync(directory).filter(name => name.endsWith('.test.ts')).sort();
+if (!suites.length) throw new Error('No test suites found; refusing an empty success.');
+console.log(`RAN ON ${hostname()} · run ${process.env.RIDGEMESH_RUN_ID || 'manual'} · revision ${process.env.RIDGEMESH_REVISION || 'unrecorded'}`);
+const result = spawnSync(process.execPath, ['--import', 'tsx', '--test', ...suites.map(name => resolve(directory, name))], { stdio: 'inherit' });
+if (result.error) throw result.error;
+process.exit(result.status ?? 1);

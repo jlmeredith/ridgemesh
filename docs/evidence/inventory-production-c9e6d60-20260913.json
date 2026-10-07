@@ -1,0 +1,156 @@
+{
+  "host": "z370",
+  "runId": "inventory-production-c9e6d60-20260913",
+  "revision": "c9e6d609192343daa3e7e77134d3460e3ad0a3de",
+  "url": "https://ridgemesh.vercel.app",
+  "started": "2026-09-13T02:35:26.250Z",
+  "checks": [
+    "Fresh visit applies computed solar P1 and fixed clients; roaming count creates no pins and detail starts collapsed",
+    "Primary P1 inspection identifies hardware and role while the basic map prevents accidental editing",
+    "Scaling down recomputes a one-radio network and never drops the mandatory P1",
+    "Scaling up computes a fixed CLIENT_BASE and a measured second access route without inventing roaming repeaters",
+    "The main solar router actually relocates when constrained to the stage instead of appending another router",
+    "Increasing roaming count changes participation only, with identical infrastructure and RF coverage",
+    "Optional offered G3 is a real inventory slot, uses ROUTER_LATE, and keeps owner/location uncertainty visible",
+    "Manual antenna edits lock the actual radio and survive complete-network recomputation",
+    "Unlocking returns the radio to the optimizer instead of preserving a stale manual scaffold",
+    "Independent layers reveal coverage, routes, heights and site geography without changing the physical plan",
+    "Source-informed sites still support direct roaming-receiver inspection",
+    "Pan and zoom preserve computed coordinates",
+    "All three original acquisitions complete HTTP200 and decode, with registered imagery comparison",
+    "Registered imagery and computed fixed radios remain usable in 3D",
+    "Budget comparison and alternative preview expose computed results without overwriting the applied plan",
+    "Leaving customization invalidates late preview responses",
+    "Mast guidance separates RF and geometry and locks only the edited endpoint",
+    "Schema3 export and reload retain inventory, roles, locks, heights and custom placements",
+    "Loading the computed starter preserves a restorable previous custom plan",
+    "Mobile keeps budget controls and a clear map without horizontal overflow",
+    "Intentionally empty custom plans remain empty until the user computes a network",
+    "Legacy supported custom radios migrate with exact original-byte backup and preserved coordinates",
+    "Recomputation preserves custom physical IDs, actual hardware, RF overrides and roaming test locations without duplicating inventory",
+    "Explicit previous-format import preserves original bytes including retired equipment before migrating supported radios",
+    "Conflicting imported roaming IDs produce an actionable error while preserving the entire current plan",
+    "Corrupt saved contents are preserved and a failed backup blocks destructive autosave",
+    "All imagery decoded with completed responses; zero runtime errors or failed requests"
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "workers": [
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js",
+    "https://ridgemesh.vercel.app/assets/planner-worker-cH9E7bQP.js"
+  ],
+  "imagery": [
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20241110.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+      "status": 200,
+      "completed": true
+    },
+    {
+      "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+      "status": 304,
+      "completed": true
+    }
+  ],
+  "screenshots": [
+    "inventory-default-raw.png",
+    "inventory-overview-raw.png",
+    "inventory-budget-raw.png",
+    "inventory-equipment-raw.png",
+    "inventory-3d-raw.png",
+    "inventory-alternative-raw.png",
+    "inventory-controls-raw.png",
+    "inventory-mobile-raw.png"
+  ],
+  "metrics": [
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+        "width": 2040,
+        "height": 2060,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/sentinel-20240613.jpg",
+        "width": 408,
+        "height": 412,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/sentinel-20241110.jpg",
+        "width": 408,
+        "height": 412,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+        "width": 2040,
+        "height": 2060,
+        "complete": true
+      }
+    },
+    {
+      "decodedImagery": {
+        "url": "https://ridgemesh.vercel.app/imagery/naip-20220618.jpg",
+        "width": 2040,
+        "height": 2060,
+        "complete": true
+      }
+    }
+  ],
+  "status": "passed",
+  "finished": "2026-09-13T02:36:47.992Z"
+}

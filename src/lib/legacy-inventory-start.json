@@ -1,0 +1,62 @@
+{
+  "schema": 3,
+  "siteVersion": "astral-source-reconciliation-20260913-v1",
+  "name": "Computed infrastructure plan",
+  "terrainVersion": "usgs-2021-10m-v1",
+  "modelVersion": "ridgemesh-rf-4.0",
+  "nodes": [
+    {
+      "id": "primary-p1",
+      "kind": "p1",
+      "x": 123.4,
+      "y": 70.7,
+      "agl": 1.5,
+      "role": "router",
+      "deployment": "fixed",
+      "label": "Main Seeed P1 \u00b7 Stargazer camp"
+    },
+    {
+      "id": "camp-1",
+      "kind": "v4",
+      "x": 118.1,
+      "y": 112,
+      "agl": 1.5,
+      "role": "client_base",
+      "deployment": "fixed",
+      "label": "Camp radio 1 \u00b7 Main Stage"
+    }
+  ],
+  "params": {
+    "crowd": 0.35,
+    "bagLoss": false,
+    "includeRoamingRelays": false,
+    "meshHops": 3,
+    "mode": "base",
+    "receiverAgl": 1.5,
+    "receiverKind": "l1",
+    "meshRootId": "primary-p1",
+    "rootId": "primary-p1"
+  },
+  "inventory": {
+    "budget": 3,
+    "campRadios": 2,
+    "communityRadios": 0,
+    "includeG3": false,
+    "roamingCount": 2,
+    "maxAgl": 12,
+    "mainSite": "auto",
+    "mainRole": "router",
+    "supportRole": "client_base",
+    "allowedSiteIds": [
+      "gate",
+      "pin",
+      "stage",
+      "field",
+      "star",
+      "grove",
+      "dream",
+      "family",
+      "bondfire"
+    ]
+  }
+}

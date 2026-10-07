@@ -1,0 +1,12 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { FIELD_SCHEMA, parseFieldLog, heldoutSummary, snapshotEndpoint, walkPlanCsv, type Observation } from '../src/lib/field-log';
+import type { Node, SimParams } from '../src/lib/radio';
+const nodes:Node[]=[{id:'a',kind:'m1',label:'A',x:50,y:50,agl:2},{id:'b',kind:'m1',label:'B',x:60,y:60,agl:1.5}];
+const environment:SimParams={crowd:0,bagLoss:false,includeRoamingRelays:true,meshHops:3};
+const row:Observation={id:'one',timestamp:'2026-09-12T12:00:00Z',split:'heldout',from:{...snapshotEndpoint(nodes[0]),firmware:'recorded-1.0'},to:{...snapshotEndpoint(nodes[1]),firmware:'recorded-1.0'},delivered:true,rssiDbm:-100,snrDb:5,environment,notes:''};
+const parse=(rows:unknown[])=>parseFieldLog(JSON.stringify({schema:FIELD_SCHEMA,observations:rows}));
+test('field measurements roundtrip with directional configuration and coordinates',()=>{assert.deepEqual(parse([row]).observations,[row]);assert.notEqual(row.from.id,row.to.id);});
+test('heldout mismatch report excludes calibration rows and unknown predictions',()=>{const log=parse([row,{...row,id:'two',split:'calibration',delivered:false},{...row,id:'three'}]);const result=heldoutSummary(log,o=>o.id==='three'?'unknown':'unavailable');assert.equal(result.evaluated,1);assert.equal(result.mismatches,1);assert.equal(result.unknown,1);assert.equal(result.calibration,1);});
+test('invalid schema, duplicate IDs, missing delivery and out-of-site coordinates rejected',()=>{assert.throws(()=>parseFieldLog('{}'));assert.throws(()=>parse([row,row]),/Duplicate/);assert.throws(()=>parse([{...row,delivered:null}]),/delivered/);assert.throws(()=>parse([{...row,from:{...row.from,lat:0,lon:0}}]),/outside/);assert.throws(()=>parse([{...row,timestamp:'2026-09-12'}]),/Timestamp/);});
+test('walk plan includes node-pair forward and reverse rows with blank observations',()=>{const csv=walkPlanCsv(nodes,environment);assert.match(csv,/"node-pair","a","b"/);assert.match(csv,/"node-pair","b","a"/);assert.match(csv,/POI return/);assert.match(csv,/timestamp/);});

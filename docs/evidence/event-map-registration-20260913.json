@@ -1,0 +1,286 @@
+{
+  "runHost": "ssh z370",
+  "runId": "site-registration-20260913-v1",
+  "crs": "EPSG:26915",
+  "naipPixelTransform": [
+    1,
+    0,
+    726300,
+    0,
+    -1,
+    4212510
+  ],
+  "climbingMapDimensions": [
+    1022,
+    771
+  ],
+  "fitControls": [
+    {
+      "id": "beaver",
+      "mapPixel": [
+        523,
+        219
+      ],
+      "lat": 38.0238,
+      "lon": -90.41195,
+      "url": "https://www.mountainproject.com/area/125747984/beaver-boulders",
+      "naipPixelFromPublishedPin": [
+        869.2277025154326,
+        892.6988485231996
+      ]
+    },
+    {
+      "id": "harmony",
+      "mapPixel": [
+        821,
+        80
+      ],
+      "lat": 38.02691,
+      "lon": -90.40461,
+      "url": "https://www.mountainproject.com/area/125747076/harmony-creek-boulders",
+      "naipPixelFromPublishedPin": [
+        1503.974440180813,
+        529.583004321903
+      ]
+    },
+    {
+      "id": "stage-right",
+      "mapPixel": [
+        778,
+        339
+      ],
+      "lat": 38.02206,
+      "lon": -90.40534,
+      "url": "https://www.mountainproject.com/area/125747997/stage-right-boulders",
+      "naipPixelFromPublishedPin": [
+        1454.9151611496927,
+        1069.626349195838
+      ]
+    }
+  ],
+  "affineMatrix": [
+    [
+      2.213049157643533,
+      -0.2665680599769515
+    ],
+    [
+      0.17799936195965935,
+      2.040852966389676
+    ],
+    [
+      -327.17886720130065,
+      585.1671442518061
+    ]
+  ],
+  "withheldChecks": [
+    {
+      "id": "old-blue-published-pin",
+      "mapPixel": [
+        797,
+        181
+      ],
+      "naipPixel": [
+        1467.4137554924237,
+        730.5240161614493
+      ],
+      "source": "https://www.mountainproject.com/area/125747087/old-blue-boulder",
+      "use": "withheld source-map consistency; not surveyed",
+      "predictedNaipPixel": [
+        1468.8391959552937,
+        742.1067873667071
+      ],
+      "residualM": 11.670152925584851
+    },
+    {
+      "id": "stage-roof-centre",
+      "mapPixel": [
+        672,
+        323
+      ],
+      "naipPixel": [
+        1181,
+        1120
+      ],
+      "source": "NAIP 2022 visible roof centre independently selected",
+      "use": "withheld map-icon versus visible-building check",
+      "predictedNaipPixel": [
+        1217.4839606481237,
+        1065.22891609116
+      ],
+      "residualM": 65.80996138217242
+    },
+    {
+      "id": "north-house-roof",
+      "mapPixel": [
+        559,
+        200
+      ],
+      "naipPixel": [
+        967,
+        904
+      ],
+      "source": "NAIP 2022 visible roof centre independently selected",
+      "use": "withheld map-icon versus visible-building check; identity approximate",
+      "predictedNaipPixel": [
+        945.5154843133664,
+        844.3261920026255
+      ],
+      "residualM": 63.42355851887155
+    }
+  ],
+  "decision": "Reject direct global map-icon georeferencing for precise POIs. Place visible roofs and clearing boundaries from georeferenced NAIP; use event-map topology only for names and broad use areas.",
+  "limits": "Source-pin/map-symbol consistency is not absolute surveyed accuracy. Per-feature allowances are judgemental planning bounds, not statistical accuracy. Sentinel 10 m acquisitions support broad clearing correspondence only.",
+  "terrainSha256": "450721e68fe5939884b2620c932e787abaf849392a70acbbe112cd12d5d93804",
+  "pointGeographicCoordinates": [
+    {
+      "id": "gate",
+      "label": "Front gate / check-in",
+      "pixel": [
+        920,
+        1460
+      ],
+      "kind": "gate",
+      "uncertaintyM": 55,
+      "note": "Entrance road near the red schoolhouse, interpreted from the official climbing map; exact gate hardware not resolved.",
+      "latLon": [
+        38.01867949102386,
+        -90.41155191545292
+      ]
+    },
+    {
+      "id": "pin",
+      "label": "House / west camp buildings",
+      "pixel": [
+        967,
+        904
+      ],
+      "kind": "amenity",
+      "uncertaintyM": 25,
+      "note": "Visible roof beside west campground; official climbing map house identity is approximate.",
+      "latLon": [
+        38.02367373260009,
+        -90.4108407491332
+      ]
+    },
+    {
+      "id": "stage",
+      "label": "Main Stage",
+      "pixel": [
+        1181,
+        1120
+      ],
+      "kind": "stage",
+      "uncertaintyM": 25,
+      "note": "Visible large roof on the southwest edge of the main field. Both official maps place the stage beside the southern creek bend; icon positions are not survey points.",
+      "latLon": [
+        38.02167525400071,
+        -90.40847357451852
+      ]
+    },
+    {
+      "id": "field",
+      "label": "Main Stage Field",
+      "pixel": [
+        1257,
+        1084
+      ],
+      "kind": "camp",
+      "uncertaintyM": 30,
+      "note": "Visible open field east/northeast of the stage; event-use boundary is estimated.",
+      "latLon": [
+        38.02198030388974,
+        -90.4075971508033
+      ]
+    },
+    {
+      "id": "star",
+      "label": "Stargazer camp",
+      "pixel": [
+        1234,
+        707
+      ],
+      "kind": "camp",
+      "uncertaintyM": 35,
+      "note": "Central hilltop clearing with visible loop road; organizer identifies Stargazer as the hilltop camp.",
+      "latLon": [
+        38.02538044266657,
+        -90.40773926125428
+      ]
+    },
+    {
+      "id": "grove",
+      "label": "Harmony Grove",
+      "pixel": [
+        1409,
+        757
+      ],
+      "kind": "camp",
+      "uncertaintyM": 55,
+      "note": "Wooded corridor along the eastern road inside the creek loop, south of the Bondfire area; occupancy and path width estimated beneath canopy.",
+      "latLon": [
+        38.02488630196546,
+        -90.40576327890525
+      ]
+    },
+    {
+      "id": "dream",
+      "label": "Dreamcatcher camp",
+      "pixel": [
+        1582,
+        610
+      ],
+      "kind": "camp",
+      "uncertaintyM": 65,
+      "note": "Off-road clearing across the creek east of Harmony Grove; 2025 event map and organizer descriptions establish the camp identity.",
+      "latLon": [
+        38.02616633837363,
+        -90.40374745720106
+      ]
+    },
+    {
+      "id": "family",
+      "label": "Family / quiet camp",
+      "pixel": [
+        926,
+        724
+      ],
+      "kind": "camp",
+      "uncertaintyM": 40,
+      "note": "West valley corridor around the visible campground access road, north of the house and adjacent to west creek; not the legacy south/east point.",
+      "latLon": [
+        38.02530466973767,
+        -90.41125034600842
+      ]
+    },
+    {
+      "id": "pond",
+      "label": "Havanna's Lake (approx.)",
+      "pixel": [
+        852,
+        905
+      ],
+      "kind": "water",
+      "uncertaintyM": 65,
+      "note": "Venue map lake west of Family camp. Canopy obscures shore; this is an approximate label only, not an RF water polygon.",
+      "latLon": [
+        38.023693563430015,
+        -90.41214998205587
+      ]
+    },
+    {
+      "id": "bondfire",
+      "label": "Bondfire / north Harmony",
+      "pixel": [
+        1480,
+        540
+      ],
+      "kind": "amenity",
+      "uncertaintyM": 45,
+      "note": "Northern end of Harmony Grove near organizer Bondfire location and the climbing-map Harmony boulders; estimated beneath canopy.",
+      "latLon": [
+        38.02682223693922,
+        -90.40488619528671
+      ]
+    }
+  ]
+}
