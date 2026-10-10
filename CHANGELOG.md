@@ -7,3 +7,7 @@ All notable changes to ridgemesh are recorded here, newest first. The format fol
 ### Added
 
 - This changelog (2026-10-04).
+
+### Changed
+
+- Filled the PRD (`docs/prd/ridgemesh-PRD.md`) and linked the plan to it via a Source PRD line (`docs/plans/ridgemesh-PLAN.md`).

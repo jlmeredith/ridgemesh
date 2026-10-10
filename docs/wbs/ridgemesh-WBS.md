@@ -5,7 +5,7 @@
 | Artifact ID | WBS-ridgemesh |
 | Source Plan | `docs/plans/ridgemesh-PLAN.md` |
 | Status | Active |
-| Last Updated | 2026-09-30 |
+| Last Updated | 2026-10-10 |
 
 **Phase (SoT):** [#ridgemesh·P6] Consolidate onto main → post-event disposition
 
@@ -36,3 +36,6 @@ Status words: **Not started**, **In progress**, **Blocked**, **Done**, **Deferre
 | RGM-4.4 | Meet the RM-6.3 settled-result target (≤2 s) or rebaseline it | Measured on the recorded remote reference browser on z370 with a run ID, or Jamie accepts a revised target | Cursor | RGM-3.1 | Not started |
 | RGM-4.5 | Calibrate the RF model on field observations (RM-7.2) | Calibrated on one set, evaluated on held-out observations; error and confidence limits published | Cursor | RGM-3.2, RGM-4.3 | Not started |
 | RGM-4.6 | Independently verify RGM-4.2–4.5 against primary sources | Verification note cites host, run ID and source for each claim | Claude | RGM-4.2, RGM-4.4, RGM-4.5 | Not started |
+| RGM-4.7 | Fix: Plan not linked to its PRD | Every listed plan names an existing PRD | Portfolio worker | | Done — checks not run here (docs-only fix, hp800 worker); Portfolio's own scan is the acceptance check |
+| RGM-4.8 | Fix: Fill the template docs | No template text or marker is left, and every section has content or an explicit open question | Portfolio worker | | Done — checks not run here (docs-only fix, hp800 worker); Portfolio's own scan is the acceptance check |
+| RGM-4.9 | Review: Fill the template docs | Owner reviews the filled PRD (Status Draft) and accepts it or asks for changes | Jamie | RGM-4.8 | Not started |

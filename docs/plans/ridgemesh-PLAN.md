@@ -3,8 +3,9 @@
 | Field | Value |
 |---|---|
 | Artifact ID | PLAN-ridgemesh |
+| Source PRD | PRD-ridgemesh (`docs/prd/ridgemesh-PRD.md`) |
 | Status | Active |
-| Last Updated | 2026-09-30 |
+| Last Updated | 2026-10-10 |
 | WBS | `docs/wbs/ridgemesh-WBS.md` |
 
 ## Goal
