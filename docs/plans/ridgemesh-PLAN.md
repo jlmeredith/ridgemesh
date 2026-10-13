@@ -3,8 +3,9 @@
 | Field | Value |
 |---|---|
 | Artifact ID | PLAN-ridgemesh |
+| Source PRD | PRD-ridgemesh (`docs/prd/ridgemesh-PRD.md`) |
 | Status | Active |
-| Last Updated | 2026-09-30 |
+| Last Updated | 2026-10-13 |
 | WBS | `docs/wbs/ridgemesh-WBS.md` |
 
 ## Goal
@@ -16,6 +17,10 @@ Sources: `README.md`; `docs/INVENTORY-PLANNER-WBS.md` on `codex/planner-correcti
 This plan does not add product goals. It records what has shipped, gets that work onto `main`, and asks Jamie what RidgeMesh should become now that the event is over.
 
 ## Where it stands (checked 2026-09-29, re-checked 2026-09-30)
+
+This section preserves dated observations, not a current deployment assertion. On 2026-10-13, PR2 remained open at `2ab6a6a28f92d570ebde9f3762051ebda552e2fe`. Its retained P4/P5 release records retire Totem and define inventory-constrained Meshtastic placement, terrain-first comparisons, actual-scale 3D and a MediumFast baseline; the corrected draft PRD now cites those immutable records. This documentation repair neither merges PR2 nor repeats its product acceptance.
+
+PR3's original head `ed61ac4a34d21ce759d1b9d432e793f15c1ff1d4` has an existing failed Vercel preview: `dpl_EzvC9wX5ZPP5MnxS6NE7m8rMZSsE`, state ERROR, `failed_config_load`, build command exit 1 (read-only deployment metadata, 2026-10-13). No build-log root cause or current production state is claimed. The documentation check does not clear this failure; no new deployment or hosted compute is authorized by this repair.
 
 | Fact | Evidence |
 |---|---|
@@ -45,7 +50,8 @@ This plan does not add product goals. It records what has shipped, gets that wor
 ## How it will be checked
 
 - **RGM-2:** `git merge-base --is-ancestor 3e0dde1 origin/main` succeeds; the Vercel production deployment SHA is on `main`; the Portfolio check against the main checkout prints PASS or WARN.
-- **RGM-4:** use the acceptance text for each item in `docs/RECOVERY-WBS.md`. Every test, build or browser run happens on z370 or hosted CI, and each result records its host and run ID. Nothing runs on the Mac.
+- **RGM-4:** use the acceptance text for each item in `docs/RECOVERY-WBS.md` on PR2. Product tests, builds and browser runs use approved worker hosts; each result records its host, exact SHA and run ID. Documentation checks run on hp800. Nothing runs on the Mac; do not enable hosted CI/deployment compute. Historical records above keep their original provenance.
+- **RGM-4.7–4.8:** verify the exact docs candidate with Portfolio and secret-check on hp800, then independently review its source claims. PRD owner acceptance remains RGM-4.9. This docs subset does not wait for or decide the conditional product-evidence work in RGM-4.1–4.6.
 
 ## Decisions and open questions
 
