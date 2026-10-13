@@ -5,54 +5,51 @@
 | Artifact ID | PRD-ridgemesh |
 | Status | Draft |
 | Owner | Jamie |
-| Last Updated | 2026-10-10 |
+| Last Updated | 2026-10-13 |
 | Plan | `docs/plans/ridgemesh-PLAN.md` |
 
 ## Overview
 
-RidgeMesh is the organizer-side 3D radio planner for the AstralMesh Meshtastic deployment at Astral Valley Art Park (French Village, St. Francois County, MO), built for Nocturnal Valley 2026 (Sept 23–27, 2026). It shows where fixed radios should go so that attendees carrying radios can reach each other across the real ridge-and-creek terrain, comparing Totem Compass (2.4 GHz) against a LoRa Meshtastic deployment (ThinkNode M1 / Heltec V4) on Koester-quad terrain. It is published at https://ridgemesh.vercel.app. Sources: `README.md`; `docs/plans/ridgemesh-PLAN.md`.
+RidgeMesh is the organizer-side terrain and radio planner for the AstralMesh Meshtastic deployment at Astral Valley, built for Nocturnal Valley 2026 (September 23–27). Its retained P4/P5 release records define an inventory-constrained fixed network serving roaming participants. P4 retired Totem; P5 introduced terrain-first comparisons, actual-scale 3D and a MediumFast planning baseline. This draft records that direction without approving a new product scope, PR2 merge or post-event disposition.
 
 ## Problem statement
 
-Organizers planning the deployment had no way, before the event, to see whether radios would reach across the park or how 2.4 GHz Totem Compass compares with 915 MHz Meshtastic. Flat festival maps hide terrain: the ~100 ft climb onto the 785 ft Stargazer hilltop and the spring-fed Plattin Creek drain block line of sight, so coverage gaps would only surface during the event. The recovery audit (`docs/RECOVERY-AUDIT-2026-09-12.md`, PR jlmeredith/ridgemesh#2) found the original Grok export had hand-shaped terrain and coverage that ignored mesh connectivity, which is why the planner needed rebuilding on USGS heights.
+Organizers need to compare plausible fixed-radio sites, heights and equipment across the park's terrain while seeing the assumptions and limits of the predicted coverage. The original Grok scaffold on `main` predates the recovery. Its three-radio/Totem comparison is not the retained P5 product contract. Model output cannot establish field coverage, safe installation, capacity or delivery probability.
+
+## Source boundary
+
+The source reviewed for this correction is unmerged PR2 at **2ab6a6a28f92d570ebde9f3762051ebda552e2fe**. Its immutable [P4 inventory release](https://github.com/jlmeredith/ridgemesh/blob/2ab6a6a28f92d570ebde9f3762051ebda552e2fe/docs/INVENTORY-PLANNER-RELEASE-2026-09-13.md) and [P5 terrain release](https://github.com/jlmeredith/ridgemesh/blob/2ab6a6a28f92d570ebde9f3762051ebda552e2fe/docs/TERRAIN-SCENARIOS-RELEASE-2026-09-13.md) are the requirements evidence; those release files are absent from this docs PR's `main`-based tree. Their dated deployment and validation records are historical evidence, not fresh production verification. The plan retains the September 29–30 observations; no live application acceptance was performed for this correction.
 
 ## Scope
 
-- In scope:
-  - A 3D terrain model of Astral Valley from USGS NED 10 m heights, with 20-ft contours, spot elevations (785 / 824 / 885 / 920 / 922 ft) and a satellite-registered camp layout (lodge, Main Stage field, Stargazer hilltop, Plattin Creek).
-  - Placing, moving and erasing three radio kinds: Totem Compass (2.4 GHz), ThinkNode M1 (915 MHz handheld) and Heltec V4 (915 MHz ridge repeater).
-  - Coverage/range rings with radio shadows and link colour, plus coverage statistics and ground-truth knobs.
-- Out of scope:
-  - The separate astral-mesh public site; RidgeMesh only wrote recommendations for it (`docs/ASTRALMESH-PLANNING-RECOMMENDATIONS-2026-09-13.md`), and they were not applied before the event.
-  - The festival-mesh repository, which reuses pre-recovery copies of `src/lib/{terrain,radio}.ts`.
-  - Live radio telemetry and calibration of the RF model against field observations (still open, RGM-4.5).
+- In scope: fixed-radio placement constrained by explicit inventory, finite site/height candidates and a budget; terrain-first scenario comparison; actual-scale 3D with 2D and registered imagery alternatives; modeled two-way route margins; preservation of user scenarios and physical equipment identities.
+- Out of scope: retired Totem comparison; live telemetry, packet scheduling or capacity simulation; claims of calibrated field coverage; changing the separate astral-mesh or festival-mesh projects; deciding PR2 or the post-event future on Jamie's behalf.
 
 ## Requirements
 
-- R1 — Render the real terrain of Astral Valley with USGS NED 10 m heights, exact 20-ft contours and spot elevations, and the satellite-registered camp layout. (`src/lib/terrain.ts`, `src/lib/valley-gl.ts`)
-- R2 — Let the organizer place, move and erase nodes of the three radio kinds, with kind metadata (Totem Compass 10 dBm / 1.4 m AGL / 2.4 GHz; ThinkNode M1 22 dBm; Heltec V4 28 dBm). (`src/components/side-panel.tsx`, `src/lib/radio.ts`)
-- R3 — Compute and show range rings per system with radio shadows (solid = LOS, dashed = would have to go through a hill) and link colour (green clear, gold around a bend, red through a mountain). (`src/lib/radio.ts`, `src/lib/valley-gl.ts`)
-- R4 — Provide placement presets (Totem crew of 5, M1 handhelds, V4 backbone, hybrid) and report coverage stats (Totem/LoRa wash %, camps reached, node counts). (`src/lib/store.ts`, `src/lib/radio.ts`)
-- R5 — Expose ground-truth knobs that change the model: crowd density, dry-bag loss, handheld rebroadcast (CLIENT vs CLIENT_MUTE), Meshtastic hop limit, and other Totems on site. (`src/components/side-panel.tsx`, `src/lib/store.ts`)
+- R1 — Display the retained USGS terrain and site frame at actual 1× relief, with antenna AGL at the same metre scale. Keep imagery, labels, layers, 2D and 3D inspection available. Readable radio markers do not imply physical mast dimensions. Source: P5 display contract.
+- R2 — Compute the fixed deployment from a mandatory P1 and explicitly entered or assumed support inventory. Respect budget, role, site, height and physical identity constraints; roaming participant counts must not create fixed coverage. Optional G3/spares require explicit inclusion. Source: P4 equipment/search contract.
+- R3 — Show landscape coverage from the weaker forward/return modeled route margin, with explicit strong, marginal, no-route and unknown states. Preserve event-area scoring separately from landscape display extent; present signal reserve as model output, not measured RSSI or delivery probability. Source: P5 display contract.
+- R4 — Compare the recommended network, R1-only and alternate-site scenarios without changing saved equipment until Apply. Preserve physical IDs, locked edits, roaming test points, prior-plan backups and supported legacy scenario bytes. Source: P4 customization and P5 comparison contracts.
+- R5 — Expose RF assumptions and per-radio overrides. Record the P5 MediumFast baseline and derived −126 dBm receiver threshold as a documented planning inference, not a measured device specification; retain custom legacy settings under the documented migration rules. Source: P5 baseline contract.
 
 ## Acceptance criteria
 
-- A1 — The app builds and `npm run typecheck` passes; per `docs/plans/ridgemesh-PLAN.md` these run on z370 or hosted CI, never on the Mac.
-- A2 — For the V4 backbone preset the ridge hop over Stargazer shows clear rather than as a shadow, and the camps reached match the placement (`docs/wbs/ridgemesh-WBS.md`, RGM-1.3–1.6 release records).
-- A3 — Every named-ground POI appears on the map with its note. (`src/lib/terrain.ts`, `src/components/side-panel.tsx`)
-- A4 — Open: no field measurement exists yet to confirm the modelled coverage matches the ground (RGM-4.5, RM-7.2).
+- A1 — Before any product acceptance, run the applicable typecheck, lint, numerical/state tests and production build on an approved worker host, with exact source SHA, host and run ID. Documentation checks alone do not satisfy this criterion.
+- A2 — Verify inventory/identity constraints, bounded search, scenario comparison and saved-data preservation against R2/R4, with remote browser evidence and inspected normalized screenshots. The P4/P5 historical records support the RGM-1 delivery history; this docs correction does not repeat or renew that acceptance.
+- A3 — Verify actual-scale terrain/AGL, imagery, every named-ground POI and its note, and margin-state rendering against R1/R3/R5, including mobile bounds and model-versus-field labeling. Retain the existing RM-6.3 ≤2 s target or obtain Jamie's explicit rebaseline; no target is waived here.
+- A4 — Field/model agreement remains unverified (RGM-4.5 / RM-7.2). Calibration requires observations and held-out evaluation, not a saturated modeled coverage percentage.
 
 ## Constraints and dependencies
 
-- Terrain and radio live in `src/lib/terrain.ts`, `src/lib/radio.ts` and `src/lib/valley-gl.ts`; state is in `src/lib/store.ts`.
-- Stack: React 19, TanStack Start/Router, three.js, zustand, Tailwind v4, built with Vite (`package.json`).
-- Production is Vercel at https://ridgemesh.vercel.app; production currently serves the recovered planner from `codex/planner-correction`, not `main` (draft PR jlmeredith/ridgemesh#2).
-- Depends on the separate astral-mesh site (recommendations only) and on festival-mesh, which holds pre-recovery copies of the terrain and radio modules.
-- Closing the open evidence items needs site, hardware or field data that only Jamie or the organizers hold (RGM-4.1, RGM-4.3).
+- PR2 is still open at the reviewed SHA (GitHub read, 2026-10-13). RGM-2.1 requires Jamie's disposition before recovered code is consolidated onto `main`.
+- The historical production URL is https://ridgemesh.vercel.app. No current alias, hardware setting, capacity or field result is asserted by this review.
+- Site inputs, device settings and field observations remain gated by RGM-4.1, RGM-4.3 and RGM-3.2. The separate astral-mesh recommendations and festival-mesh reuse decision do not authorize edits in either project.
+- Current validation runs on approved lab hosts; do not enable hosted CI or deployment compute to validate this docs correction. Historical release records retain the checks they actually used.
 
 ## Open questions
 
-- Q1 — After the event window (Sept 23–27, 2026), what should RidgeMesh become: keep building, exempt from the docs rule, or archive? (RGM-3.1, feeds PF-4.1)
-- Q2 — Should the deployed `codex/planner-correction` code be merged into `main` via draft PR #2? Production already runs it; `main` does not. (RGM-2.1)
-- Q3 — Were field observations (node DB, RSSI or SNR exports, device and antenna settings) collected at the event? If not, RF calibration is deferred. (RGM-3.2, RGM-4.5)
-- Q4 — Should festival-mesh reproduce the recovered engine instead of the pre-recovery code at 47a5558? (RGM-3.3)
+- Q1 — Should RidgeMesh continue, be exempted from the docs rule, or be archived after the event? Jamie decides RGM-3.1.
+- Q2 — Should the recovered planner in PR2 merge into `main`? Jamie decides RGM-2.1; the docs PR does not decide it.
+- Q3 — Were node DB, RSSI/SNR, location, antenna and firmware observations collected? Jamie resolves RGM-3.2 before field calibration.
+- Q4 — Should festival-mesh adopt the recovered engine? RGM-3.3 remains a separate owner decision.
